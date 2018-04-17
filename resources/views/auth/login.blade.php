@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('body')
-    <body class="m--skin- m-header--fixed m-header--fixed-mobile m-aside-left--enabled m-aside-left--skin-dark m-aside-left--offcanvas m-footer--push m-aside--offcanvas-default">
+	<body class="m--skin- m-header--fixed m-header--fixed-mobile m-aside-left--enabled m-aside-left--skin-dark m-aside-left--offcanvas m-footer--push m-aside--offcanvas-default"  >
     <!-- begin:: Page -->
     <div class="m-grid m-grid--hor m-grid--root m-page">
         <div class="m-login m-login--signin  m-login--5" id="m_login"
@@ -109,11 +109,10 @@
         </div>
     </div>
     <!-- end:: Page -->
-    <!--begin::Base Scripts -->
-    <script src="assets/vendors/base/vendors.bundle.js" type="text/javascript"></script>
-    <script src="assets/demo/default/base/scripts.bundle.js" type="text/javascript"></script>
-    <!--end::Base Scripts -->
     <!--begin::Page Snippets -->
-    <script src="assets/snippets/custom/pages/user/login.js" type="text/javascript"></script>
-    <!--end::Page Snippets -->
     </body>
+@endsection
+
+@push('scripts')
+        <script src="assets/snippets/custom/pages/user/login.js" type="text/javascript"></script>
+@endpush

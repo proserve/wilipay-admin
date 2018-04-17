@@ -6,19 +6,16 @@ spec:
   selector:
     matchLabels:
       app: wilipay-admin
-  replicas: 3 # tells deployment to run 3 pods matching the template
-  template: # create pods using pod definition in this template
+  replicas: 3
+  template:
     metadata:
       labels:
         app: wilipay-admin
     spec:
       containers:
       - name: php-fpm-nginx-admin
-        image: eu.gcr.io/beetfree-193913/wilipay-admin:0ad18ec4636a40bbaad215a3eb1a85da2e4014fa
+        image: eu.gcr.io/beetfree-193913/wilipay-admin
         imagePullPolicy: IfNotPresent
-        command: ["chmod ",
-                  "-instances=beetfree-193913:europe-west1:wilipay-cloud-sql=tcp:5432",
-                  "-credential_file=/secrets/cloudsql/wilipay-cloud-sql.json"]
         ports:
           - containerPort: 80
         volumeMounts:
