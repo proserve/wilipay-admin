@@ -2,16 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Customer;
-use App\Profile;
-use App\User;
-use Illuminate\Http\Request;
+
+use App\Transaction;
 use Yajra\DataTables\DataTables;
 
 class TransactionsController extends Controller
 {
-    public function getByUser($user_id){
-        $transactions = Customer::find($user_id)->transactions();
-        return Datatables::of($transactions)->make(true);
+    public function getByUser($user_id, DataTables $datatables)
+    {
+        $transactions = Transaction::with(['account' => function ($query) use ($user_id) {
+            $query->where('user_id', $user_id);
+        }]);
+        return $datatables->eloquent($transactions)->addColumn('currency', function ($transaction) {
+            return $transaction->account->currency_code;
+        })->make(true);
     }
 }

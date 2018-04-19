@@ -27,6 +27,7 @@
     "core-js": "^2.5.3",
     "counterup": "^1.0.2",
     "css-toggle-switch": "^4.1.0",
+    "datatables.net": "^1.10.16",
     "dropzone": "^5.2.0",
     "easy-scroll": "^0.5.1",
     "eonasdan-bootstrap-datetimepicker": "^4.17.47",

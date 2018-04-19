@@ -1,6 +1,27 @@
 @extends('layouts.app')
 @push('styles')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/b-1.5.1/datatables.min.css"/>
+
+    <style>
+        td.details-control {
+            background: url('https://datatables.net/examples/resources/details_open.png') no-repeat center center;
+            cursor: pointer;
+        }
+
+        tr.details td.details-control {
+            background: url('https://datatables.net/examples/resources/details_close.png') no-repeat center center;
+        }
+
+        .dataTables_filter {
+            float: right;
+            display: inline;
+        }
+
+        table tfoot {
+            display: table-header-group;
+        }
+    </style>
 @endpush
 @section('body')
     <body class="m-page--fluid m--skin- m-content--skin-light2 m-header--fixed m-header--fixed-mobile m-aside-left--enabled m-aside-left--skin-light m-aside-left--fixed m-aside-left--offcanvas m-aside-left--minimize m-brand--minimize m-footer--push m-aside--offcanvas-default">
@@ -14,7 +35,7 @@
                     <div class="m-stack__item m-brand  m-brand--skin-light ">
                         <div class="m-stack m-stack--ver m-stack--general">
                             <div class="m-stack__item m-stack__item--middle m-brand__logo">
-                                <a href="index.html" class="m-brand__logo-wrapper">
+                                <a href="index.html" style="transform: rotate(180deg)" class="m-brand__logo-wrapper">
                                     <img alt="" src="/assets/media/logo.png"/>
                                 </a>
                                 <h3 class="m-header__title">
@@ -107,10 +128,10 @@
                                                             <li class="m-nav__separator m-nav__separator--fit"></li>
                                                             <li class="m-nav__item">
 
-                                                                <a href="{{ route('logout') }}" class="btn m-btn--pill
+                                                                <a href="javascript:
+                                                                        document.getElementById('logout-form').submit();" class="btn m-btn--pill
 																	  btn-secondary m-btn m-btn--custom m-btn--label-brand m-btn--bolder"
-                                                                   onclick="event.preventDefault();
-                                                   					document.getElementById('logout-form').submit();">
+                                                                >
                                                                     Logout
                                                                 </a>
                                                                 <form id="logout-form" action="{{ route('logout') }}"
@@ -153,6 +174,16 @@
                             aria-haspopup="true" m-menu-submenu-toggle="hover" m-menu-link-redirect="1">
                             <a href="{{ route('home') }}" class="m-menu__link">
                                 <i class="m-menu__link-icon flaticon-graphic-1"></i>
+                            </a>
+                        </li>
+                        <li class="m-menu__item{{Route::currentRouteName() == 'adminUsers' ? ' m-menu__item--active ' : '' }}"
+                            aria-haspopup="true" m-menu-submenu-toggle="hover" m-menu-link-redirect="1">
+                            <a href="{{ route('adminUsers') }}" class="m-menu__link">
+                                <i class="m-menu__link-icon m-menu__link-icon flaticon-user"></i>
+                                <span class="m-menu__link-text">
+										Admin Users
+									</span>
+                                <i class="m-menu__ver-arrow la la-angle-right"></i>
                             </a>
                         </li>
                         <li class="m-menu__item{{Route::currentRouteName() == 'users' ? ' m-menu__item--active ' : '' }}"
@@ -217,13 +248,18 @@
     <!-- end:: Page -->
     <!-- begin::Scroll Top -->
     <div id="m_scroll_top" class="m-scroll-top">
-        <i class="la la-arrow-up"></i>
+        <i class="fa fa-long-arrow-up"></i>
     </div>
     </body>
 @endsection
 
-@push('scripts')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
-@endpush
+@prepend('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/b-1.5.1/datatables.min.js"></script>
+<script src="/vendor/datatables/buttons.server-side.js"></script>
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+      integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+@endprepend

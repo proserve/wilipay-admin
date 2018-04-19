@@ -10,4 +10,10 @@ RUN touch storage/logs/laravel.log
 RUN chmod -R 777 /var/www/html/storage \
     && chmod -R 777 /var/www/html/bootstrap/cache
 
+RUN php artisan config:cache
+RUN php artisan view:clear
+RUN php artisan route:clear
+RUN php artisan config:clear
+RUN php artisan cache:clear
+
 EXPOSE 80

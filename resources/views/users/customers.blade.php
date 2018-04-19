@@ -1,37 +1,34 @@
 @extends('layouts.admin')
+@push('styles')
+    <style>
+        td.details-control {
+            background: url('https://datatables.net/examples/resources/details_open.png') no-repeat center center;
+            cursor: pointer;
+        }
+
+        tr.details td.details-control {
+            background: url('https://datatables.net/examples/resources/details_close.png') no-repeat center center;
+        }
+    </style>
+@endpush
 @section('content')
     <div class="row">
     </div>
-    <div class="m-portlet m-portlet--bordered m-portlet--rounded  m-portlet--last">
+    <div class="m-portlet m-portlet--mobile">
         <div class="m-portlet__body">
-            <div class="m-section__content">
-                <table class="table table-striped table-bordered table-hover" id="users-table">
-                    <thead>
-                    <tr>
-                        <th></th>
-                        <th>Name</th>
-                        <th>Phone</th>
-                        <th>Email</th>
-                        <th>Verified</th>
-                        <th>Blocked</th>
-                        <th>Cards</th>
-                        <th>Created At</th>
-                    </tr>
-                    </thead>
-                    <tfoot>
-                    <tr>
-                        <th></th>
-                        <th title="Name"></th>
-                        <th title="Phone"></th>
-                        <th title="Email"></th>
-                        <th></th>
-                        <th></th>
-                        <th title="Cards"></th>
-                        <th title="Created At"></th>
-                    </tr>
-                    </tfoot>
-                </table>
-            </div>
+            <table class="table table-striped table-bordered table-hover" id="users-table">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Verified</th>
+                    <th>Blocked</th>
+                    <th>Created At</th>
+                </tr>
+                </thead>
+            </table>
             <!--end: Datatable -->
         </div>
     </div>
@@ -47,25 +44,20 @@
                 <th>Type</th>
                 <th>Amount</th>
                 <th>Purpose</th>
-                <th>Currency</th>
-                <th>Date</th>
             </tr>
             </thead>
         </table>
     </script>
     <script>
       $(function () {
-        window.LaravelDataTables = window.LaravelDataTables || {};
         var template = Handlebars.compile($("#details-template").html());
         var table = $('#users-table').DataTable({
-          "bSortCellsTop": true,
-          responsive: true,
+          buttons: [
+            'copy', 'excel', 'pdf'
+          ],
           processing: true,
           serverSide: true,
-          "dom": "Bfrtip",
-          "buttons": ["export", "print", "reset", "reload"],
           ajax: '{!! route('users') !!}',
-          colReorder: true,
           columns: [
             {
               "className": 'details-control',
@@ -95,32 +87,20 @@
                     '><span></span></label>';
               }
             },
-            {data: 'cards', name: 'cards'},
             {data: 'created_at', name: 'created_at'},
           ],
-          initComplete: function () {
-            this.api().columns([1, 2, 3, 7]).every(function () {
-              var column = this;
-              var input = document.createElement("input");
-              $(input).attr("placeholder", "Filter " + $(column.footer()).attr('title'));
-              $(input).addClass("form-control m-input m-input--air");
-              $(input).appendTo($(column.footer()).empty())
-                  .on('change', function () {
-                    column.search($(this).val(), false, false, true).draw();
-                  });
-            });
-          },
           order: [[1, 'asc']]
         });
-        window.LaravelDataTables["dataTableBuilder"] = table;
-        $(table.buttons().container())
-        .addClass('btn-group m-btn-group m-btn-group--pill m-btn-group--air');
+        new $.fn.dataTable.Buttons(table, {
+          buttons: [
+            'copy', 'excel', 'pdf'
+          ]
+        });
         // Add event listener for opening and closing details
         $('#users-table tbody').on('click', 'td.details-control', function () {
           var tr = $(this).closest('tr');
           var row = table.row(tr);
           var tableId = 'transactions-' + row.data().id;
-
 
           if (row.child.isShown()) {
             // This row is already open - close it
@@ -144,8 +124,6 @@
               {data: 'type', name: 'type'},
               {data: 'amount', name: 'amount'},
               {data: 'purpose', name: 'purpose'},
-              {data: 'currency', name: 'currency'},
-              {data: 'created_at', name: 'created_at'},
             ]
           })
         }

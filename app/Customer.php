@@ -46,7 +46,7 @@ class Customer extends Authenticatable
 
     public function cards()
     {
-        return $this->hasMany('App\Card');
+        return $this->hasMany('App\Card', 'user_id');
     }
 
     protected $dates = ['deleted_at'];

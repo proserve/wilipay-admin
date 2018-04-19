@@ -20,7 +20,7 @@ class Card extends Model
 
     public function customers()
     {
-        return $this->belongsTo('App\Customer', 'user_id');
+        return $this->belongsTo('App\Customer');
     }
 
     protected $fillable = [

@@ -1,1 +1,5683 @@
-var mApp=function(){var t={brand:"#716aca",metal:"#c4c5d6",light:"#ffffff",accent:"#00c5dc",primary:"#5867dd",success:"#34bfa3",info:"#36a3f7",warning:"#ffb822",danger:"#f4516c",focus:"#9816f4"},n=function(e){var t=e.data("skin")?"m-tooltip--skin-"+e.data("skin"):"",n="auto"==e.data("width")?"m-tooltop--auto-width":"",i=e.data("trigger")?e.data("trigger"):"hover";e.tooltip({trigger:i,template:'<div class="m-tooltip '+t+" "+n+' tooltip" role="tooltip">                <div class="arrow"></div>                <div class="tooltip-inner"></div>            </div>'})},e=function(){$('[data-toggle="m-tooltip"]').each(function(){n($(this))})},i=function(e){var t=e.data("skin")?"m-popover--skin-"+e.data("skin"):"",n=e.data("trigger")?e.data("trigger"):"hover";e.popover({trigger:n,template:'            <div class="m-popover '+t+' popover" role="tooltip">                <div class="arrow"></div>                <h3 class="popover-header"></h3>                <div class="popover-body"></div>            </div>'})},o=function(){$('[data-toggle="m-popover"]').each(function(){i($(this))})},r=function(e,t){e=$(e),new mPortlet(e[0],t)},l=function(){$('[m-portlet="true"]').each(function(){var e=$(this);!0!==e.data("portlet-initialized")&&(r(e,{}),e.data("portlet-initialized",!0))})},a=function(){$("[data-tab-target]").each(function(){1!=$(this).data("tabs-initialized")&&($(this).click(function(e){e.preventDefault();var t=$(this),n=t.closest('[data-tabs="true"]'),i=$(n.data("tabs-contents")),o=$(t.data("tab-target"));n.find(".m-tabs__item.m-tabs__item--active").removeClass("m-tabs__item--active"),t.addClass("m-tabs__item--active"),i.find(".m-tabs-content__item.m-tabs-content__item--active").removeClass("m-tabs-content__item--active"),o.addClass("m-tabs-content__item--active")}),$(this).data("tabs-initialized",!0))})};return{init:function(e){e&&e.colors&&(t=e.colors),mApp.initComponents()},initComponents:function(){jQuery.event.special.touchstart={setup:function(e,t,n){"function"==typeof this&&(t.includes("noPreventDefault")?this.addEventListener("touchstart",n,{passive:!1}):this.addEventListener("touchstart",n,{passive:!0}))}},jQuery.event.special.touchmove={setup:function(e,t,n){"function"==typeof this&&(t.includes("noPreventDefault")?this.addEventListener("touchmove",n,{passive:!1}):this.addEventListener("touchmove",n,{passive:!0}))}},jQuery.event.special.wheel={setup:function(e,t,n){"function"==typeof this&&(t.includes("noPreventDefault")?this.addEventListener("wheel",n,{passive:!1}):this.addEventListener("wheel",n,{passive:!0}))}},$('[data-scrollable="true"]').each(function(){var e,t,n=$(this);mUtil.isInResponsiveRange("tablet-and-mobile")?(e=n.data("mobile-max-height")?n.data("mobile-max-height"):n.data("max-height"),t=n.data("mobile-height")?n.data("mobile-height"):n.data("height")):(e=n.data("max-height"),t=n.data("max-height")),e&&n.css("max-height",e),t&&n.css("height",t),mApp.initScroller(n,{})}),e(),o(),$("body").on("click","[data-close=alert]",function(){$(this).closest(".alert").hide()}),l(),$(".custom-file-input").on("change",function(){var e=$(this).val();$(this).next(".custom-file-label").addClass("selected").html(e)}),a()},initCustomTabs:function(){a()},initTooltips:function(){e()},initTooltip:function(e){n(e)},initPopovers:function(){o()},initPopover:function(e){i(e)},initPortlet:function(e,t){r(e,t)},initPortlets:function(){l()},scrollTo:function(e,t){el=$(e);var n=el&&0<el.length?el.offset().top:0;n+=t||0,jQuery("html,body").animate({scrollTop:n},"slow")},scrollToViewport:function(e){var t=$(e).offset().top,n=e.height(),i=t-(mUtil.getViewPort().height/2-n/2);jQuery("html,body").animate({scrollTop:i},"slow")},scrollTop:function(){mApp.scrollTo()},initScroller:function(e,t,n){mUtil.isMobileDevice()?e.css("overflow","auto"):(!0!==n&&mApp.destroyScroller(e),e.mCustomScrollbar({scrollInertia:0,autoDraggerLength:!0,autoHideScrollbar:!0,autoExpandScrollbar:!1,alwaysShowScrollbar:0,axis:e.data("axis")?e.data("axis"):"y",mouseWheel:{scrollAmount:120,preventDefault:!0},setHeight:t.height?t.height:"",theme:"minimal-dark"}))},destroyScroller:function(e){e.mCustomScrollbar("destroy"),e.removeClass("mCS_destroyed")},alert:function(e){e=$.extend(!0,{container:"",place:"append",type:"success",message:"",close:!0,reset:!0,focus:!0,closeInSeconds:0,icon:""},e);var t=mUtil.getUniqueID("App_alert"),n='<div id="'+t+'" class="custom-alerts alert alert-'+e.type+' fade in">'+(e.close?'<button type="button" class="close" data-dismiss="alert" aria-hidden="true"></button>':"")+(""!==e.icon?'<i class="fa-lg fa fa-'+e.icon+'"></i>  ':"")+e.message+"</div>";return e.reset&&$(".custom-alerts").remove(),e.container?"append"==e.place?$(e.container).append(n):$(e.container).prepend(n):1===$(".page-fixed-main-content").size()?$(".page-fixed-main-content").prepend(n):($("body").hasClass("page-container-bg-solid")||$("body").hasClass("page-content-white"))&&0===$(".page-head").size()?$(".page-title").after(n):0<$(".page-bar").size()?$(".page-bar").after(n):$(".page-breadcrumb, .breadcrumbs").after(n),e.focus&&mApp.scrollTo($("#"+t)),0<e.closeInSeconds&&setTimeout(function(){$("#"+t).remove()},1e3*e.closeInSeconds),t},block:function(e,t){var n,i,o,r=$(e);if("spinner"==(t=$.extend(!0,{opacity:.03,overlayColor:"#000000",state:"brand",type:"loader",size:"lg",centerX:!0,centerY:!0,message:"",shadow:!0,width:"auto"},t)).type?o='<div class="m-spinner '+(n=t.skin?"m-spinner--skin-"+t.skin:"")+" "+(i=t.state?"m-spinner--"+t.state:"")+'"></div':(n=t.skin?"m-loader--skin-"+t.skin:"",i=t.state?"m-loader--"+t.state:"",size=t.size?"m-loader--"+t.size:"",o='<div class="m-loader '+n+" "+i+" "+size+'"></div'),t.message&&0<t.message.length){var l="m-blockui "+(!1===t.shadow?"m-blockui-no-shadow":"");html='<div class="'+l+'"><span>'+t.message+"</span><span>"+o+"</span></div>";r=document.createElement("div");mUtil.get("body").prepend(r),mUtil.addClass(r,l),r.innerHTML="<span>"+t.message+"</span><span>"+o+"</span>",t.width=mUtil.actualWidth(r)+10,mUtil.remove(r),"body"==e&&(html='<div class="'+l+'" style="margin-left:-'+t.width/2+'px;"><span>'+t.message+"</span><span>"+o+"</span></div>")}else html=o;var a={message:html,centerY:t.centerY,centerX:t.centerX,css:{top:"30%",left:"50%",border:"0",padding:"0",backgroundColor:"none",width:t.width},overlayCSS:{backgroundColor:t.overlayColor,opacity:t.opacity,cursor:"wait",zIndex:"10"},onUnblock:function(){r&&(r.css("position",""),r.css("zoom",""))}};"body"==e?(a.css.top="50%",$.blockUI(a)):(r=$(e)).block(a)},unblock:function(e){e&&"body"!=e?$(e).unblock():$.unblockUI()},blockPage:function(e){return mApp.block("body",e)},unblockPage:function(){return mApp.unblock("body")},progress:function(e,t){var n="m-loader m-loader--"+(t&&t.skin?t.skin:"light")+" m-loader--"+(t&&t.alignment?t.alignment:"right")+" m-loader--"+(t&&t.size?"m-spinner--"+t.size:"");mApp.unprogress(e),$(e).addClass(n),$(e).data("progress-classes",n)},unprogress:function(e){$(e).removeClass($(e).data("progress-classes"))},getColor:function(e){return t[e]}}}();$(document).ready(function(){mApp.init({})}),this.Element&&function(e){e.matches=e.matches||e.matchesSelector||e.webkitMatchesSelector||e.msMatchesSelector||function(e){for(var t=(this.parentNode||this.document).querySelectorAll(e),n=-1;t[++n]&&t[n]!=this;);return!!t[n]}}(Element.prototype),this.Element&&function(e){e.closest=e.closest||function(e){for(var t=this;t.matches&&!t.matches(e);)t=t.parentNode;return t.matches?t:null}}(Element.prototype),this.Element&&function(e){e.matches=e.matches||e.matchesSelector||e.webkitMatchesSelector||e.msMatchesSelector||function(e){for(var t=(this.parentNode||this.document).querySelectorAll(e),n=-1;t[++n]&&t[n]!=this;);return!!t[n]}}(Element.prototype),function(){for(var o=0,e=["webkit","moz"],t=0;t<e.length&&!window.requestAnimationFrame;++t)window.requestAnimationFrame=window[e[t]+"RequestAnimationFrame"],window.cancelAnimationFrame=window[e[t]+"CancelAnimationFrame"]||window[e[t]+"CancelRequestAnimationFrame"];window.requestAnimationFrame||(window.requestAnimationFrame=function(e){var t=(new Date).getTime(),n=Math.max(0,16-(t-o)),i=window.setTimeout(function(){e(t+n)},n);return o=t+n,i}),window.cancelAnimationFrame||(window.cancelAnimationFrame=function(e){clearTimeout(e)})}(),[Element.prototype,Document.prototype,DocumentFragment.prototype].forEach(function(e){e.hasOwnProperty("prepend")||Object.defineProperty(e,"prepend",{configurable:!0,enumerable:!0,writable:!0,value:function(){var e=Array.prototype.slice.call(arguments),n=document.createDocumentFragment();e.forEach(function(e){var t=e instanceof Node;n.appendChild(t?e:document.createTextNode(String(e)))}),this.insertBefore(n,this.firstChild)}})}),window.mUtilElementDataStore={},window.mUtilElementDataStoreID=0,window.mUtilDelegatedEventHandlers={},window.noZensmooth=!0;var mUtil=function(){var t=[],n={sm:544,md:768,lg:1024,xl:1200},i=function(){var e=!1;window.addEventListener("resize",function(){clearTimeout(e),e=setTimeout(function(){!function(){for(var e=0;e<t.length;e++)t[e].call()}()},250)})};return{init:function(e){e&&e.breakpoints&&(n=e.breakpoints),i()},addResizeHandler:function(e){t.push(e)},runResizeHandlers:function(){_runResizeHandlers()},getURLParam:function(e){var t,n,i=window.location.search.substring(1).split("&");for(t=0;t<i.length;t++)if((n=i[t].split("="))[0]==e)return unescape(n[1]);return null},isMobileDevice:function(){return this.getViewPort().width<this.getBreakpoint("lg")},isDesktopDevice:function(){return!mUtil.isMobileDevice()},getViewPort:function(){var e=window,t="inner";return"innerWidth"in window||(t="client",e=document.documentElement||document.body),{width:e[t+"Width"],height:e[t+"Height"]}},isInResponsiveRange:function(e){var t=this.getViewPort().width;return"general"==e||("desktop"==e&&t>=this.getBreakpoint("lg")+1||("tablet"==e&&t>=this.getBreakpoint("md")+1&&t<this.getBreakpoint("lg")||("mobile"==e&&t<=this.getBreakpoint("md")||("desktop-and-tablet"==e&&t>=this.getBreakpoint("md")+1||("tablet-and-mobile"==e&&t<=this.getBreakpoint("lg")||"minimal-desktop-and-below"==e&&t<=this.getBreakpoint("xl"))))))},getUniqueID:function(e){return e+Math.floor(Math.random()*(new Date).getTime())},getBreakpoint:function(e){return n[e]},isset:function(e,t){var n;if(-1!==(t=t||"").indexOf("["))throw new Error("Unsupported object path notation.");t=t.split(".");do{if(void 0===e)return!1;if(n=t.shift(),!e.hasOwnProperty(n))return!1;e=e[n]}while(t.length);return!0},getHighestZindex1:function(e){for(var t,n;e&&e!==document&&e!==window;){if(("absolute"===(t=mUtil.css(e,"position"))||"relative"===t||"fixed"===t)&&(n=parseInt(elem.css("zIndex"),10),!isNaN(n)&&0!==n))return n;e=e.parentNode}},getHighestZindex:function(e){for(var t,n,i=mUtil.get(e);i.length&&i[0]!==document;){if(("absolute"===(t=i.css("position"))||"relative"===t||"fixed"===t)&&(n=parseInt(i.css("zIndex"),10),!isNaN(n)&&0!==n))return n;i=i.parent()}},hasFixedPositionedParent:function(e){for(;e&&e!==document;){if(position=mUtil.css(e,"position"),"fixed"===position)return!0;e=e.parentNode}return!1},sleep:function(e){for(var t=(new Date).getTime(),n=0;n<1e7&&!((new Date).getTime()-t>e);n++);},getRandomInt:function(e,t){return Math.floor(Math.random()*(t-e+1))+e},isAngularVersion:function(){return void 0!==window.Zone},deepExtend:function(e){e=e||{};for(var t=1;t<arguments.length;t++){var n=arguments[t];if(n)for(var i in n)n.hasOwnProperty(i)&&("object"==typeof n[i]?e[i]=mUtil.deepExtend(e[i],n[i]):e[i]=n[i])}return e},extend:function(e){e=e||{};for(var t=1;t<arguments.length;t++)if(arguments[t])for(var n in arguments[t])arguments[t].hasOwnProperty(n)&&(e[n]=arguments[t][n]);return e},get:function(e){var t;return e===document?document:e&&1===e.nodeType?e:(t=document.getElementById(e))?t:(t=document.getElementsByTagName(e))?t[0]:(t=document.getElementsByClassName(e))?t[0]:null},hasClasses:function(e,t){if(e){for(var n=t.split(" "),i=0;i<n.length;i++)if(0==mUtil.hasClass(e,mUtil.trim(n[i])))return!1;return!0}},hasClass:function(e,t){if(e)return e.classList?e.classList.contains(t):new RegExp("\\b"+t+"\\b").test(e.className)},addClass:function(e,t){if(e){var n=t.split(" ");if(e.classList)for(var i=0;i<n.length;i++)n[i]&&0<n[i].length&&e.classList.add(mUtil.trim(n[i]));else if(!hasClass(e,t))for(i=0;i<n.length;i++)e.className+=" "+mUtil.trim(n[i])}},removeClass:function(e,t){if(e){var n=t.split(" ");if(e.classList)for(var i=0;i<n.length;i++)e.classList.remove(mUtil.trim(n[i]));else if(mUtil.hasClass(e,t))for(i=0;i<n.length;i++)e.className=e.className.replace(new RegExp("\\b"+mUtil.trim(n[i])+"\\b","g"),"")}},triggerCustomEvent:function(e,t,n){if(window.CustomEvent)var i=new CustomEvent(t,{detail:n});else(i=document.createEvent("CustomEvent")).initCustomEvent(t,!0,!0,n);e.dispatchEvent(i)},trim:function(e){return e.trim()},eventTriggered:function(e){return!!e.currentTarget.dataset.triggered||!(e.currentTarget.dataset.triggered=!0)},remove:function(e){e&&e.parentNode&&e.parentNode.removeChild(e)},find:function(e,t){return e.querySelector(t)},findAll:function(e,t){return e.querySelectorAll(t)},insertAfter:function(e,t){return t.parentNode.insertBefore(e,t.nextSibling)},parents:function(e,t){function o(e,t){for(var n=0,i=e.length;n<i;n++)if(e[n]==t)return!0;return!1}return function(e,t){for(var n=document.querySelectorAll(t),i=e.parentNode;i&&!o(n,i);)i=i.parentNode;return i}(e,t)},children:function(e,t,n){if(e&&e.childNodes){for(var i=[],o=0,r=e.childNodes.length;o<r;++o)1==e.childNodes[o].nodeType&&mUtil.matches(e.childNodes[o],t,n)&&i.push(e.childNodes[o]);return i}},child:function(e,t,n){var i=mUtil.children(e,t,n);return i?i[0]:null},matches:function(e,t,n){var i=Element.prototype,o=i.matches||i.webkitMatchesSelector||i.mozMatchesSelector||i.msMatchesSelector||function(e){return-1!==[].indexOf.call(document.querySelectorAll(e),this)};return!(!e||!e.tagName)&&o.call(e,t)},data:function(n){return n=mUtil.get(n),{set:function(e,t){void 0===n.customDataTag&&(mUtilElementDataStoreID++,n.customDataTag=mUtilElementDataStoreID),void 0===mUtilElementDataStore[n.customDataTag]&&(mUtilElementDataStore[n.customDataTag]={}),mUtilElementDataStore[n.customDataTag][e]=t},get:function(e){return this.has(e)?mUtilElementDataStore[n.customDataTag][e]:null},has:function(e){return!(!mUtilElementDataStore[n.customDataTag]||!mUtilElementDataStore[n.customDataTag][e])},remove:function(e){this.has(e)&&delete mUtilElementDataStore[n.customDataTag][e]}}},outerWidth:function(e,t){if(!0===t){var n=parseFloat(e.offsetWidth);return n+=parseFloat(mUtil.css(e,"margin-left"))+parseFloat(mUtil.css(e,"margin-right")),parseFloat(n)}return n=parseFloat(e.offsetWidth)},offset:function(e){var t=e.getBoundingClientRect();return{top:t.top+document.body.scrollTop,left:t.left+document.body.scrollLeft}},height:function(e){return mUtil.css(e,"height")},visible:function(e){return!(0===e.offsetWidth&&0===e.offsetHeight)},attr:function(e,t,n){if(null!=(e=mUtil.get(e)))return void 0===n?e.getAttribute(t):void e.setAttribute(t,n)},hasAttr:function(e,t){if(null!=(e=mUtil.get(e)))return!!e.getAttribute(t)},removeAttr:function(e,t){null!=(e=mUtil.get(e))&&e.removeAttribute(t)},animate:function(i,o,r,l,a,s){var e={linear:function(e,t,n,i){return n*e/i+t}};if("number"==typeof i&&"number"==typeof o&&"number"==typeof r&&"function"==typeof l){"string"==typeof a&&e[a]&&(a=e[a]),"function"!=typeof a&&(a=e.linear),"function"!=typeof s&&(s=function(){});var m=window.requestAnimationFrame||function(e){window.setTimeout(e,1e3/60)},d=o-i;l(i);var u=window.performance&&window.performance.now?window.performance.now():+new Date;m(function e(t){var n=(t||+new Date)-u;0<=n&&l(a(n,i,d,r)),0<=n&&r<=n?(l(o),s()):m(e)})}},actualCss:function(e,t,n){var i;if(e instanceof HTMLElement!=!1)return e.getAttribute("m-hidden-"+t)&&!1!==n?parseFloat(e.getAttribute("m-hidden-"+t)):(e.style.cssText="position: absolute; visibility: hidden; display: block;","width"==t?i=e.offsetWidth:"height"==t&&(i=e.offsetHeight),e.style.cssText="",e.setAttribute("m-hidden-"+t,i),parseFloat(i))},actualHeight:function(e,t){return mUtil.actualCss(e,"height",t)},actualWidth:function(e,t){return mUtil.actualCss(e,"width",t)},getScroll:function(e,t){return t="scroll"+t,e==window||e==document?self["scrollTop"==t?"pageYOffset":"pageXOffset"]||browserSupportsBoxModel&&document.documentElement[t]||document.body[t]:e[t]},css:function(e,t,n){if(e=mUtil.get(e),void 0!==n)e.style[t]=n;else{var i=(e.ownerDocument||document).defaultView;if(i&&i.getComputedStyle)return t=t.replace(/([A-Z])/g,"-$1").toLowerCase(),i.getComputedStyle(e,null).getPropertyValue(t);if(e.currentStyle)return t=t.replace(/\-(\w)/g,function(e,t){return t.toUpperCase()}),n=e.currentStyle[t],/^\d+(em|pt|%|ex)?$/i.test(n)?(o=n,r=e.style.left,l=e.runtimeStyle.left,e.runtimeStyle.left=e.currentStyle.left,e.style.left=o||0,o=e.style.pixelLeft+"px",e.style.left=r,e.runtimeStyle.left=l,o):n}var o,r,l},slide:function(t,e,n,i,o){if(!(!t||"up"==e&&!1===mUtil.visible(t)||"down"==e&&!0===mUtil.visible(t))){n=n||600;var r=mUtil.actualHeight(t),l=!1,a=!1;mUtil.css(t,"padding-top")&&!0!==mUtil.data(t).has("slide-padding-top")&&mUtil.data(t).set("slide-padding-top",mUtil.css(t,"padding-top")),mUtil.css(t,"padding-bottom")&&!0!==mUtil.data(t).has("slide-padding-bottom")&&mUtil.data(t).set("slide-padding-bottom",mUtil.css(t,"padding-bottom")),mUtil.data(t).has("slide-padding-top")&&(l=parseInt(mUtil.data(t).get("slide-padding-top"))),mUtil.data(t).has("slide-padding-bottom")&&(a=parseInt(mUtil.data(t).get("slide-padding-bottom"))),"up"==e?(t.style.cssText="display: block; overflow: hidden;",l&&mUtil.animate(0,l,n,function(e){t.style.paddingTop=l-e+"px"},"linear"),a&&mUtil.animate(0,a,n,function(e){t.style.paddingBottom=a-e+"px"},"linear"),mUtil.animate(0,r,n,function(e){t.style.height=r-e+"px"},"linear",function(){i(),t.style.height="",t.style.display="none"})):"down"==e&&(t.style.cssText="display: block; overflow: hidden;",l&&mUtil.animate(0,l,n,function(e){t.style.paddingTop=e+"px"},"linear",function(){t.style.paddingTop=""}),a&&mUtil.animate(0,a,n,function(e){t.style.paddingBottom=e+"px"},"linear",function(){t.style.paddingBottom=""}),mUtil.animate(0,r,n,function(e){t.style.height=e+"px"},"linear",function(){i(),t.style.height="",t.style.display="",t.style.overflow=""}))}},slideUp:function(e,t,n){mUtil.slide(e,"up",t,n)},slideDown:function(e,t,n){mUtil.slide(e,"down",t,n)},show:function(e,t){e.style.display=t||"block"},hide:function(e){e.style.display="none"},addEvent:function(e,t,n,i){void 0!==(e=mUtil.get(e))&&e.addEventListener(t,n)},removeEvent:function(e,t,n){(e=mUtil.get(e)).removeEventListener(t,n)},on:function(r,l,e,a){if(l){var t=mUtil.getUniqueID("event");return mUtilDelegatedEventHandlers[t]=function(e){for(var t=r.querySelectorAll(l),n=e.target;n&&n!==r;){for(var i=0,o=t.length;i<o;i++)n===t[i]&&a.call(n,e);n=n.parentNode}},mUtil.addEvent(r,e,mUtilDelegatedEventHandlers[t]),t}},off:function(e,t,n){e&&mUtilDelegatedEventHandlers[n]&&(mUtil.removeEvent(e,t,mUtilDelegatedEventHandlers[n]),delete mUtilDelegatedEventHandlers[n])},one:function(e,t,n){(e=mUtil.get(e)).addEventListener(t,function(e){return e.target.removeEventListener(e.type,arguments.callee),n(e)})},hash:function(e){var t,n=0;if(0===e.length)return n;for(t=0;t<e.length;t++)n=(n<<5)-n+e.charCodeAt(t),n|=0;return n},animateClass:function(e,t,n){mUtil.addClass(e,"animated "+t),mUtil.one(e,"webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend",function(){mUtil.removeClass(e,"animated "+t)}),n&&mUtil.one(e.animationEnd,n)},animateDelay:function(e,t){for(var n=["webkit-","moz-","ms-","o-",""],i=0;i<n.length;i++)mUtil.css(e,n[i]+"animation-delay",t)},animateDuration:function(e,t){for(var n=["webkit-","moz-","ms-","o-",""],i=0;i<n.length;i++)mUtil.css(e,n[i]+"animation-duration",t)},scrollTo:function(e,t,n){n||(n=600),zenscroll.toY(e,n)},scrollToViewport:function(e,t){t||(t=1200),zenscroll.intoView(e,t)},scrollToCenter:function(e,t){t||(t=1200),zenscroll.center(e,t)},scrollTop:function(e){e||(e=600),zenscroll.toY(0,e)},isArray:function(e){return e&&Array.isArray(e)},ready:function(e){(document.attachEvent?"complete"===document.readyState:"loading"!==document.readyState)?e():document.addEventListener("DOMContentLoaded",e)}}}();mUtil.ready(function(){mUtil.init()});var mDropdown=function(e,t){var o=this,i=mUtil.get(e),r=mUtil.get("body");if(i){var n={toggle:"click",hoverTimeout:300,skin:"light",height:"auto",maxHeight:!1,minHeight:!1,persistent:!1,mobileOverlay:!0},l={construct:function(e){return mUtil.data(i).has("dropdown")?o=mUtil.data(i).get("dropdown"):(l.init(e),l.setup(),mUtil.data(i).set("dropdown",o)),o},init:function(e){o.options=mUtil.deepExtend({},n,e),o.events=[],o.eventHandlers={},o.open=!1,o.layout={},o.layout.close=mUtil.find(i,".m-dropdown__close"),o.layout.toggle=mUtil.find(i,".m-dropdown__toggle"),o.layout.arrow=mUtil.find(i,".m-dropdown__arrow"),o.layout.wrapper=mUtil.find(i,".m-dropdown__wrapper"),o.layout.defaultDropPos=mUtil.hasClass(i,"m-dropdown--up")?"up":"down",o.layout.currentDropPos=o.layout.defaultDropPos,"hover"==mUtil.attr(i,"m-dropdown-toggle")&&(o.options.toggle="hover")},setup:function(){o.options.placement&&mUtil.addClass(i,"m-dropdown--"+o.options.placement),o.options.align&&mUtil.addClass(i,"m-dropdown--align-"+o.options.align),o.options.width&&mUtil.css(o.layout.wrapper,"width",o.options.width+"px"),"1"==mUtil.attr(i,"m-dropdown-persistent")&&(o.options.persistent=!0),"hover"==o.options.toggle&&mUtil.addEvent(i,"mouseout",l.hide),l.setZindex()},toggle:function(){return o.open?l.hide():l.show()},setContent:function(e){e=mUtil.find(i,".m-dropdown__content").innerHTML=e;return o},show:function(){if("hover"==o.options.toggle&&mUtil.hasAttr(i,"hover"))return l.clearHovered(),o;if(o.open)return o;if(o.layout.arrow&&l.adjustArrowPos(),l.eventTrigger("beforeShow"),l.hideOpened(),mUtil.addClass(i,"m-dropdown--open"),mUtil.isMobileDevice()&&o.options.mobileOverlay){var e=mUtil.css(i,"z-index")-1,t=mUtil.insertAfter(document.createElement("DIV"),i);mUtil.addClass(t,"m-dropdown__dropoff"),mUtil.css(t,"z-index",e),mUtil.data(t).set("dropdown",i),mUtil.data(i).set("dropoff",t),mUtil.addEvent(t,"click",function(e){l.hide(),mUtil.remove(this),e.preventDefault()})}return i.focus(),i.setAttribute("aria-expanded","true"),o.open=!0,l.eventTrigger("afterShow"),o},clearHovered:function(){var e=mUtil.attr(i,"timeout");mUtil.removeAttr(i,"hover"),mUtil.removeAttr(i,"timeout"),clearTimeout(e)},hideHovered:function(e){if(!0===e){if(!1===l.eventTrigger("beforeHide"))return;l.clearHovered(),mUtil.removeClass(i,"m-dropdown--open"),o.open=!1,l.eventTrigger("afterHide")}else{if(!0===mUtil.hasAttr(i,"hover"))return;if(!1===l.eventTrigger("beforeHide"))return;var t=setTimeout(function(){mUtil.attr(i,"hover")&&(l.clearHovered(),mUtil.removeClass(i,"m-dropdown--open"),o.open=!1,l.eventTrigger("afterHide"))},o.options.hoverTimeout);mUtil.attr(i,"hover","1"),mUtil.attr(i,"timeout",t)}},hideClicked:function(){!1!==l.eventTrigger("beforeHide")&&(mUtil.removeClass(i,"m-dropdown--open"),mUtil.data(i).remove("dropoff"),o.open=!1,l.eventTrigger("afterHide"))},hide:function(e){return!1===o.open||("hover"==o.options.toggle?l.hideHovered(e):l.hideClicked(),"down"==o.layout.defaultDropPos&&"up"==o.layout.currentDropPos&&(mUtil.removeClass(i,"m-dropdown--up"),o.layout.arrow.prependTo(o.layout.wrapper),o.layout.currentDropPos="down")),o},hideOpened:function(){for(var e=mUtil.findAll(r,".m-dropdown.m-dropdown--open"),t=0,n=e.length;t<n;t++){var i=e[t];mUtil.data(i).get("dropdown").hide(!0)}},adjustArrowPos:function(){var e=mUtil.outerWidth(i),t=mUtil.hasClass(o.layout.arrow,"m-dropdown__arrow--right")?"right":"left",n=0;o.layout.arrow&&(mUtil.isInResponsiveRange("mobile")&&mUtil.hasClass(i,"m-dropdown--mobile-full-width")?(n=mUtil.offset(i).left+e/2-Math.abs(parseInt(mUtil.css(o.layout.arrow,"width"))/2)-parseInt(mUtil.css(o.layout.wrapper,"left")),mUtil.css(o.layout.arrow,"right","auto"),mUtil.css(o.layout.arrow,"left",n+"px"),mUtil.css(o.layout.arrow,"margin-left","auto"),mUtil.css(o.layout.arrow,"margin-right","auto")):mUtil.hasClass(o.layout.arrow,"m-dropdown__arrow--adjust")&&(n=e/2-Math.abs(parseInt(mUtil.css(o.layout.arrow,"width"))/2),mUtil.hasClass(i,"m-dropdown--align-push")&&(n+=20),"right"==t?(mUtil.css(o.layout.arrow,"left","auto"),mUtil.css(o.layout.arrow,"right",n+"px")):(mUtil.css(o.layout.arrow,"right","auto"),mUtil.css(o.layout.arrow,"left",n+"px"))))},setZindex:function(){mUtil.css(o.layout.wrapper,"z-index")<mUtil.getHighestZindex(i)&&mUtil.css(o.layout.wrapper,"z-index",zindex)},isPersistent:function(){return o.options.persistent},isShown:function(){return o.open},eventTrigger:function(e,t){for(var n=0;n<o.events.length;n++){var i=o.events[n];i.name==e&&(1==i.one?0==i.fired&&(o.events[n].fired=!0,i.handler.call(this,o,t)):i.handler.call(this,o,t))}},addEvent:function(e,t,n){o.events.push({name:e,handler:t,one:n,fired:!1})}};return o.setDefaults=function(e){n=e},o.show=function(){return l.show()},o.hide=function(){return l.hide()},o.toggle=function(){return l.toggle()},o.isPersistent=function(){return l.isPersistent()},o.isShown=function(){return l.isShown()},o.setContent=function(e){return l.setContent(e)},o.on=function(e,t){return l.addEvent(e,t)},o.one=function(e,t){return l.addEvent(e,t,!0)},l.construct.apply(o,[t]),!0,o}};mUtil.on(document,'[m-dropdown-toggle="click"] .m-dropdown__toggle',"click",function(e){var t=this.closest(".m-dropdown");t&&((mUtil.data(t).has("dropdown")?mUtil.data(t).get("dropdown"):new mDropdown(t)).toggle(),e.preventDefault())}),mUtil.on(document,'[m-dropdown-toggle="hover"] .m-dropdown__toggle',"click",function(e){if(mUtil.isMobileDevice()){var t=this.closest(".m-dropdown");t&&((mUtil.data(t).has("dropdown")?mUtil.data(t).get("dropdown"):new mDropdown(t)).toggle(),e.preventDefault())}}),mUtil.on(document,'[m-dropdown-toggle="hover"]',"mouseover",function(e){if(mUtil.isDesktopDevice()){this&&((mUtil.data(this).has("dropdown")?mUtil.data(this).get("dropdown"):new mDropdown(this)).show(),e.preventDefault())}}),document.addEventListener("click",function(e){var t,n=mUtil.get("body"),i=e.target;if(t=n.querySelectorAll(".m-dropdown.m-dropdown--open"))for(var o=0,r=t.length;o<r;o++){var l=t[o];if(!1===mUtil.data(l).has("dropdown"))return;var a=mUtil.data(l).get("dropdown"),s=mUtil.find(l,".m-dropdown__toggle");mUtil.hasClass(l,"m-dropdown--disable-close")&&(e.preventDefault(),e.stopPropagation()),s&&i!==s&&!1===s.contains(i)&&!1===i.contains(s)?!0===a.isPersistent()?!1===l.contains(i)&&a.hide():a.hide():!1===l.contains(i)&&a.hide()}});var mHeader=function(e,t){var r=this,n=mUtil.get(e),l=mUtil.get("body");if(void 0!==n){var i={classic:!1,offset:{mobile:150,desktop:200},minimize:{mobile:!1,desktop:!1}},o={construct:function(e){return mUtil.data(n).has("header")?r=mUtil.data(n).get("header"):(o.init(e),o.build(),mUtil.data(n).set("header",r)),r},init:function(e){r.events=[],r.options=mUtil.deepExtend({},i,e)},build:function(){var o=0;!1===r.options.minimize.mobile&&!1===r.options.minimize.desktop||window.addEventListener("scroll",function(){var e,t,n,i=0;mUtil.isInResponsiveRange("desktop")?(i=r.options.offset.desktop,e=r.options.minimize.desktop.on,t=r.options.minimize.desktop.off):mUtil.isInResponsiveRange("tablet-and-mobile")&&(i=r.options.offset.mobile,e=r.options.minimize.mobile.on,t=r.options.minimize.mobile.off),n=window.pageYOffset,mUtil.isInResponsiveRange("tablet-and-mobile")&&r.options.classic&&r.options.classic.mobile||mUtil.isInResponsiveRange("desktop")&&r.options.classic&&r.options.classic.desktop?i<n?(mUtil.addClass(l,e),mUtil.removeClass(l,t)):(mUtil.addClass(l,t),mUtil.removeClass(l,e)):(i<n&&o<n?(mUtil.addClass(l,e),mUtil.removeClass(l,t)):(mUtil.addClass(l,t),mUtil.removeClass(l,e)),o=n)})},eventTrigger:function(e,t){for(var n=0;n<r.events.length;n++){var i=r.events[n];i.name==e&&(1==i.one?0==i.fired&&(r.events[n].fired=!0,i.handler.call(this,r,t)):i.handler.call(this,r,t))}},addEvent:function(e,t,n){r.events.push({name:e,handler:t,one:n,fired:!1})}};return r.setDefaults=function(e){i=e},r.on=function(e,t){return o.addEvent(e,t)},o.construct.apply(r,[t]),!0,r}},mMenu=function(e,t){var p=this,n=!1,m=mUtil.get(e),r=mUtil.get("body");if(m){var i={autoscroll:{speed:1200},accordion:{slideSpeed:200,autoScroll:!0,autoScrollSpeed:1200,expandAll:!0},dropdown:{timeout:500}},f={construct:function(e){return mUtil.data(m).has("menu")?p=mUtil.data(m).get("menu"):(f.init(e),f.reset(),f.build(),mUtil.data(m).set("menu",p)),p},init:function(e){p.events=[],p.eventHandlers={},p.options=mUtil.deepExtend({},i,e),p.pauseDropdownHoverTime=0,p.uid=mUtil.getUniqueID()},reload:function(){f.reset(),f.build()},build:function(){p.eventHandlers.event_1=mUtil.on(m,".m-menu__toggle","click",f.handleSubmenuAccordion),("dropdown"===f.getSubmenuMode()||f.isConditionalSubmenuDropdown())&&(p.eventHandlers.event_2=mUtil.on(m,'[m-menu-submenu-toggle="hover"]',"mouseover",f.handleSubmenuDrodownHoverEnter),p.eventHandlers.event_3=mUtil.on(m,'[m-menu-submenu-toggle="hover"]',"mouseout",f.handleSubmenuDrodownHoverExit),p.eventHandlers.event_4=mUtil.on(m,'[m-menu-submenu-toggle="click"] > .m-menu__toggle, [m-menu-submenu-toggle="click"] > .m-menu__link .m-menu__toggle',"click",f.handleSubmenuDropdownClick),p.eventHandlers.event_5=mUtil.on(m,'[m-menu-submenu-toggle="tab"] > .m-menu__toggle, [m-menu-submenu-toggle="tab"] > .m-menu__link .m-menu__toggle',"click",f.handleSubmenuDropdownTabClick)),p.eventHandlers.event_6=mUtil.on(m,".m-menu__item:not(.m-menu__item--submenu) > .m-menu__link:not(.m-menu__toggle):not(.m-menu__link--toggle-skip)","click",f.handleLinkClick)},reset:function(){mUtil.off(m,"click",p.eventHandlers.event_1),mUtil.off(m,"mouseover",p.eventHandlers.event_2),mUtil.off(m,"mouseout",p.eventHandlers.event_3),mUtil.off(m,"click",p.eventHandlers.event_4),mUtil.off(m,"click",p.eventHandlers.event_5),mUtil.off(m,"click",p.eventHandlers.event_6)},getSubmenuMode:function(){return mUtil.isInResponsiveRange("desktop")?mUtil.isset(p.options.submenu,"desktop.state.body")?mUtil.hasClass(r,p.options.submenu.desktop.state.body)?p.options.submenu.desktop.state.mode:p.options.submenu.desktop.default:mUtil.isset(p.options.submenu,"desktop")?p.options.submenu.desktop:void 0:mUtil.isInResponsiveRange("tablet")&&mUtil.isset(p.options.submenu,"tablet")?p.options.submenu.tablet:!(!mUtil.isInResponsiveRange("mobile")||!mUtil.isset(p.options.submenu,"mobile"))&&p.options.submenu.mobile},isConditionalSubmenuDropdown:function(){return!(!mUtil.isInResponsiveRange("desktop")||!mUtil.isset(p.options.submenu,"desktop.state.body"))},handleLinkClick:function(e){!1===f.eventTrigger("linkClick",this)&&e.preventDefault(),("dropdown"===f.getSubmenuMode()||f.isConditionalSubmenuDropdown())&&f.handleSubmenuDropdownClose(e,this)},handleSubmenuDrodownHoverEnter:function(e){if("accordion"!==f.getSubmenuMode()&&!1!==p.resumeDropdownHover()){var t=this;"1"==t.getAttribute("data-hover")&&(t.removeAttribute("data-hover"),clearTimeout(t.getAttribute("data-timeout")),t.removeAttribute("data-timeout")),f.showSubmenuDropdown(t)}},handleSubmenuDrodownHoverExit:function(e){if(!1!==p.resumeDropdownHover()&&"accordion"!==f.getSubmenuMode()){var t=this,n=p.options.dropdown.timeout,i=setTimeout(function(){"1"==t.getAttribute("data-hover")&&f.hideSubmenuDropdown(t,!0)},n);t.setAttribute("data-hover","1"),t.setAttribute("data-timeout",i)}},handleSubmenuDropdownClick:function(e){if("accordion"!==f.getSubmenuMode()){var t=this.closest(".m-menu__item");"accordion"!=t.getAttribute("m-menu-submenu-mode")&&(!1===mUtil.hasClass(t,"m-menu__item--hover")?(mUtil.addClass(t,"m-menu__item--open-dropdown"),f.showSubmenuDropdown(t)):(mUtil.removeClass(t,"m-menu__item--open-dropdown"),f.hideSubmenuDropdown(t,!0)),e.preventDefault())}},handleSubmenuDropdownTabClick:function(e){if("accordion"!==f.getSubmenuMode()){var t=this.closest(".m-menu__item");"accordion"!=t.getAttribute("m-menu-submenu-mode")&&(0==mUtil.hasClass(t,"m-menu__item--hover")&&(mUtil.addClass(t,"m-menu__item--open-dropdown"),f.showSubmenuDropdown(t)),e.preventDefault())}},handleSubmenuDropdownClose:function(e,t){if("accordion"!==f.getSubmenuMode()){var n=m.querySelectorAll(".m-menu__item.m-menu__item--submenu.m-menu__item--hover:not(.m-menu__item--tabs)");if(0<n.length&&!1===mUtil.hasClass(t,"m-menu__toggle")&&0===t.querySelectorAll(".m-menu__toggle").length)for(var i=0,o=n.length;i<o;i++)f.hideSubmenuDropdown(n[0],!0)}},handleSubmenuAccordion:function(e,t){var n,i=t||this;if("dropdown"===f.getSubmenuMode()&&(n=i.closest(".m-menu__item"))&&"accordion"!=n.getAttribute("m-menu-submenu-mode"))e.preventDefault();else{var o=i.closest(".m-menu__item"),r=mUtil.child(o,".m-menu__submenu, .m-menu__inner");if(!mUtil.hasClass(i.closest(".m-menu__item"),"m-menu__item--open-always")&&o&&r){e.preventDefault();var l=p.options.accordion.slideSpeed;if(!1===mUtil.hasClass(o,"m-menu__item--open")){if(!1===p.options.accordion.expandAll){var a=i.closest(".m-menu__nav, .m-menu__subnav"),s=mUtil.children(a,".m-menu__item.m-menu__item--open.m-menu__item--submenu:not(.m-menu__item--expanded):not(.m-menu__item--open-always)");if(a&&s)for(var m=0,d=s.length;m<d;m++){var u=s[0],c=mUtil.child(u,".m-menu__submenu");c&&mUtil.slideUp(c,l,function(){mUtil.removeClass(u,"m-menu__item--open")})}}mUtil.slideDown(r,l,function(){f.scrollToItem(i)}),mUtil.addClass(o,"m-menu__item--open")}else mUtil.slideUp(r,l,function(){f.scrollToItem(i)}),mUtil.removeClass(o,"m-menu__item--open")}}},scrollToItem:function(e){mUtil.isInResponsiveRange("desktop")&&p.options.accordion.autoScroll&&"1"!==m.getAttribute("m-menu-scrollable")&&mUtil.scrollToCenter(e,p.options.accordion.autoScrollSpeed)},hideSubmenuDropdown:function(e,t){t&&(mUtil.removeClass(e,"m-menu__item--hover"),mUtil.removeClass(e,"m-menu__item--active-tab")),e.removeAttribute("data-hover"),e.getAttribute("m-menu-dropdown-toggle-class")&&mUtil.removeClass(r,e.getAttribute("m-menu-dropdown-toggle-class"));var n=e.getAttribute("data-timeout");e.removeAttribute("data-timeout"),clearTimeout(n)},showSubmenuDropdown:function(e){var t=m.querySelectorAll(".m-menu__item--submenu.m-menu__item--hover, .m-menu__item--submenu.m-menu__item--active-tab");if(t)for(var n=0,i=t.length;n<i;n++){var o=t[n];e!==o&&!1===o.contains(e)&&!1===e.contains(o)&&f.hideSubmenuDropdown(o,!0)}f.adjustSubmenuDropdownArrowPos(e),mUtil.addClass(e,"m-menu__item--hover"),e.getAttribute("m-menu-dropdown-toggle-class")&&mUtil.addClass(r,e.getAttribute("m-menu-dropdown-toggle-class"))},createSubmenuDropdownClickDropoff:function(t){var e,n=(e=mUtil.child(t,".m-menu__submenu")?mUtil.css(e,"z-index"):0)-1,i=document.createElement('<div class="m-menu__dropoff" style="background: transparent; position: fixed; top: 0; bottom: 0; left: 0; right: 0; z-index: '+n+'"></div>');r.appendChild(i),mUtil.addEvent(i,"click",function(e){e.stopPropagation(),e.preventDefault(),mUtil.remove(this),f.hideSubmenuDropdown(t,!0)})},adjustSubmenuDropdownArrowPos:function(e){var t=mUtil.child(e,".m-menu__submenu"),n=mUtil.child(t,".m-menu__arrow.m-menu__arrow--adjust");mUtil.child(t,".m-menu__subnav");if(n){var i=0;mUtil.child(e,".m-menu__link");mUtil.hasClass(t,"m-menu__submenu--classic")||mUtil.hasClass(t,"m-menu__submenu--fixed")?mUtil.hasClass(t,"m-menu__submenu--right")?(i=mUtil.outerWidth(e)/2,mUtil.hasClass(t,"m-menu__submenu--pull")&&(i+=Math.abs(parseFloat(mUtil.css(t,"margin-right")))),i=parseInt(mUtil.css(t,"width"))-i):mUtil.hasClass(t,"m-menu__submenu--left")&&(i=mUtil.outerWidth(e)/2,mUtil.hasClass(t,"m-menu__submenu--pull")&&(i+=Math.abs(parseFloat(mUtil.css(t,"margin-left"))))):(mUtil.hasClass(t,"m-menu__submenu--center")||mUtil.hasClass(t,"m-menu__submenu--full"))&&(i=mUtil.offset(e).left-(mUtil.getViewPort().width-parseInt(mUtil.css(t,"width")))/2,i+=mUtil.outerWidth(e)/2),mUtil.css(n,"left",i+"px")}},pauseDropdownHover:function(e){var t=new Date;p.pauseDropdownHoverTime=t.getTime()+e},resumeDropdownHover:function(){return(new Date).getTime()>p.pauseDropdownHoverTime},resetActiveItem:function(e){for(var t,n,i=0,o=(t=m.querySelectorAll(".m-menu__item--active")).length;i<o;i++){var r=t[0];mUtil.removeClass(r,"m-menu__item--active"),mUtil.hide(mUtil.child(r,".m-menu__submenu"));for(var l=0,a=(n=mUtil.parents(r,".m-menu__item--submenu")).length;l<a;l++){var s=n[i];mUtil.removeClass(s,"m-menu__item--open"),mUtil.hide(mUtil.child(s,".m-menu__submenu"))}}if(!1===p.options.accordion.expandAll&&(t=m.querySelectorAll(".m-menu__item--open")))for(i=0,o=t.length;i<o;i++)mUtil.removeClass(n[0],"m-menu__item--open")},setActiveItem:function(e){f.resetActiveItem(),mUtil.addClass(e,"m-menu__item--active");for(var t=mUtil.parents(e,".m-menu__item--submenu"),n=0,i=t.length;n<i;n++)mUtil.addClass(t[n],"m-menu__item--open")},getBreadcrumbs:function(e){var t,n=[],i=mUtil.child(e,".m-menu__link");n.push({text:t=mUtil.child(i,".m-menu__link-text")?t.innerHTML:"",title:i.getAttribute("title"),href:i.getAttribute("href")});for(var o=mUtil.parents(e,".m-menu__item--submenu"),r=0,l=o.length;r<l;r++){var a=mUtil.child(o[r],".m-menu__link");n.push({text:t=mUtil.child(a,".m-menu__link-text")?t.innerHTML:"",title:a.getAttribute("title"),href:a.getAttribute("href")})}return n.reverse()},getPageTitle:function(e){var t;return mUtil.child(e,".m-menu__link-text")?t.innerHTML:""},eventTrigger:function(e,t){for(var n=0;n<p.events.length;n++){var i=p.events[n];i.name==e&&(1==i.one?0==i.fired&&(p.events[n].fired=!0,i.handler.call(this,p,t)):i.handler.call(this,p,t))}},addEvent:function(e,t,n){p.events.push({name:e,handler:t,one:n,fired:!1})}};return p.setDefaults=function(e){i=e},p.setActiveItem=function(e){return f.setActiveItem(e)},p.reload=function(){return f.reload()},p.getBreadcrumbs=function(e){return f.getBreadcrumbs(e)},p.getPageTitle=function(e){return f.getPageTitle(e)},p.getSubmenuMode=function(){return f.getSubmenuMode()},p.hideDropdown=function(e){f.hideSubmenuDropdown(e,!0)},p.pauseDropdownHover=function(e){f.pauseDropdownHover(e)},p.resumeDropdownHover=function(){return f.resumeDropdownHover()},p.on=function(e,t){return f.addEvent(e,t)},p.one=function(e,t){return f.addEvent(e,t,!0)},f.construct.apply(p,[t]),mUtil.addResizeHandler(function(){n&&p.reload()}),n=!0,p}};document.addEventListener("click",function(e){var t;if(t=mUtil.get("body").querySelectorAll('.m-menu__nav .m-menu__item.m-menu__item--submenu.m-menu__item--hover:not(.m-menu__item--tabs)[m-menu-submenu-toggle="click"]'))for(var n=0,i=t.length;n<i;n++){var o=t[n].closest(".m-menu__nav").parentNode;if(o){var r,l=mUtil.data(o).get("menu");if(!l)break;if(!l||"dropdown"!==l.getSubmenuMode())break;if(e.target!==o&&!1===o.contains(e.target))if(r=o.querySelectorAll('.m-menu__item--submenu.m-menu__item--hover:not(.m-menu__item--tabs)[m-menu-submenu-toggle="click"]'))for(var a=0,s=r.length;a<s;a++)l.hideDropdown(r[a])}}});var mOffcanvas=function(e,t){var l=this,n=mUtil.get(e),i=mUtil.get("body");if(n){var o={},r={construct:function(e){return mUtil.data(n).has("offcanvas")?l=mUtil.data(n).get("offcanvas"):(r.init(e),r.build(),mUtil.data(n).set("offcanvas",l)),l},init:function(e){l.events=[],l.options=mUtil.deepExtend({},o,e),l.overlay,l.classBase=l.options.baseClass,l.classShown=l.classBase+"--on",l.classOverlay=l.classBase+"-overlay",l.state=mUtil.hasClass(n,l.classShown)?"shown":"hidden"},build:function(){if(l.options.toggleBy)if("string"==typeof l.options.toggleBy)mUtil.addEvent(l.options.toggleBy,"click",r.toggle);else if(l.options.toggleBy&&l.options.toggleBy[0]&&l.options.toggleBy[0].target)for(var e in l.options.toggleBy)mUtil.addEvent(l.options.toggleBy[e].target,"click",r.toggle);else l.options.toggleBy&&l.options.toggleBy.target&&mUtil.addEvent(l.options.toggleBy.target,"click",r.toggle);var t=mUtil.get(l.options.closeBy);t&&mUtil.addEvent(t,"click",r.hide)},toggle:function(){r.eventTrigger("toggle"),"shown"==l.state?r.hide(this):r.show(this)},show:function(t){"shown"!=l.state&&(r.eventTrigger("beforeShow"),r.togglerClass(t,"show"),mUtil.addClass(i,l.classShown),mUtil.addClass(n,l.classShown),l.state="shown",l.options.overlay&&(l.overlay=mUtil.insertAfter(document.createElement("DIV"),n),mUtil.addClass(l.overlay,l.classOverlay),mUtil.addEvent(l.overlay,"click",function(e){e.stopPropagation(),e.preventDefault(),r.hide(t)})),r.eventTrigger("afterShow"))},hide:function(e){"hidden"!=l.state&&(r.eventTrigger("beforeHide"),r.togglerClass(e,"hide"),mUtil.removeClass(i,l.classShown),mUtil.removeClass(n,l.classShown),l.state="hidden",l.options.overlay&&l.overlay&&mUtil.remove(l.overlay),r.eventTrigger("afterHide"))},togglerClass:function(e,t){var n,i=mUtil.attr(e,"id");if(l.options.toggleBy&&l.options.toggleBy[0]&&l.options.toggleBy[0].target)for(var o in l.options.toggleBy)l.options.toggleBy[o].target===i&&(n=l.options.toggleBy[o]);else l.options.toggleBy&&l.options.toggleBy.target&&(n=l.options.toggleBy);if(n){var r=mUtil.get(n.target);"show"===t&&mUtil.addClass(r,n.state),"hide"===t&&mUtil.removeClass(r,n.state)}},eventTrigger:function(e,t){for(var n=0;n<l.events.length;n++){var i=l.events[n];i.name==e&&(1==i.one?0==i.fired&&(l.events[n].fired=!0,i.handler.call(this,l,t)):i.handler.call(this,l,t))}},addEvent:function(e,t,n){l.events.push({name:e,handler:t,one:n,fired:!1})}};return l.setDefaults=function(e){o=e},l.hide=function(){return r.hide()},l.show=function(){return r.show()},l.on=function(e,t){return r.addEvent(e,t)},l.one=function(e,t){return r.addEvent(e,t,!0)},r.construct.apply(l,[t]),!0,l}},mPortlet=function(e,t){var s=this,m=mUtil.get(e),d=mUtil.get("body");if(m){var n={bodyToggleSpeed:400,tooltips:!0,tools:{toggle:{collapse:"Collapse",expand:"Expand"},reload:"Reload",remove:"Remove",fullscreen:{on:"Fullscreen",off:"Exit Fullscreen"}}},o={construct:function(e){return mUtil.data(m).has("portlet")?s=mUtil.data(m).get("portlet"):(o.init(e),o.build(),mUtil.data(m).set("portlet",s)),s},init:function(e){s.element=m,s.events=[],s.options=mUtil.deepExtend({},n,e),s.head=mUtil.child(m,".m-portlet__head"),mUtil.child(m,".m-portlet__body")?s.body=mUtil.child(m,".m-portlet__body"):0!==mUtil.child(m,".m-form").length&&(s.body=mUtil.child(m,".m-form"))},build:function(){var e=mUtil.find(s.head,"[m-portlet-tool=remove]");e&&mUtil.addEvent(e,"click",function(e){e.preventDefault(),o.remove()});var t=mUtil.find(s.head,"[m-portlet-tool=reload]");t&&mUtil.addEvent(t,"click",function(e){e.preventDefault(),o.reload()});var n=mUtil.find(s.head,"[m-portlet-tool=toggle]");n&&mUtil.addEvent(n,"click",function(e){e.preventDefault(),o.toggle()});var i=mUtil.find(s.head,"[m-portlet-tool=fullscreen]");i&&mUtil.addEvent(i,"click",function(e){e.preventDefault(),o.fullscreen()}),o.setupTooltips()},remove:function(){!1!==o.eventTrigger("beforeRemove")&&(mUtil.hasClass(d,"m-portlet--fullscreen")&&mUtil.hasClass(m,"m-portlet--fullscreen")&&o.fullscreen("off"),o.removeTooltips(),mUtil.remove(m),o.eventTrigger("afterRemove"))},setContent:function(e){e&&(s.body.innerHTML=e)},getBody:function(){return s.body},getSelf:function(){return m},setupTooltips:function(){if(s.options.tooltips){var e=mUtil.hasClass(m,"m-portlet--collapse")||mUtil.hasClass(m,"m-portlet--collapsed"),t=mUtil.hasClass(d,"m-portlet--fullscreen")&&mUtil.hasClass(m,"m-portlet--fullscreen"),n=mUtil.find(s.head,"[m-portlet-tool=remove]");if(n){var i=t?"bottom":"top",o=new Tooltip(n,{title:s.options.tools.remove,placement:i,offset:t?"0,10px,0,0":"0,5px",trigger:"hover",template:'<div class="m-tooltip m-tooltip--portlet tooltip bs-tooltip-'+i+'" role="tooltip">                            <div class="tooltip-arrow arrow"></div>                            <div class="tooltip-inner"></div>                        </div>'});mUtil.data(n).set("tooltip",o)}var r=mUtil.find(s.head,"[m-portlet-tool=reload]");if(r){i=t?"bottom":"top",o=new Tooltip(r,{title:s.options.tools.reload,placement:i,offset:t?"0,10px,0,0":"0,5px",trigger:"hover",template:'<div class="m-tooltip m-tooltip--portlet tooltip bs-tooltip-'+i+'" role="tooltip">                            <div class="tooltip-arrow arrow"></div>                            <div class="tooltip-inner"></div>                        </div>'});mUtil.data(r).set("tooltip",o)}var l=mUtil.find(s.head,"[m-portlet-tool=toggle]");if(l){i=t?"bottom":"top",o=new Tooltip(l,{title:e?s.options.tools.toggle.expand:s.options.tools.toggle.collapse,placement:i,offset:t?"0,10px,0,0":"0,5px",trigger:"hover",template:'<div class="m-tooltip m-tooltip--portlet tooltip bs-tooltip-'+i+'" role="tooltip">                            <div class="tooltip-arrow arrow"></div>                            <div class="tooltip-inner"></div>                        </div>'});mUtil.data(l).set("tooltip",o)}var a=mUtil.find(s.head,"[m-portlet-tool=fullscreen]");if(a){i=t?"bottom":"top",o=new Tooltip(a,{title:t?s.options.tools.fullscreen.off:s.options.tools.fullscreen.on,placement:i,offset:t?"0,10px,0,0":"0,5px",trigger:"hover",template:'<div class="m-tooltip m-tooltip--portlet tooltip bs-tooltip-'+i+'" role="tooltip">                            <div class="tooltip-arrow arrow"></div>                            <div class="tooltip-inner"></div>                        </div>'});mUtil.data(a).set("tooltip",o)}}},removeTooltips:function(){if(s.options.tooltips){var e=mUtil.find(s.head,"[m-portlet-tool=remove]");e&&mUtil.data(e).has("tooltip")&&mUtil.data(e).get("tooltip").dispose();var t=mUtil.find(s.head,"[m-portlet-tool=reload]");t&&mUtil.data(t).has("tooltip")&&mUtil.data(t).get("tooltip").dispose();var n=mUtil.find(s.head,"[m-portlet-tool=toggle]");n&&mUtil.data(n).has("tooltip")&&mUtil.data(n).get("tooltip").dispose();var i=mUtil.find(s.head,"[m-portlet-tool=fullscreen]");i&&mUtil.data(i).has("tooltip")&&mUtil.data(i).get("tooltip").dispose()}},reload:function(){o.eventTrigger("reload")},toggle:function(){mUtil.hasClass(m,"m-portlet--collapse")||mUtil.hasClass(m,"m-portlet--collapsed")?o.expand():o.collapse()},collapse:function(){if(!1!==o.eventTrigger("beforeCollapse")){mUtil.slideUp(s.body,s.options.bodyToggleSpeed,function(){o.eventTrigger("afterCollapse")}),mUtil.addClass(m,"m-portlet--collapse");var e=mUtil.find(s.head,"[m-portlet-tool=toggle]");e&&mUtil.data(e).has("tooltip")&&mUtil.data(e).get("tooltip").updateTitleContent(s.options.tools.toggle.expand)}},expand:function(){if(!1!==o.eventTrigger("beforeExpand")){mUtil.slideDown(s.body,s.options.bodyToggleSpeed,function(){o.eventTrigger("afterExpand")}),mUtil.removeClass(m,"m-portlet--collapse"),mUtil.removeClass(m,"m-portlet--collapsed");var e=mUtil.find(s.head,"[m-portlet-tool=toggle]");e&&mUtil.data(e).has("tooltip")&&mUtil.data(e).get("tooltip").updateTitleContent(s.options.tools.toggle.collapse)}},fullscreen:function(e){"off"===e||mUtil.hasClass(d,"m-portlet--fullscreen")&&mUtil.hasClass(m,"m-portlet--fullscreen")?(o.eventTrigger("beforeFullscreenOff"),mUtil.removeClass(d,"m-portlet--fullscreen"),mUtil.removeClass(m,"m-portlet--fullscreen"),o.removeTooltips(),o.setupTooltips(),o.eventTrigger("afterFullscreenOff")):(o.eventTrigger("beforeFullscreenOn"),mUtil.addClass(m,"m-portlet--fullscreen"),mUtil.addClass(d,"m-portlet--fullscreen"),o.removeTooltips(),o.setupTooltips(),o.eventTrigger("afterFullscreenOn"))},eventTrigger:function(e){for(i=0;i<s.events.length;i++){var t=s.events[i];t.name==e&&(1==t.one?0==t.fired&&(s.events[i].fired=!0,t.handler.call(this,s)):t.handler.call(this,s))}},addEvent:function(e,t,n){return s.events.push({name:e,handler:t,one:n,fired:!1}),s}};return s.setDefaults=function(e){n=e},s.remove=function(){return o.remove(html)},s.reload=function(){return o.reload()},s.setContent=function(e){return o.setContent(e)},s.toggle=function(){return o.toggle()},s.collapse=function(){return o.collapse()},s.expand=function(){return o.expand()},s.fullscreen=function(){return o.fullscreen("on")},s.unFullscreen=function(){return o.fullscreen("off")},s.getBody=function(){return o.getBody()},s.getSelf=function(){return o.getSelf()},s.on=function(e,t){return o.addEvent(e,t)},s.one=function(e,t){return o.addEvent(e,t,!0)},o.construct.apply(s,[t]),s}},mQuicksearch=function(e,t){var o=this,n=mUtil.get(e),r=mUtil.get("body");if(n){var l={mode:"default",minLength:1,maxHeight:300,requestTimeout:200,inputTarget:"m_quicksearch_input",iconCloseTarget:"m_quicksearch_close",iconCancelTarget:"m_quicksearch_cancel",iconSearchTarget:"m_quicksearch_search",spinnerClass:"m-loader m-loader--skin-light m-loader--right",hasResultClass:"m-list-search--has-result",templates:{error:'<div class="m-search-results m-search-results--skin-light"><span class="m-search-result__message">{{message}}</div></div>'}},a={construct:function(e){return mUtil.data(n).has("quicksearch")?o=mUtil.data(n).get("quicksearch"):(a.init(e),a.build(),mUtil.data(n).set("quicksearch",o)),o},init:function(e){o.element=n,o.events=[],o.options=mUtil.deepExtend({},l,e),o.query="",o.form=mUtil.find(n,"form"),o.input=mUtil.get(o.options.inputTarget),o.iconClose=mUtil.get(o.options.iconCloseTarget),"default"==o.options.mode&&(o.iconSearch=mUtil.get(o.options.iconSearchTarget),o.iconCancel=mUtil.get(o.options.iconCancelTarget)),o.dropdown=new mDropdown(n,{mobileOverlay:!1}),o.cancelTimeout,o.processing=!1,o.requestTimeout=!1},build:function(){mUtil.addEvent(o.input,"keyup",a.search),"default"==o.options.mode?(mUtil.addEvent(o.input,"focus",a.showDropdown),mUtil.addEvent(o.iconCancel,"click",a.handleCancel),mUtil.addEvent(o.iconSearch,"click",function(){mUtil.isInResponsiveRange("tablet-and-mobile")&&(mUtil.addClass(r,"m-header-search--mobile-expanded"),o.input.focus())}),mUtil.addEvent(o.iconClose,"click",function(){mUtil.isInResponsiveRange("tablet-and-mobile")&&(mUtil.removeClass(r,"m-header-search--mobile-expanded"),a.closeDropdown())})):"dropdown"==o.options.mode&&(o.dropdown.on("afterShow",function(){o.input.focus()}),mUtil.addEvent(o.iconClose,"click",a.closeDropdown))},showProgress:function(){return o.processing=!0,mUtil.addClass(o.form,o.options.spinnerClass),a.handleCancelIconVisibility("off"),o},hideProgress:function(){return o.processing=!1,mUtil.removeClass(o.form,o.options.spinnerClass),a.handleCancelIconVisibility("on"),mUtil.addClass(n,o.options.hasResultClass),o},search:function(e){if(o.query=o.input.value,0===o.query.length&&(a.handleCancelIconVisibility("on"),mUtil.removeClass(n,o.options.hasResultClass),mUtil.removeClass(o.form,o.options.spinnerClass)),!(o.query.length<o.options.minLength||1==o.processing))return o.requestTimeout&&clearTimeout(o.requestTimeout),o.requestTimeout=!1,o.requestTimeout=setTimeout(function(){a.eventTrigger("search")},o.options.requestTimeout),o},handleCancelIconVisibility:function(e){"on"==e?0===o.input.value.length?(o.iconCancel&&mUtil.css(o.iconCancel,"visibility","hidden"),o.iconClose&&mUtil.css(o.iconClose,"visibility","visible")):(clearTimeout(o.cancelTimeout),o.cancelTimeout=setTimeout(function(){o.iconCancel&&mUtil.css(o.iconCancel,"visibility","visible"),o.iconClose&&mUtil.css(o.iconClose,"visibility","visible")},500)):(o.iconCancel&&mUtil.css(o.iconCancel,"visibility","hidden"),o.iconClose&&mUtil.css(o.iconClose,"visibility","hidden"))},handleCancel:function(e){o.input.value="",mUtil.css(o.iconCancel,"visibility","hidden"),mUtil.removeClass(n,o.options.hasResultClass),a.closeDropdown()},closeDropdown:function(){o.dropdown.hide()},showDropdown:function(e){0==o.dropdown.isShown()&&o.input.value.length>o.options.minLength&&0==o.processing&&(console.log("show!!!"),o.dropdown.show(),e&&(e.preventDefault(),e.stopPropagation()))},eventTrigger:function(e){for(i=0;i<o.events.length;i++){var t=o.events[i];t.name==e&&(1==t.one?0==t.fired&&(o.events[i].fired=!0,t.handler.call(this,o)):t.handler.call(this,o))}},addEvent:function(e,t,n){return o.events.push({name:e,handler:t,one:n,fired:!1}),o}};return o.setDefaults=function(e){l=e},o.search=function(){return a.handleSearch()},o.showResult=function(e){return o.dropdown.setContent(e),a.showDropdown(),o},o.showError=function(e){var t=o.options.templates.error.replace("{{message}}",e);return o.dropdown.setContent(t),a.showDropdown(),o},o.showProgress=function(){return a.showProgress()},o.hideProgress=function(){return a.hideProgress()},o.search=function(){return a.search()},o.on=function(e,t){return a.addEvent(e,t)},o.one=function(e,t){return a.addEvent(e,t,!0)},a.construct.apply(o,[t]),o}},mScrollTop=function(e,t){var o=this,n=mUtil.get(e),i=mUtil.get("body");if(n){var r={offset:300,speed:600},l={construct:function(e){return mUtil.data(n).has("scrolltop")?o=mUtil.data(n).get("scrolltop"):(l.init(e),l.build(),mUtil.data(n).set("scrolltop",o)),o},init:function(e){o.events=[],o.options=mUtil.deepExtend({},r,e)},build:function(){navigator.userAgent.match(/iPhone|iPad|iPod/i)?(window.addEventListener("touchend",function(){l.handle()}),window.addEventListener("touchcancel",function(){l.handle()}),window.addEventListener("touchleave",function(){l.handle()})):window.addEventListener("scroll",function(){l.handle()}),mUtil.addEvent(n,"click",l.scroll)},handle:function(){window.pageYOffset>o.options.offset?mUtil.addClass(i,"m-scroll-top--shown"):mUtil.removeClass(i,"m-scroll-top--shown")},scroll:function(e){e.preventDefault(),mUtil.scrollTop(o.options.speed)},eventTrigger:function(e,t){for(var n=0;n<o.events.length;n++){var i=o.events[n];i.name==e&&(1==i.one?0==i.fired&&(o.events[n].fired=!0,i.handler.call(this,o,t)):i.handler.call(this,o,t))}},addEvent:function(e,t,n){o.events.push({name:e,handler:t,one:n,fired:!1})}};return o.setDefaults=function(e){r=e},o.on=function(e,t){return l.addEvent(e,t)},o.one=function(e,t){return l.addEvent(e,t,!0)},l.construct.apply(o,[t]),!0,o}},mToggle=function(e,t){var o=this,n=mUtil.get(e);mUtil.get("body");if(n){var r={togglerState:"",targetState:""},l={construct:function(e){return mUtil.data(n).has("toggle")?o=mUtil.data(n).get("toggle"):(l.init(e),l.build(),mUtil.data(n).set("toggle",o)),o},init:function(e){o.element=n,o.events=[],o.options=mUtil.deepExtend({},r,e),o.target=mUtil.get(o.options.target),o.targetState=o.options.targetState,o.togglerState=o.options.togglerState,o.state=mUtil.hasClasses(o.target,o.targetState)?"on":"off"},build:function(){mUtil.addEvent(n,"mouseup",l.toggle)},toggle:function(){return"off"==o.state?l.toggleOn():l.toggleOff(),o},toggleOn:function(){return l.eventTrigger("beforeOn"),mUtil.addClass(o.target,o.targetState),o.togglerState&&mUtil.addClass(n,o.togglerState),o.state="on",l.eventTrigger("afterOn"),l.eventTrigger("toggle"),o},toggleOff:function(){return l.eventTrigger("beforeOff"),mUtil.removeClass(o.target,o.targetState),o.togglerState&&mUtil.removeClass(n,o.togglerState),o.state="off",l.eventTrigger("afterOff"),l.eventTrigger("toggle"),o},eventTrigger:function(e){for(i=0;i<o.events.length;i++){var t=o.events[i];t.name==e&&(1==t.one?0==t.fired&&(o.events[i].fired=!0,t.handler.call(this,o)):t.handler.call(this,o))}},addEvent:function(e,t,n){return o.events.push({name:e,handler:t,one:n,fired:!1}),o}};return o.setDefaults=function(e){r=e},o.getState=function(){return o.state},o.toggle=function(){return l.toggle()},o.toggleOn=function(){return l.toggleOn()},o.toggle=function(){return l.toggleOff()},o.on=function(e,t){return l.addEvent(e,t)},o.one=function(e,t){return l.addEvent(e,t,!0)},l.construct.apply(o,[t]),o}},mWizard=function(e,t){var l=this,o=mUtil.get(e);mUtil.get("body");if(o){var n={startStep:1,manualStepForward:!1},a={construct:function(e){return mUtil.data(o).has("wizard")?l=mUtil.data(o).get("wizard"):(a.init(e),a.build(),mUtil.data(o).set("wizard",l)),l},init:function(e){l.element=o,l.events=[],l.options=mUtil.deepExtend({},n,e),l.steps=mUtil.findAll(o,".m-wizard__step"),l.progress=mUtil.find(o,".m-wizard__progress .progress-bar"),l.btnSubmit=mUtil.find(o,'[data-wizard-action="submit"]'),l.btnNext=mUtil.find(o,'[data-wizard-action="next"]'),l.btnPrev=mUtil.find(o,'[data-wizard-action="prev"]'),l.btnLast=mUtil.find(o,'[data-wizard-action="last"]'),l.btnFirst=mUtil.find(o,'[data-wizard-action="first"]'),l.events=[],l.currentStep=1,l.totalSteps=l.steps.length,1<l.options.startStep&&a.goTo(l.options.startStep),a.updateUI()},build:function(){mUtil.addEvent(l.btnNext,"click",function(e){e.preventDefault(),a.goNext()}),mUtil.addEvent(l.btnPrev,"click",function(e){e.preventDefault(),a.goPrev()}),mUtil.addEvent(l.btnFirst,"click",function(e){e.preventDefault(),a.goFirst()}),mUtil.addEvent(l.btnLast,"click",function(e){e.preventDefault(),a.goLast()}),mUtil.on(o,".m-wizard__step a.m-wizard__step-number","click",function(){for(var e,t=this.closest(".m-wizard__step"),n=mUtil.parents(this,".m-wizard__steps"),i=mUtil.findAll(n,".m-wizard__step"),o=0,r=i.length;o<r;o++)if(t===i[o]){e=o+1;break}e&&(!1===l.options.manualStepForward?e<l.currentStep&&a.goTo(e):a.goTo(e))})},goTo:function(e){if(e!==l.currentStep)return!1!==((e=e?parseInt(e):a.getNextStep())>l.currentStep?a.eventTrigger("beforeNext"):a.eventTrigger("beforePrev"))&&(l.currentStep=e,a.updateUI(),a.eventTrigger("change")),e>l.startStep?a.eventTrigger("afterNext"):a.eventTrigger("afterPrev"),l},updateUI:function(e){a.updateProgress(),a.handleTarget(),a.setStepClass();for(var t=0,n=l.steps.length;t<n;t++)mUtil.removeClass(l.steps[t],"m-wizard__step--current m-wizard__step--done");for(t=1;t<l.currentStep;t++)mUtil.addClass(l.steps[t-1],"m-wizard__step--done");mUtil.addClass(l.steps[l.currentStep-1],"m-wizard__step--current")},isLastStep:function(){return l.currentStep===l.totalSteps},isFirstStep:function(){return 1===l.currentStep},isBetweenStep:function(){return!1===a.isLastStep()&&!1===a.isFirstStep()},setStepClass:function(){a.isLastStep()?mUtil.addClass(o,"m-wizard--step-last"):mUtil.removeClass(o,"m-wizard--step-last"),a.isFirstStep()?mUtil.addClass(o,"m-wizard--step-first"):mUtil.removeClass(o,"m-wizard--step-first"),a.isBetweenStep()?mUtil.addClass(o,"m-wizard--step-between"):mUtil.removeClass(o,"m-wizard--step-between")},goNext:function(){return a.goTo(a.getNextStep())},goPrev:function(){return a.goTo(a.getPrevStep())},goLast:function(){return a.goTo(l.totalSteps)},goFirst:function(){return a.goTo(1)},updateProgress:function(){if(l.progress)if(mUtil.hasClass(o,"m-wizard--1")){var e=l.currentStep/l.totalSteps*100,t=mUtil.find(o,".m-wizard__step-number"),n=parseInt(mUtil.css(t,"width"));mUtil.css(l.progress,"width","calc("+e+"% + "+n/2+"px)")}else if(mUtil.hasClass(o,"m-wizard--2")){l.currentStep;var i=(l.currentStep-1)*(1/(l.totalSteps-1)*100);mUtil.isInResponsiveRange("minimal-desktop-and-below")?mUtil.css(l.progress,"height",i+"%"):mUtil.css(l.progress,"width",i+"%")}else{e=l.currentStep/l.totalSteps*100;mUtil.css(l.progress,"width",e+"%")}},handleTarget:function(){var e=l.steps[l.currentStep-1],t=mUtil.get(mUtil.attr(e,"m-wizard-target")),n=mUtil.find(o,".m-wizard__form-step--current");mUtil.removeClass(n,"m-wizard__form-step--current"),mUtil.addClass(t,"m-wizard__form-step--current")},getNextStep:function(){return l.totalSteps>=l.currentStep+1?l.currentStep+1:l.totalSteps},getPrevStep:function(){return 1<=l.currentStep-1?l.currentStep-1:1},eventTrigger:function(e){for(i=0;i<l.events.length;i++){var t=l.events[i];t.name==e&&(1==t.one?0==t.fired&&(l.events[i].fired=!0,t.handler.call(this,l)):t.handler.call(this,l))}},addEvent:function(e,t,n){return l.events.push({name:e,handler:t,one:n,fired:!1}),l}};return l.setDefaults=function(e){n=e},l.goNext=function(){return a.goNext()},l.goPrev=function(){return a.goPrev()},l.goLast=function(){return a.goLast()},l.goFirst=function(){return a.goFirst()},l.goTo=function(e){return a.goTo(e)},l.getStep=function(){return l.currentStep},l.isLastStep=function(){return a.isLastStep()},l.isFirstStep=function(){return a.isFirstStep()},l.on=function(e,t){return a.addEvent(e,t)},l.one=function(e,t){return a.addEvent(e,t,!0)},a.construct.apply(l,[t]),l}},mLayout=function(){var i,o,n,r,l;return{init:function(){this.initHeader(),this.initAside()},initHeader:function(){var e,t,n;t=mUtil.get("m_header"),n={offset:{},minimize:{}},"minimize"==mUtil.attr(t,"m-minimize-mobile")?(n.minimize.mobile={},n.minimize.mobile.on="m-header--minimize-on",n.minimize.mobile.off="m-header--minimize-off"):n.minimize.mobile=!1,"minimize"==mUtil.attr(t,"m-minimize")?(n.minimize.desktop={},n.minimize.desktop.on="m-header--minimize-on",n.minimize.desktop.off="m-header--minimize-off"):n.minimize.desktop=!1,(e=mUtil.attr(t,"m-minimize-offset"))&&(n.offset.desktop=e),(e=mUtil.attr(t,"m-minimize-mobile-offset"))&&(n.offset.mobile=e),new mHeader("m_header",n),r=new mOffcanvas("m_header_menu",{overlay:!0,baseClass:"m-aside-header-menu-mobile",closeBy:"m_aside_header_menu_mobile_close_btn",toggleBy:{target:"m_aside_header_menu_mobile_toggle",state:"m-brand__toggler--active"}}),i=new mMenu("m_header_menu",{submenu:{desktop:"dropdown",tablet:"accordion",mobile:"accordion"},accordion:{slideSpeed:200,autoScroll:!0,expandAll:!1}}),$("#m_aside_header_topbar_mobile_toggle").click(function(){$("body").toggleClass("m-topbar--on")}),setInterval(function(){$("#m_topbar_notification_icon .m-nav__link-icon").addClass("m-animate-shake"),$("#m_topbar_notification_icon .m-nav__link-badge").addClass("m-animate-blink")},3e3),setInterval(function(){$("#m_topbar_notification_icon .m-nav__link-icon").removeClass("m-animate-shake"),$("#m_topbar_notification_icon .m-nav__link-badge").removeClass("m-animate-blink")},6e3),0!==$("#m_quicksearch").length&&new mQuicksearch("m_quicksearch",{mode:mUtil.attr("m_quicksearch","m-quicksearch-mode"),minLength:1}).on("search",function(t){t.showProgress(),$.ajax({url:"inc/api/quick_search.php",data:{query:t.query},dataType:"html",success:function(e){t.hideProgress(),t.showResult(e)},error:function(e){alert(22),t.hideProgress(),t.showError("Connection error. Pleae try again later.")}})}),new mScrollTop("m_scroll_top",{offset:300,speed:600})},initAside:function(){var e,t;e=mUtil.get("m_aside_left"),t=mUtil.hasClass(e,"m-aside-left--offcanvas-default")?"m-aside-left--offcanvas-default":"m-aside-left",n=new mOffcanvas("m_aside_left",{baseClass:t,overlay:!0,closeBy:"m_aside_left_close_btn",toggleBy:{target:"m_aside_left_offcanvas_toggle",state:"m-brand__toggler--active"}}),function(){var e=$("#m_ver_menu"),t="1"===e.data("m-menu-dropdown")?"dropdown":"accordion";if(o=new mMenu("m_ver_menu",{submenu:{desktop:{default:t,state:{body:"m-aside-left--minimize",mode:"dropdown"}},tablet:"accordion",mobile:"accordion"},accordion:{autoScroll:!0,expandAll:!1}}),"1"===e.data("m-menu-scrollable")){function n(e){if(mUtil.isInResponsiveRange("tablet-and-mobile"))mApp.destroyScroller(e);else{var t=mUtil.getViewPort().height-mUtil.css("m_header","height");mApp.initScroller(e,{height:t})}}n(e),mUtil.addResizeHandler(function(){n(o)})}}(),0!==$("#m_aside_left_minimize_toggle").length&&(l=new mToggle("m_aside_left_minimize_toggle",{target:"body",targetState:"m-brand--minimize m-aside-left--minimize",togglerState:"m-brand__toggler--active"})).on("toggle",function(e){i.pauseDropdownHover(800),o.pauseDropdownHover(800),Cookies.set("sidebar_toggle_state",e.getState())}),this.onLeftSidebarToggle(function(e){var t=$(".m-datatable");$(t).each(function(){$(this).mDatatable("redraw")})})},getAsideMenu:function(){return o},onLeftSidebarToggle:function(e){l&&l.on("toggle",e)},closeMobileAsideMenuOffcanvas:function(){mUtil.isMobileDevice()&&n.hide()},closeMobileHorMenuOffcanvas:function(){mUtil.isMobileDevice()&&r.hide()}}}();$(document).ready(function(){!1===mUtil.isAngularVersion()&&mLayout.init()});var mQuickSidebar=function(){var i=$("#m_quick_sidebar"),o=$("#m_quick_sidebar_tabs"),e=i.find(".m-quick-sidebar__content"),t=function(){!function(){var t=$("#m_quick_sidebar_tabs_messenger");if(0!==t.length){var n=t.find(".m-messenger__messages"),e=function(){var e=i.outerHeight(!0)-o.outerHeight(!0)-t.find(".m-messenger__form").outerHeight(!0)-120;n.css("height",e),mApp.initScroller(n,{})};e(),mUtil.addResizeHandler(e)}}(),function(){var t=$("#m_quick_sidebar_tabs_settings");if(0!==t.length){var e=function(){var e=mUtil.getViewPort().height-o.outerHeight(!0)-60;t.css("height",e),mApp.initScroller(t,{})};e(),mUtil.addResizeHandler(e)}}(),function(){var t=$("#m_quick_sidebar_tabs_logs");if(0!==t.length){var e=function(){var e=mUtil.getViewPort().height-o.outerHeight(!0)-60;t.css("height",e),mApp.initScroller(t,{})};e(),mUtil.addResizeHandler(e)}}()};return{init:function(){0!==i.length&&new mOffcanvas("m_quick_sidebar",{overlay:!0,baseClass:"m-quick-sidebar",closeBy:"m_quick_sidebar_close",toggleBy:"m_quick_sidebar_toggle"}).one("afterShow",function(){mApp.block(i),setTimeout(function(){mApp.unblock(i),e.removeClass("m--hide"),t()},1e3)})}}}();$(document).ready(function(){mQuickSidebar.init()});
+/**
+ * @class mApp  Metronic App class
+ */
+
+var mApp = function() {
+
+    /** @type {object} colors State colors **/
+    var colors = {
+        brand:      '#716aca',
+        metal:      '#c4c5d6',
+        light:      '#ffffff',
+        accent:     '#00c5dc',
+        primary:    '#5867dd',
+        success:    '#34bfa3',
+        info:       '#36a3f7',
+        warning:    '#ffb822',
+        danger:     '#f4516c',
+        focus:      '#9816f4'
+    }
+
+    /**
+    * Initializes bootstrap tooltip
+    */
+    var initTooltip = function(el) {
+        var skin = el.data('skin') ? 'm-tooltip--skin-' + el.data('skin') : '';
+        var width = el.data('width') == 'auto' ? 'm-tooltop--auto-width' : '';
+        var triggerValue = el.data('trigger') ? el.data('trigger') : 'hover';
+            
+        el.tooltip({
+            trigger: triggerValue,
+            template: '<div class="m-tooltip ' + skin + ' ' + width + ' tooltip" role="tooltip">\
+                <div class="arrow"></div>\
+                <div class="tooltip-inner"></div>\
+            </div>'
+        });
+    }
+    
+    /**
+    * Initializes bootstrap tooltips
+    */
+    var initTooltips = function() {
+        // init bootstrap tooltips
+        $('[data-toggle="m-tooltip"]').each(function() {
+            initTooltip($(this));
+        });
+    }
+
+    /**
+    * Initializes bootstrap popover
+    */
+    var initPopover = function(el) {
+        var skin = el.data('skin') ? 'm-popover--skin-' + el.data('skin') : '';
+        var triggerValue = el.data('trigger') ? el.data('trigger') : 'hover';
+            
+        el.popover({
+            trigger: triggerValue,
+            template: '\
+            <div class="m-popover ' + skin + ' popover" role="tooltip">\
+                <div class="arrow"></div>\
+                <h3 class="popover-header"></h3>\
+                <div class="popover-body"></div>\
+            </div>'
+        });
+    }
+
+    /**
+    * Initializes bootstrap popovers
+    */
+    var initPopovers = function() {
+        // init bootstrap popover
+        $('[data-toggle="m-popover"]').each(function() {
+            initPopover($(this));
+        });
+    }
+
+    /**
+    * Initializes bootstrap file input
+    */
+    var initFileInput = function() {
+        // init bootstrap popover
+        $('.custom-file-input').on('change',function(){
+            var fileName = $(this).val();
+            $(this).next('.custom-file-label').addClass("selected").html(fileName);
+        });
+    }           
+
+    /**
+    * Initializes metronic portlet
+    */
+    var initPortlet = function(el, options) {
+        // init portlet tools
+        var el = $(el);
+        var portlet = new mPortlet(el[0], options);
+    }
+
+    /**
+    * Initializes metronic portlets
+    */
+    var initPortlets = function() {
+        // init portlet tools
+        $('[m-portlet="true"]').each(function() {
+            var el = $(this);
+
+            if ( el.data('portlet-initialized') !== true ) {
+                initPortlet(el, {});
+                el.data('portlet-initialized', true);
+            }
+        });
+    }
+
+    /**
+    * Initializes scrollable contents
+    */
+    var initScrollables = function() {
+        $('[data-scrollable="true"]').each(function(){
+            var maxHeight;
+            var height;
+            var el = $(this);
+
+            if (mUtil.isInResponsiveRange('tablet-and-mobile')) {
+                if (el.data('mobile-max-height')) {
+                    maxHeight = el.data('mobile-max-height');
+                } else {
+                    maxHeight = el.data('max-height');
+                }
+
+                if (el.data('mobile-height')) {
+                    height = el.data('mobile-height');
+                } else {
+                    height = el.data('height');
+                }
+            } else {
+                maxHeight = el.data('max-height');
+                height = el.data('max-height');
+            }
+
+            if (maxHeight) {
+                el.css('max-height', maxHeight);
+            }
+            if (height) {
+                el.css('height', height);
+            }
+
+            mApp.initScroller(el, {});
+        });
+    }
+
+    /**
+    * Initializes bootstrap alerts
+    */
+    var initAlerts = function() {
+        // init bootstrap popover
+        $('body').on('click', '[data-close=alert]', function() {
+            $(this).closest('.alert').hide();
+        });
+    }
+
+    /**
+    * Initializes Metronic custom tabs
+    */
+    var initCustomTabs = function() {
+        // init bootstrap popover
+        $('[data-tab-target]').each(function() {
+            if ($(this).data('tabs-initialized') == true ) {
+                return;
+            }
+
+            $(this).click(function(e) {
+                e.preventDefault();
+                
+                var tab = $(this);
+                var tabs = tab.closest('[data-tabs="true"]');
+                var contents = $( tabs.data('tabs-contents') );
+                var content = $( tab.data('tab-target') );
+
+                tabs.find('.m-tabs__item.m-tabs__item--active').removeClass('m-tabs__item--active');
+                tab.addClass('m-tabs__item--active');
+
+                contents.find('.m-tabs-content__item.m-tabs-content__item--active').removeClass('m-tabs-content__item--active');
+                content.addClass('m-tabs-content__item--active');         
+            });
+
+            $(this).data('tabs-initialized', true);
+        });
+    }
+
+	var hideTouchWarning = function() {
+		jQuery.event.special.touchstart = {
+			setup: function(_, ns, handle) {
+				if (typeof this === 'function')
+					if (ns.includes('noPreventDefault')) {
+						this.addEventListener('touchstart', handle, {passive: false});
+					} else {
+						this.addEventListener('touchstart', handle, {passive: true});
+					}
+			},
+		};
+		jQuery.event.special.touchmove = {
+			setup: function(_, ns, handle) {
+				if (typeof this === 'function')
+					if (ns.includes('noPreventDefault')) {
+						this.addEventListener('touchmove', handle, {passive: false});
+					} else {
+						this.addEventListener('touchmove', handle, {passive: true});
+					}
+			},
+		};
+		jQuery.event.special.wheel = {
+			setup: function(_, ns, handle) {
+				if (typeof this === 'function')
+					if (ns.includes('noPreventDefault')) {
+						this.addEventListener('wheel', handle, {passive: false});
+					} else {
+						this.addEventListener('wheel', handle, {passive: true});
+					}
+			},
+		};
+	};
+
+    return {
+        /**
+        * Main class initializer
+        */
+        init: function(options) {
+            if (options && options.colors) {
+                colors = options.colors;
+            }
+            mApp.initComponents();
+        },
+
+        /**
+        * Initializes components
+        */
+        initComponents: function() {
+            hideTouchWarning();
+            initScrollables();
+            initTooltips();
+            initPopovers();
+            initAlerts();
+            initPortlets();
+            initFileInput();
+            initCustomTabs();
+        },
+
+
+        /**
+        * Init custom tabs
+        */
+        initCustomTabs: function() {
+            initCustomTabs();
+        },
+
+        /**
+        * 
+        * @param {object} el jQuery element object
+        */
+        // wrJangoer function to scroll(focus) to an element
+        initTooltips: function() {
+            initTooltips();
+        },
+
+        /**
+        * 
+        * @param {object} el jQuery element object
+        */
+        // wrJangoer function to scroll(focus) to an element
+        initTooltip: function(el) {
+            initTooltip(el);
+        },
+
+        /**
+        * 
+        * @param {object} el jQuery element object
+        */
+        // wrJangoer function to scroll(focus) to an element
+        initPopovers: function() {
+            initPopovers();
+        },
+
+        /**
+        * 
+        * @param {object} el jQuery element object
+        */
+        // wrJangoer function to scroll(focus) to an element
+        initPopover: function(el) {
+            initPopover(el);
+        },
+
+        /**
+        * 
+        * @param {object} el jQuery element object
+        */
+        // function to init portlet
+        initPortlet: function(el, options) {
+            initPortlet(el, options);
+        },
+
+        /**
+        * 
+        * @param {object} el jQuery element object
+        */
+        // function to init portlets
+        initPortlets: function() {
+            initPortlets();
+        },
+
+        /**
+        * Scrolls to an element with animation
+        * @param {object} el jQuery element object
+        * @param {number} offset Offset to element scroll position
+        */
+        scrollTo: function(target, offset) {
+            el = $(target);
+
+            var pos = (el && el.length > 0) ? el.offset().top : 0;
+            pos = pos + (offset ? offset : 0);
+
+            jQuery('html,body').animate({
+                scrollTop: pos
+            }, 'slow');
+        },
+
+        /**
+        * Scrolls until element is centered in the viewport 
+        * @param {object} el jQuery element object
+        */
+        // wrJangoer function to scroll(focus) to an element
+        scrollToViewport: function(el) {
+            var elOffset = $(el).offset().top;
+            var elHeight = el.height();
+            var windowHeight = mUtil.getViewPort().height;
+            var offset = elOffset - ((windowHeight / 2) - (elHeight / 2));
+
+            jQuery('html,body').animate({
+                scrollTop: offset
+            }, 'slow');
+        },
+
+        /**
+        * Scrolls to the top of the page
+        */
+        // function to scroll to the top
+        scrollTop: function() {
+            mApp.scrollTo();
+        },
+
+        /**
+        * Initializes scrollable content using mCustomScrollbar plugin
+        * @param {object} el jQuery element object
+        * @param {object} options mCustomScrollbar plugin options(refer: http://manos.malihu.gr/jquery-custom-content-scroller/)
+        */
+        initScroller: function(el, options, doNotDestroy) {
+            if (mUtil.isMobileDevice()) {
+                el.css('overflow', 'auto');
+            } else {
+                if (doNotDestroy !== true) {
+                     mApp.destroyScroller(el); 
+                }               
+                el.mCustomScrollbar({
+                    scrollInertia: 0,
+                    autoDraggerLength: true,
+                    autoHideScrollbar: true,
+                    autoExpandScrollbar: false,
+                    alwaysShowScrollbar: 0,
+                    axis: el.data('axis') ? el.data('axis') : 'y',
+                    mouseWheel: {
+                        scrollAmount: 120,
+                        preventDefault: true
+                    },
+                    setHeight: (options.height ? options.height : ''),
+                    theme:"minimal-dark"
+                });
+            }           
+        },
+
+        /**
+        * Destroys scrollable content's mCustomScrollbar plugin instance
+        * @param {object} el jQuery element object
+        */
+        destroyScroller: function(el) {
+            el.mCustomScrollbar("destroy");
+            el.removeClass('mCS_destroyed');
+        },
+
+        /**
+        * Shows bootstrap alert
+        * @param {object} options
+        * @returns {string} ID attribute of the created alert
+        */
+        alert: function(options) {
+            options = $.extend(true, {
+                container: "", // alerts parent container(by default placed after the page breadcrumbs)
+                place: "append", // "append" or "prepend" in container 
+                type: 'success', // alert's type
+                message: "", // alert's message
+                close: true, // make alert closable
+                reset: true, // close all previouse alerts first
+                focus: true, // auto scroll to the alert after shown
+                closeInSeconds: 0, // auto close after defined seconds
+                icon: "" // put icon before the message
+            }, options);
+
+            var id = mUtil.getUniqueID("App_alert");
+
+            var html = '<div id="' + id + '" class="custom-alerts alert alert-' + options.type + ' fade in">' + (options.close ? '<button type="button" class="close" data-dismiss="alert" aria-hidden="true"></button>' : '') + (options.icon !== "" ? '<i class="fa-lg fa fa-' + options.icon + '"></i>  ' : '') + options.message + '</div>';
+
+            if (options.reset) {
+                $('.custom-alerts').remove();
+            }
+
+            if (!options.container) {
+                if ($('.page-fixed-main-content').size() === 1) {
+                    $('.page-fixed-main-content').prepend(html);
+                } else if (($('body').hasClass("page-container-bg-solid") || $('body').hasClass("page-content-white")) && $('.page-head').size() === 0) {
+                    $('.page-title').after(html);
+                } else {
+                    if ($('.page-bar').size() > 0) {
+                        $('.page-bar').after(html);
+                    } else {
+                        $('.page-breadcrumb, .breadcrumbs').after(html);
+                    }
+                }
+            } else {
+                if (options.place == "append") {
+                    $(options.container).append(html);
+                } else {
+                    $(options.container).prepend(html);
+                }
+            }
+
+            if (options.focus) {
+                mApp.scrollTo($('#' + id));
+            }
+
+            if (options.closeInSeconds > 0) {
+                setTimeout(function() {
+                    $('#' + id).remove();
+                }, options.closeInSeconds * 1000);
+            }
+
+            return id;
+        },
+
+        /**
+        * Blocks element with loading indiciator using http://malsup.com/jquery/block/
+        * @param {object} target jQuery element object
+        * @param {object} options 
+        */
+        block: function(target, options) {
+            var el = $(target);
+
+            options = $.extend(true, {
+                opacity: 0.03,
+                overlayColor: '#000000',
+                state: 'brand',
+                type: 'loader',
+                size: 'lg',
+                centerX: true,
+                centerY: true,
+                message: '',
+                shadow: true,
+                width: 'auto'
+            }, options);
+
+            var skin;
+            var state;
+            var loading;
+
+            if (options.type == 'spinner') {
+                skin = options.skin ? 'm-spinner--skin-' + options.skin : '';
+                state = options.state ? 'm-spinner--' + options.state : '';
+                loading = '<div class="m-spinner ' + skin + ' ' + state + '"></div';
+            } else {
+                skin = options.skin ? 'm-loader--skin-' + options.skin : '';
+                state = options.state ? 'm-loader--' + options.state : '';
+                size = options.size ? 'm-loader--' + options.size : '';
+                loading = '<div class="m-loader ' + skin + ' ' + state + ' ' + size + '"></div';
+            }
+
+            if (options.message && options.message.length > 0) {
+                var classes = 'm-blockui ' + (options.shadow === false ? 'm-blockui-no-shadow' : '');
+
+                html = '<div class="' + classes + '"><span>' + options.message + '</span><span>' + loading + '</span></div>';
+
+                var el = document.createElement('div');
+                mUtil.get('body').prepend(el);
+                mUtil.addClass(el, classes);
+                el.innerHTML = '<span>' + options.message + '</span><span>' + loading + '</span>';
+                options.width = mUtil.actualWidth(el) + 10;
+                mUtil.remove(el);
+
+                if (target == 'body') {
+                    html = '<div class="' + classes + '" style="margin-left:-'+ (options.width / 2) +'px;"><span>' + options.message + '</span><span>' + loading + '</span></div>';
+                }
+            } else {
+                html = loading;
+            }
+
+            var params = {
+                message: html,
+                centerY: options.centerY,
+                centerX: options.centerX,
+                css: {
+                    top: '30%',
+                    left: '50%',
+                    border: '0',
+                    padding: '0',
+                    backgroundColor: 'none',
+                    width: options.width
+                },
+                overlayCSS: {
+                    backgroundColor: options.overlayColor,
+                    opacity: options.opacity,
+                    cursor: 'wait',
+                    zIndex: '10'
+                },
+                onUnblock: function() {
+                    if (el) {
+                        el.css('position', '');
+                        el.css('zoom', '');
+                    }                    
+                }
+            };
+
+            if (target == 'body') {
+                params.css.top = '50%';
+                $.blockUI(params);
+            } else {
+                var el = $(target);
+                el.block(params);
+            }
+        },
+
+        /**
+        * Un-blocks the blocked element 
+        * @param {object} target jQuery element object
+        */
+        unblock: function(target) {
+            if (target && target != 'body') {
+                $(target).unblock();
+            } else {
+                $.unblockUI();
+            }
+        },
+
+        /**
+        * Blocks the page body element with loading indicator
+        * @param {object} options 
+        */
+        blockPage: function(options) {
+            return mApp.block('body', options);
+        },
+
+        /**
+        * Un-blocks the blocked page body element
+        */
+        unblockPage: function() {
+            return mApp.unblock('body');
+        },
+
+        /**
+        * Enable loader progress for button and other elements
+        * @param {object} target jQuery element object
+        * @param {object} options
+        */
+        progress: function(target, options) {
+            var skin = (options && options.skin) ? options.skin : 'light';
+            var alignment = (options && options.alignment) ? options.alignment : 'right'; 
+            var size = (options && options.size) ? 'm-spinner--' + options.size : ''; 
+            var classes = 'm-loader ' + 'm-loader--' + skin + ' m-loader--' + alignment + ' m-loader--' + size;
+
+            mApp.unprogress(target);
+            
+            $(target).addClass(classes);
+            $(target).data('progress-classes', classes);
+        },
+
+        /**
+        * Disable loader progress for button and other elements
+        * @param {object} target jQuery element object
+        */
+        unprogress: function(target) {
+            $(target).removeClass($(target).data('progress-classes'));
+        },
+
+        /**
+        * Gets state color's hex code by color name
+        * @param {string} name Color name
+        * @returns {string}  
+        */
+        getColor: function(name) {
+            return colors[name];
+        }
+    };
+}();
+
+//== Initialize mApp class on document ready
+$(document).ready(function() {
+    mApp.init({});
+});
+/**
+ * @class mUtil  Metronic base utilize class that privides helper functions
+ */
+
+//== Polyfill
+
+// matches polyfill
+this.Element && function(ElementPrototype) {
+    ElementPrototype.matches = ElementPrototype.matches ||
+    ElementPrototype.matchesSelector ||
+    ElementPrototype.webkitMatchesSelector ||
+    ElementPrototype.msMatchesSelector ||
+    function(selector) {
+        var node = this, nodes = (node.parentNode || node.document).querySelectorAll(selector), i = -1;
+        while (nodes[++i] && nodes[i] != node);
+        return !!nodes[i];
+    }
+}(Element.prototype);
+
+// closest polyfill
+this.Element && function(ElementPrototype) {
+    ElementPrototype.closest = ElementPrototype.closest ||
+    function(selector) {
+        var el = this;
+        while (el.matches && !el.matches(selector)) el = el.parentNode;
+        return el.matches ? el : null;
+    }
+}(Element.prototype);
+
+
+// matches polyfill
+this.Element && function(ElementPrototype) {
+    ElementPrototype.matches = ElementPrototype.matches ||
+    ElementPrototype.matchesSelector ||
+    ElementPrototype.webkitMatchesSelector ||
+    ElementPrototype.msMatchesSelector ||
+    function(selector) {
+        var node = this, nodes = (node.parentNode || node.document).querySelectorAll(selector), i = -1;
+        while (nodes[++i] && nodes[i] != node);
+        return !!nodes[i];
+    }
+}(Element.prototype);
+
+//
+// requestAnimationFrame polyfill by Erik Möller.
+//  With fixes from Paul Irish and Tino Zijdel
+//
+//  http://paulirish.com/2011/requestanimationframe-for-smart-animating/
+//  http://my.opera.com/emoller/blog/2011/12/20/requestanimationframe-for-smart-er-animating
+//
+//  MIT license
+//
+(function() {
+    var lastTime = 0;
+    var vendors = ['webkit', 'moz'];
+    for (var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+        window.requestAnimationFrame = window[vendors[x] + 'RequestAnimationFrame'];
+        window.cancelAnimationFrame =
+            window[vendors[x] + 'CancelAnimationFrame'] || window[vendors[x] + 'CancelRequestAnimationFrame'];
+    }
+
+    if (!window.requestAnimationFrame)
+        window.requestAnimationFrame = function(callback) {
+            var currTime = new Date().getTime();
+            var timeToCall = Math.max(0, 16 - (currTime - lastTime));
+            var id = window.setTimeout(function() {
+                callback(currTime + timeToCall);
+            }, timeToCall);
+            lastTime = currTime + timeToCall;
+            return id;
+        };
+
+    if (!window.cancelAnimationFrame)
+        window.cancelAnimationFrame = function(id) {
+            clearTimeout(id);
+        };
+}());
+
+// Source: https://github.com/jserz/js_piece/blob/master/DOM/ParentNode/prepend()/prepend().md
+(function (arr) {
+  arr.forEach(function (item) {
+    if (item.hasOwnProperty('prepend')) {
+      return;
+    }
+    Object.defineProperty(item, 'prepend', {
+      configurable: true,
+      enumerable: true,
+      writable: true,
+      value: function prepend() {
+        var argArr = Array.prototype.slice.call(arguments),
+          docFrag = document.createDocumentFragment();
+        
+        argArr.forEach(function (argItem) {
+          var isNode = argItem instanceof Node;
+          docFrag.appendChild(isNode ? argItem : document.createTextNode(String(argItem)));
+        });
+        
+        this.insertBefore(docFrag, this.firstChild);
+      }
+    });
+  });
+})([Element.prototype, Document.prototype, DocumentFragment.prototype]);
+
+//== Global variables 
+window.mUtilElementDataStore = {};
+window.mUtilElementDataStoreID = 0;
+window.mUtilDelegatedEventHandlers = {};
+window.noZensmooth = true;
+
+var mUtil = function() {
+
+    var resizeHandlers = [];
+
+    /** @type {object} breakpoints The device width breakpoints **/
+    var breakpoints = {
+        sm: 544, // Small screen / phone           
+        md: 768, // Medium screen / tablet            
+        lg: 1024, // Large screen / desktop        
+        xl: 1200 // Extra large screen / wide desktop
+    };
+
+    /**
+     * Handle window resize event with some 
+     * delay to attach event handlers upon resize complete 
+     */
+    var _windowResizeHandler = function() {
+        var _runResizeHandlers = function() {
+            // reinitialize other subscribed elements
+            for (var i = 0; i < resizeHandlers.length; i++) {
+                var each = resizeHandlers[i];
+                each.call();
+            }
+        };
+
+        var timeout = false; // holder for timeout id
+        var delay = 250; // delay after event is "complete" to run callback
+
+        window.addEventListener('resize', function() {
+            clearTimeout(timeout);
+            timeout = setTimeout(function() {
+                _runResizeHandlers();
+            }, delay); // wait 50ms until window resize finishes.
+        });
+    };
+
+    return {
+        /**
+         * Class main initializer.
+         * @param {object} options.
+         * @returns null
+         */
+        //main function to initiate the theme
+        init: function(options) {
+            if (options && options.breakpoints) {
+                breakpoints = options.breakpoints;
+            }
+
+            _windowResizeHandler();
+        },
+
+        /**
+         * Adds window resize event handler.
+         * @param {function} callback function.
+         */
+        addResizeHandler: function(callback) {
+            resizeHandlers.push(callback);
+        },
+
+        /**
+         * Trigger window resize handlers.
+         */
+        runResizeHandlers: function() {
+            _runResizeHandlers();
+        },
+
+        /**
+         * Get GET parameter value from URL.
+         * @param {string} paramName Parameter name.
+         * @returns {string}  
+         */
+        getURLParam: function(paramName) {
+            var searchString = window.location.search.substring(1),
+                i, val, params = searchString.split("&");
+
+            for (i = 0; i < params.length; i++) {
+                val = params[i].split("=");
+                if (val[0] == paramName) {
+                    return unescape(val[1]);
+                }
+            }
+
+            return null;
+        },
+
+        /**
+         * Checks whether current device is mobile touch.
+         * @returns {boolean}  
+         */
+        isMobileDevice: function() {
+            return (this.getViewPort().width < this.getBreakpoint('lg') ? true : false);
+        },
+
+        /**
+         * Checks whether current device is desktop.
+         * @returns {boolean}  
+         */
+        isDesktopDevice: function() {
+            return mUtil.isMobileDevice() ? false : true;
+        },
+
+        /**
+         * Gets browser window viewport size. Ref: http://andylangton.co.uk/articles/javascript/get-viewport-size-javascript/
+         * @returns {object}  
+         */
+        getViewPort: function() {
+            var e = window,
+                a = 'inner';
+            if (!('innerWidth' in window)) {
+                a = 'client';
+                e = document.documentElement || document.body;
+            }
+
+            return {
+                width: e[a + 'Width'],
+                height: e[a + 'Height']
+            };
+        },
+
+        /**
+         * Checks whether given device mode is currently activated.
+         * @param {string} mode Responsive mode name(e.g: desktop, desktop-and-tablet, tablet, tablet-and-mobile, mobile)
+         * @returns {boolean}  
+         */
+        isInResponsiveRange: function(mode) {
+            var breakpoint = this.getViewPort().width;
+
+            if (mode == 'general') {
+                return true;
+            } else if (mode == 'desktop' && breakpoint >= (this.getBreakpoint('lg') + 1)) {
+                return true;
+            } else if (mode == 'tablet' && (breakpoint >= (this.getBreakpoint('md') + 1) && breakpoint < this.getBreakpoint('lg'))) {
+                return true;
+            } else if (mode == 'mobile' && breakpoint <= this.getBreakpoint('md')) {
+                return true;
+            } else if (mode == 'desktop-and-tablet' && breakpoint >= (this.getBreakpoint('md') + 1)) {
+                return true;
+            } else if (mode == 'tablet-and-mobile' && breakpoint <= this.getBreakpoint('lg')) {
+                return true;
+            } else if (mode == 'minimal-desktop-and-below' && breakpoint <= this.getBreakpoint('xl')) {
+                return true;
+            }
+
+            return false;
+        },
+
+        /**
+         * Generates unique ID for give prefix.
+         * @param {string} prefix Prefix for generated ID
+         * @returns {boolean}  
+         */
+        getUniqueID: function(prefix) {
+            return prefix + Math.floor(Math.random() * (new Date()).getTime());
+        },
+
+        /**
+         * Gets window width for give breakpoint mode.
+         * @param {string} mode Responsive mode name(e.g: xl, lg, md, sm)
+         * @returns {number}  
+         */
+        getBreakpoint: function(mode) {
+            return breakpoints[mode];
+        },
+
+        /**
+         * Checks whether object has property matchs given key path.
+         * @param {object} obj Object contains values paired with given key path
+         * @param {string} keys Keys path seperated with dots
+         * @returns {object}  
+         */
+        isset: function(obj, keys) {
+            var stone;
+
+            keys = keys || '';
+
+            if (keys.indexOf('[') !== -1) {
+                throw new Error('Unsupported object path notation.');
+            }
+
+            keys = keys.split('.');
+
+            do {
+                if (obj === undefined) {
+                    return false;
+                }
+
+                stone = keys.shift();
+
+                if (!obj.hasOwnProperty(stone)) {
+                    return false;
+                }
+
+                obj = obj[stone];
+
+            } while (keys.length);
+
+            return true;
+        },
+
+        getHighestZindex1: function(el) {
+            var position, value;
+
+            while (el && el !== document && el !== window) {
+                // Ignore z-index if position is set to a value where z-index is ignored by the browser
+                // This makes behavior of this function consistent across browsers
+                // WebKit always returns auto if the element is positioned
+                position = mUtil.css(el, 'position');
+
+                if (position === "absolute" || position === "relative" || position === "fixed") {
+                    // IE returns 0 when zIndex is not specified
+                    // other browsers return a string
+                    // we ignore the case of nested elements with an explicit value of 0
+                    // <div style="z-index: -10;"><div style="z-index: 0;"></div></div>
+                    value = parseInt(elem.css("zIndex"), 10);
+                    if (!isNaN(value) && value !== 0) {
+                        return value;
+                    }
+                }
+
+                el = el.parentNode;
+            }
+        },
+
+        /**
+        * Gets highest z-index of the given element parents
+        * @param {object} el jQuery element object
+        * @returns {number}  
+        */
+        getHighestZindex: function(el) {
+            var elem = mUtil.get(el),
+                position, value;
+
+            while (elem.length && elem[0] !== document) {
+                // Ignore z-index if position is set to a value where z-index is ignored by the browser
+                // This makes behavior of this function consistent across browsers
+                // WebKit always returns auto if the element is positioned
+                position = elem.css("position");
+
+                if (position === "absolute" || position === "relative" || position === "fixed") {
+                    // IE returns 0 when zIndex is not specified
+                    // other browsers return a string
+                    // we ignore the case of nested elements with an explicit value of 0
+                    // <div style="z-index: -10;"><div style="z-index: 0;"></div></div>
+                    value = parseInt(elem.css("zIndex"), 10);
+                    if (!isNaN(value) && value !== 0) {
+                        return value;
+                    }
+                }
+                elem = elem.parent();
+            }
+        },
+
+        /**
+         * Checks whether the element has any parent with fixed positionfreg
+         * @param {object} el jQuery element object
+         * @returns {boolean}  
+         */
+        hasFixedPositionedParent: function(el) {
+            while (el && el !== document) {
+                position = mUtil.css(el, 'position');
+
+                if (position === "fixed") {
+                    return true;
+                }
+
+                el = el.parentNode;
+            }
+
+            return false;
+        },
+
+        /**
+         * Simulates delay
+         */
+        sleep: function(milliseconds) {
+            var start = new Date().getTime();
+            for (var i = 0; i < 1e7; i++) {
+                if ((new Date().getTime() - start) > milliseconds) {
+                    break;
+                }
+            }
+        },
+
+        /**
+         * Gets randomly generated integer value within given min and max range
+         * @param {number} min Range start value
+         * @param {number} min Range end value
+         * @returns {number}  
+         */
+        getRandomInt: function(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        },
+
+        /**
+         * Checks whether Angular library is included
+         * @returns {boolean}  
+         */
+        isAngularVersion: function() {
+            return window.Zone !== undefined ? true : false;
+        },
+
+        //== jQuery Workarounds
+
+        //== Deep extend:  $.extend(true, {}, objA, objB);
+        deepExtend: function(out) {
+            out = out || {};
+
+            for (var i = 1; i < arguments.length; i++) {
+                var obj = arguments[i];
+
+                if (!obj)
+                    continue;
+
+                for (var key in obj) {
+                    if (obj.hasOwnProperty(key)) {
+                        if (typeof obj[key] === 'object')
+                            out[key] = mUtil.deepExtend(out[key], obj[key]);
+                        else
+                            out[key] = obj[key];
+                    }
+                }
+            }
+
+            return out;
+        },
+
+        //== extend:  $.extend({}, objA, objB); 
+        extend: function(out) {
+            out = out || {};
+
+            for (var i = 1; i < arguments.length; i++) {
+                if (!arguments[i])
+                    continue;
+
+                for (var key in arguments[i]) {
+                    if (arguments[i].hasOwnProperty(key))
+                        out[key] = arguments[i][key];
+                }
+            }
+
+            return out;
+        },
+
+        get: function(query) {
+            var el;
+
+            if (query === document) {
+                return document;
+            }
+
+            if (!!(query && query.nodeType === 1)) {
+                return query;
+            }
+
+            if (el = document.getElementById(query)) {
+                return el;
+            } else if (el = document.getElementsByTagName(query)) {
+                return el[0];
+            } else if (el = document.getElementsByClassName(query)) {
+                return el[0];
+            } else {
+                return null;
+            }
+        },
+
+        /**
+         * Checks whether the element has given classes
+         * @param {object} el jQuery element object
+         * @param {string} Classes string
+         * @returns {boolean}  
+         */
+        hasClasses: function(el, classes) {
+            if (!el) {
+                return;
+            }
+
+            var classesArr = classes.split(" ");
+
+            for (var i = 0; i < classesArr.length; i++) {
+                if (mUtil.hasClass(el, mUtil.trim(classesArr[i])) == false) {
+                    return false;
+                }
+            }
+
+            return true;
+        },
+
+        hasClass: function(el, className) {
+            if (!el) {
+                return;
+            }
+            
+            return el.classList ? el.classList.contains(className) : new RegExp('\\b'+ className+'\\b').test(el.className);
+        },
+
+        addClass: function(el, className) {
+            if (!el) {
+                return;
+            }
+
+            var classNames = className.split(' ');
+
+            if (el.classList) {
+                for (var i = 0; i < classNames.length; i++) {
+                    if (classNames[i] && classNames[i].length > 0) {
+                        el.classList.add(mUtil.trim(classNames[i]));
+                    }
+                }
+            } else if (!hasClass(el, className)) {
+                for (var i = 0; i < classNames.length; i++) {
+                    el.className += ' ' + mUtil.trim(classNames[i]);
+                }
+            }
+        },
+
+        removeClass: function(el, className) {
+            if (!el) {
+                return;
+            }
+
+            var classNames = className.split(' ');
+
+            if (el.classList) {
+                for (var i = 0; i < classNames.length; i++) {
+                    el.classList.remove(mUtil.trim(classNames[i]));
+                }
+            } else if (mUtil.hasClass(el, className)) {
+                for (var i = 0; i < classNames.length; i++) {
+                    el.className = el.className.replace(new RegExp('\\b' + mUtil.trim(classNames[i]) + '\\b', 'g'), '');
+                }
+            }
+        },
+
+        triggerCustomEvent: function(el, eventName, data) {
+            if (window.CustomEvent) {
+                var event = new CustomEvent(eventName, {
+                    detail: data
+                });
+            } else {
+                var event = document.createEvent('CustomEvent');
+                event.initCustomEvent(eventName, true, true, data);
+            }
+
+            el.dispatchEvent(event);
+        },
+
+        trim: function(string) {
+            return string.trim();
+        },
+
+        eventTriggered: function(e) {
+            if (e.currentTarget.dataset.triggered) {
+                return true;
+            } else {
+                e.currentTarget.dataset.triggered = true;
+
+                return false;
+            }
+        },
+
+        remove: function(el) {
+            if (el && el.parentNode) {
+                el.parentNode.removeChild(el);
+            }            
+        },
+
+        find: function(parent, query) {
+            return parent.querySelector(query);
+        },
+
+        findAll: function(parent, query) {
+            return parent.querySelectorAll(query);
+        },
+
+        insertAfter: function(el, referenceNode) {
+            return referenceNode.parentNode.insertBefore(el, referenceNode.nextSibling);
+        },
+
+        parents: function(el, query) {
+            function collectionHas(a, b) { //helper function (see below)
+                for (var i = 0, len = a.length; i < len; i++) {
+                    if (a[i] == b) return true;
+                }
+
+                return false;
+            }
+
+            function findParentBySelector(el, selector) {
+                var all = document.querySelectorAll(selector);
+                var cur = el.parentNode;
+
+                while (cur && !collectionHas(all, cur)) { //keep going up until you find a match
+                    cur = cur.parentNode; //go up
+                }
+
+                return cur; //will return null if not found
+            }
+
+            return findParentBySelector(el, query);
+        },
+
+        children: function(el, selector, log) {
+            if (!el || !el.childNodes) {
+                return;
+            } 
+
+            var result = [],
+                i = 0,
+                l = el.childNodes.length;
+
+            for (var i; i < l; ++i) {
+                if (el.childNodes[i].nodeType == 1 && mUtil.matches(el.childNodes[i], selector, log)) {
+                    result.push(el.childNodes[i]);
+                } 
+            }
+
+            return result;
+        },
+
+        child: function(el, selector, log) {
+            var children = mUtil.children(el, selector, log);
+
+            return children ? children[0] : null;
+        },
+
+        matches: function(el, selector, log) {
+            var p = Element.prototype;
+            var f = p.matches || p.webkitMatchesSelector || p.mozMatchesSelector || p.msMatchesSelector || function(s) {
+                return [].indexOf.call(document.querySelectorAll(s), this) !== -1;
+            };
+
+            if (el && el.tagName) {
+                return f.call(el, selector);
+            } else {
+                return false;
+            }
+        },
+
+        data: function(element) {
+            element = mUtil.get(element);
+
+            return {
+                set: function(name, data) {
+                    if (element.customDataTag === undefined) {
+                        mUtilElementDataStoreID++;
+                        element.customDataTag = mUtilElementDataStoreID;
+                    }
+
+                    if (mUtilElementDataStore[element.customDataTag] === undefined) {
+                        mUtilElementDataStore[element.customDataTag] = {};
+                    }                    
+
+                    mUtilElementDataStore[element.customDataTag][name] = data;
+                },
+
+                get: function(name) {
+                    return this.has(name) ? mUtilElementDataStore[element.customDataTag][name] : null;
+                },
+
+                has: function(name) {
+                    return (mUtilElementDataStore[element.customDataTag] && mUtilElementDataStore[element.customDataTag][name]) ? true : false; 
+                },
+
+                remove: function(name) {
+                    if (this.has(name)) {
+                        delete mUtilElementDataStore[element.customDataTag][name];
+                    } 
+                }
+            };
+        },
+
+        outerWidth: function(el, margin) {
+            var width;
+
+            if (margin === true) {
+                var width = parseFloat(el.offsetWidth);
+                width += parseFloat(mUtil.css(el, 'margin-left')) + parseFloat(mUtil.css(el, 'margin-right'));
+
+                return parseFloat(width);
+            } else {
+                var width = parseFloat(el.offsetWidth);
+
+                return width;
+            }
+        },
+
+        offset: function(el) {
+            var rect = el.getBoundingClientRect();
+
+            return {
+                top: rect.top + document.body.scrollTop,
+                left: rect.left + document.body.scrollLeft
+            }
+        },
+
+        height: function(el) {
+            return mUtil.css(el, 'height');
+        },
+
+        visible: function(el) {
+            return !(el.offsetWidth === 0 && el.offsetHeight === 0);
+        },
+
+        attr: function(el, name, value) {
+            el = mUtil.get(el);
+
+            if (el == undefined) {
+                return;
+            }
+
+            if (value !== undefined) {
+                el.setAttribute(name, value);
+            } else {
+                return el.getAttribute(name);
+            }
+        },
+
+        hasAttr: function(el, name)   {
+            el = mUtil.get(el);
+
+            if (el == undefined) {
+                return;
+            }
+
+            return el.getAttribute(name) ? true : false;
+        },
+
+        removeAttr: function(el, name)   {
+            el = mUtil.get(el);
+
+            if (el == undefined) {
+                return;
+            }
+
+            el.removeAttribute(name);
+        },
+
+        animate: function(from, to, duration, update, easing, done) {
+            /**
+             * TinyAnimate.easings
+             *  Adapted from jQuery Easing
+             */
+            var easings = {};
+
+            easings.linear = function(t, b, c, d) {
+                return c * t / d + b;
+            };
+
+            /*
+            easings.easeInQuad = function(t, b, c, d) {
+                return c * (t /= d) * t + b;
+            };
+            easings.easeOutQuad = function(t, b, c, d) {
+                return -c * (t /= d) * (t - 2) + b;
+            };
+            easings.easeInOutQuad = function(t, b, c, d) {
+                if ((t /= d / 2) < 1) return c / 2 * t * t + b;
+                return -c / 2 * ((--t) * (t - 2) - 1) + b;
+            };
+            easings.easeInCubic = function(t, b, c, d) {
+                return c * (t /= d) * t * t + b;
+            };
+            easings.easeOutCubic = function(t, b, c, d) {
+                return c * ((t = t / d - 1) * t * t + 1) + b;
+            };
+            easings.easeInOutCubic = function(t, b, c, d) {
+                if ((t /= d / 2) < 1) return c / 2 * t * t * t + b;
+                return c / 2 * ((t -= 2) * t * t + 2) + b;
+            };
+            easings.easeInQuart = function(t, b, c, d) {
+                return c * (t /= d) * t * t * t + b;
+            };
+            easings.easeOutQuart = function(t, b, c, d) {
+                return -c * ((t = t / d - 1) * t * t * t - 1) + b;
+            };
+            easings.easeInOutQuart = function(t, b, c, d) {
+                if ((t /= d / 2) < 1) return c / 2 * t * t * t * t + b;
+                return -c / 2 * ((t -= 2) * t * t * t - 2) + b;
+            };
+            easings.easeInQuint = function(t, b, c, d) {
+                return c * (t /= d) * t * t * t * t + b;
+            };
+            easings.easeOutQuint = function(t, b, c, d) {
+                return c * ((t = t / d - 1) * t * t * t * t + 1) + b;
+            };
+            easings.easeInOutQuint = function(t, b, c, d) {
+                if ((t /= d / 2) < 1) return c / 2 * t * t * t * t * t + b;
+                return c / 2 * ((t -= 2) * t * t * t * t + 2) + b;
+            };
+            easings.easeInSine = function(t, b, c, d) {
+                return -c * Math.cos(t / d * (Math.PI / 2)) + c + b;
+            };
+            easings.easeOutSine = function(t, b, c, d) {
+                return c * Math.sin(t / d * (Math.PI / 2)) + b;
+            };
+            easings.easeInOutSine = function(t, b, c, d) {
+                return -c / 2 * (Math.cos(Math.PI * t / d) - 1) + b;
+            };
+            easings.easeInExpo = function(t, b, c, d) {
+                return (t == 0) ? b : c * Math.pow(2, 10 * (t / d - 1)) + b;
+            };
+            easings.easeOutExpo = function(t, b, c, d) {
+                return (t == d) ? b + c : c * (-Math.pow(2, -10 * t / d) + 1) + b;
+            };
+            easings.easeInOutExpo = function(t, b, c, d) {
+                if (t == 0) return b;
+                if (t == d) return b + c;
+                if ((t /= d / 2) < 1) return c / 2 * Math.pow(2, 10 * (t - 1)) + b;
+                return c / 2 * (-Math.pow(2, -10 * --t) + 2) + b;
+            };
+            easings.easeInCirc = function(t, b, c, d) {
+                return -c * (Math.sqrt(1 - (t /= d) * t) - 1) + b;
+            };
+            easings.easeOutCirc = function(t, b, c, d) {
+                return c * Math.sqrt(1 - (t = t / d - 1) * t) + b;
+            };
+            easings.easeInOutCirc = function(t, b, c, d) {
+                if ((t /= d / 2) < 1) return -c / 2 * (Math.sqrt(1 - t * t) - 1) + b;
+                return c / 2 * (Math.sqrt(1 - (t -= 2) * t) + 1) + b;
+            };
+            easings.easeInElastic = function(t, b, c, d) {
+                var p = 0;
+                var a = c;
+                if (t == 0) return b;
+                if ((t /= d) == 1) return b + c;
+                if (!p) p = d * .3;
+                if (a < Math.abs(c)) {
+                    a = c;
+                    var s = p / 4;
+                }
+                else var s = p / (2 * Math.PI) * Math.asin(c / a);
+                return -(a * Math.pow(2, 10 * (t -= 1)) * Math.sin((t * d - s) * (2 * Math.PI) / p)) + b;
+            };
+            easings.easeOutElastic = function(t, b, c, d) {
+                var p = 0;
+                var a = c;
+                if (t == 0) return b;
+                if ((t /= d) == 1) return b + c;
+                if (!p) p = d * .3;
+                if (a < Math.abs(c)) {
+                    a = c;
+                    var s = p / 4;
+                }
+                else var s = p / (2 * Math.PI) * Math.asin(c / a);
+                return a * Math.pow(2, -10 * t) * Math.sin((t * d - s) * (2 * Math.PI) / p) + c + b;
+            };
+            easings.easeInOutElastic = function(t, b, c, d) {
+                var p = 0;
+                var a = c;
+                if (t == 0) return b;
+                if ((t /= d / 2) == 2) return b + c;
+                if (!p) p = d * (.3 * 1.5);
+                if (a < Math.abs(c)) {
+                    a = c;
+                    var s = p / 4;
+                }
+                else var s = p / (2 * Math.PI) * Math.asin(c / a);
+                if (t < 1) return -.5 * (a * Math.pow(2, 10 * (t -= 1)) * Math.sin((t * d - s) * (2 * Math.PI) / p)) + b;
+                return a * Math.pow(2, -10 * (t -= 1)) * Math.sin((t * d - s) * (2 * Math.PI) / p) * .5 + c + b;
+            };
+            easings.easeInBack = function(t, b, c, d, s) {
+                if (s == undefined) s = 1.70158;
+                return c * (t /= d) * t * ((s + 1) * t - s) + b;
+            };
+            easings.easeOutBack = function(t, b, c, d, s) {
+                if (s == undefined) s = 1.70158;
+                return c * ((t = t / d - 1) * t * ((s + 1) * t + s) + 1) + b;
+            };
+            easings.easeInOutBack = function(t, b, c, d, s) {
+                if (s == undefined) s = 1.70158;
+                if ((t /= d / 2) < 1) return c / 2 * (t * t * (((s *= (1.525)) + 1) * t - s)) + b;
+                return c / 2 * ((t -= 2) * t * (((s *= (1.525)) + 1) * t + s) + 2) + b;
+            };
+            easings.easeInBounce = function(t, b, c, d) {
+                return c - easings.easeOutBounce(d - t, 0, c, d) + b;
+            };
+            easings.easeOutBounce = function(t, b, c, d) {
+                if ((t /= d) < (1 / 2.75)) {
+                    return c * (7.5625 * t * t) + b;
+                } else if (t < (2 / 2.75)) {
+                    return c * (7.5625 * (t -= (1.5 / 2.75)) * t + .75) + b;
+                } else if (t < (2.5 / 2.75)) {
+                    return c * (7.5625 * (t -= (2.25 / 2.75)) * t + .9375) + b;
+                } else {
+                    return c * (7.5625 * (t -= (2.625 / 2.75)) * t + .984375) + b;
+                }
+            };
+            easings.easeInOutBounce = function(t, b, c, d) {
+                if (t < d / 2) return easings.easeInBounce(t * 2, 0, c, d) * .5 + b;
+                return easings.easeOutBounce(t * 2 - d, 0, c, d) * .5 + c * .5 + b;
+            };
+            */
+
+            // Early bail out if called incorrectly
+            if (typeof from !== 'number' ||
+                typeof to !== 'number' ||
+                typeof duration !== 'number' ||
+                typeof update !== 'function') {
+                return;
+            }
+                
+
+            // Determine easing
+            if (typeof easing === 'string' && easings[easing]) {
+                easing = easings[easing];
+            }
+            if (typeof easing !== 'function') {
+                easing = easings.linear;
+            }
+
+            // Create mock done() function if necessary
+            if (typeof done !== 'function') {
+                done = function() {};
+            }
+
+            // Pick implementation (requestAnimationFrame | setTimeout)
+            var rAF = window.requestAnimationFrame || function(callback) {
+                window.setTimeout(callback, 1000 / 60);
+            };
+
+            // Animation loop
+            var canceled = false;
+            var change = to - from;
+
+            function loop(timestamp) {
+                var time = (timestamp || +new Date()) - start;
+
+                if (time >= 0) {
+                    update(easing(time, from, change, duration));
+                }
+                if (time >= 0 && time >= duration) {
+                    update(to);
+                    done();
+                } else {
+                    rAF(loop);
+                }
+            }
+            update(from);
+
+            // Start animation loop
+            var start = window.performance && window.performance.now ? window.performance.now() : +new Date();
+
+            rAF(loop);
+        },
+
+        actualCss: function(el, prop, cache) {
+            if (el instanceof HTMLElement === false) {
+                return;
+            }
+
+            if (!el.getAttribute('m-hidden-' + prop) || cache === false) {
+                var value;
+
+                // the element is hidden so:
+                // making the el block so we can meassure its height but still be hidden
+                el.style.cssText = 'position: absolute; visibility: hidden; display: block;';
+                
+                if (prop == 'width') {
+                    value = el.offsetWidth;
+                } else if (prop == 'height') {
+                    value = el.offsetHeight;
+                } 
+
+                el.style.cssText = '';
+                    
+                // store it in cache
+                el.setAttribute('m-hidden-' + prop, value);
+
+                return parseFloat(value);
+            } else {
+                // store it in cache
+                return parseFloat(el.getAttribute('m-hidden-' + prop));
+            }
+        },
+
+        actualHeight: function(el, cache) {
+            return mUtil.actualCss(el, 'height', cache);
+        },
+
+        actualWidth: function(el, cache) {
+            return mUtil.actualCss(el, 'width', cache);
+        },
+
+        getScroll: function (element, method) {
+            // The passed in `method` value should be 'Top' or 'Left'
+            method = 'scroll' + method;
+            return (element == window || element == document) ? (
+                self[(method == 'scrollTop') ? 'pageYOffset' : 'pageXOffset'] ||
+                (browserSupportsBoxModel && document.documentElement[method]) ||
+                document.body[method]
+            ) : element[method];
+        },
+
+        css: function(el, styleProp, value) {
+            el = mUtil.get(el);
+            
+            if (value !== undefined) {
+                el.style[styleProp] = value;
+            } else {
+                var value, defaultView = (el.ownerDocument || document).defaultView;
+                // W3C standard way:
+                if (defaultView && defaultView.getComputedStyle) {
+                    // sanitize property name to css notation
+                    // (hyphen separated words eg. font-Size)
+                    styleProp = styleProp.replace(/([A-Z])/g, "-$1").toLowerCase();
+                    return defaultView.getComputedStyle(el, null).getPropertyValue(styleProp);
+                } else if (el.currentStyle) { // IE
+                    // sanitize property name to camelCase
+                    styleProp = styleProp.replace(/\-(\w)/g, function(str, letter) {
+                        return letter.toUpperCase();
+                    });
+                    value = el.currentStyle[styleProp];
+                    // convert other units to pixels on IE
+                    if (/^\d+(em|pt|%|ex)?$/i.test(value)) { 
+                        return (function(value) {
+                            var oldLeft = el.style.left, oldRsLeft = el.runtimeStyle.left;
+                            el.runtimeStyle.left = el.currentStyle.left;
+                            el.style.left = value || 0;
+                            value = el.style.pixelLeft + "px";
+                            el.style.left = oldLeft;
+                            el.runtimeStyle.left = oldRsLeft;
+                            return value;
+                        })(value);
+                    }
+                    return value;
+                }
+            }
+        },
+
+        slide: function(el, dir, speed, callback, recalcMaxHeight) {
+            if ( !el || (dir == 'up' && mUtil.visible(el) === false) || (dir == 'down' && mUtil.visible(el) === true) )  {
+                return;
+            }
+
+            speed = (speed ? speed : 600); 
+            var calcHeight = mUtil.actualHeight(el);
+            var calcPaddingTop = false;
+            var calcPaddingBottom = false;
+
+            if (mUtil.css(el, 'padding-top') && mUtil.data(el).has('slide-padding-top') !== true) {
+                mUtil.data(el).set('slide-padding-top', mUtil.css(el, 'padding-top'));
+            }
+
+            if (mUtil.css(el, 'padding-bottom') && mUtil.data(el).has('slide-padding-bottom') !== true) {
+                mUtil.data(el).set('slide-padding-bottom', mUtil.css(el, 'padding-bottom'));
+            }
+
+            if (mUtil.data(el).has('slide-padding-top')) {
+                calcPaddingTop = parseInt(mUtil.data(el).get('slide-padding-top'));
+            }
+
+            if (mUtil.data(el).has('slide-padding-bottom')) {
+                calcPaddingBottom = parseInt(mUtil.data(el).get('slide-padding-bottom'));
+            }
+
+            if (dir == 'up') { // up          
+                el.style.cssText = 'display: block; overflow: hidden;';  
+
+                if (calcPaddingTop) {
+                    mUtil.animate(0, calcPaddingTop, speed, function(value) {
+                        el.style.paddingTop = (calcPaddingTop - value) + 'px';
+                    }, 'linear');
+                }
+
+                if (calcPaddingBottom) {
+                    mUtil.animate(0, calcPaddingBottom, speed, function(value) {
+                        el.style.paddingBottom = (calcPaddingBottom - value) + 'px';
+                    }, 'linear');
+                }
+
+                mUtil.animate(0, calcHeight, speed, function(value) {
+                    el.style.height = (calcHeight - value) + 'px';
+                }, 'linear', function() {
+                    callback();
+                    el.style.height = '';
+                    el.style.display = 'none';
+                });
+
+
+            } else if(dir == 'down') { // down
+                el.style.cssText = 'display: block; overflow: hidden;';
+
+                if (calcPaddingTop) {
+                    mUtil.animate(0, calcPaddingTop, speed, function(value) {
+                        el.style.paddingTop = value + 'px';
+                    }, 'linear', function() {
+                        el.style.paddingTop = '';
+                    });
+                }
+
+                if (calcPaddingBottom) {
+                    mUtil.animate(0, calcPaddingBottom, speed, function(value) {
+                        el.style.paddingBottom = value + 'px';
+                    }, 'linear', function() {
+                        el.style.paddingBottom = '';
+                    });
+                }
+                
+                mUtil.animate(0, calcHeight, speed, function(value) {
+                    el.style.height = value + 'px';
+                }, 'linear', function() {
+                    callback();
+                    el.style.height = '';
+                    el.style.display = '';
+                    el.style.overflow = '';
+                });
+            }
+        },
+
+        slideUp: function(el, speed, callback) {
+            mUtil.slide(el, 'up', speed, callback);
+        },
+
+        slideDown: function(el, speed, callback) {
+            mUtil.slide(el, 'down', speed, callback);
+        },
+
+        show: function(el, display) {
+            el.style.display = (display ? display : 'block');
+        },
+
+        hide: function(el) {
+            el.style.display = 'none';
+        }, 
+
+        addEvent: function(el, type, handler, one) {
+            el = mUtil.get(el);
+            if(typeof el !=='undefined'){
+	            el.addEventListener(type, handler);
+            }
+        },
+
+        removeEvent: function(el, type, handler) {
+            el = mUtil.get(el);
+            el.removeEventListener(type, handler);
+        },
+
+        on: function(element, selector, event, handler) {
+            if (!selector) {
+                return;
+            }
+
+            var eventId = mUtil.getUniqueID('event');
+
+            mUtilDelegatedEventHandlers[eventId] = function(e) {
+                var targets = element.querySelectorAll(selector);
+                var target = e.target;
+
+                while(target && target !== element) {                    
+                    for (var i = 0, j = targets.length; i < j; i++) {
+                        if (target === targets[i]) {
+                            handler.call(target, e);
+                        }
+                    }
+
+                    target = target.parentNode;
+                }
+            }
+
+            mUtil.addEvent(element, event, mUtilDelegatedEventHandlers[eventId]);
+
+            return eventId;
+        },
+
+        off: function(element, event, eventId) {
+            if (!element || !mUtilDelegatedEventHandlers[eventId]) {
+                return;
+            }
+
+            mUtil.removeEvent(element, event, mUtilDelegatedEventHandlers[eventId]);   
+
+            delete mUtilDelegatedEventHandlers[eventId];
+        },
+
+        one: function onetime(el, type, callback) {
+            el = mUtil.get(el);
+
+            el.addEventListener(type, function(e) {
+                // remove event
+                e.target.removeEventListener(e.type, arguments.callee);
+                // call handler
+                return callback(e);
+            });
+        },
+
+        hash: function(str) {
+            var hash = 0, i, chr;
+
+            if (str.length === 0) return hash;
+            for (i = 0; i < str.length; i++) {
+                chr   = str.charCodeAt(i);
+                hash  = ((hash << 5) - hash) + chr;
+                hash |= 0; // Convert to 32bit integer
+            }
+            
+            return hash;
+        },
+
+        animateClass: function(el, animationName, callback) {
+            var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
+            
+            mUtil.addClass(el, 'animated ' + animationName);
+            
+            mUtil.one(el, animationEnd, function() {
+                mUtil.removeClass(el, 'animated ' + animationName);
+            });
+
+            if (callback) {
+                mUtil.one(el. animationEnd, callback);
+            }
+        },
+
+        animateDelay: function(el, value) {
+            var vendors = ['webkit-', 'moz-', 'ms-', 'o-', ''];
+            for (var i = 0; i < vendors.length; i++) {
+                mUtil.css(el, vendors[i] + 'animation-delay', value);
+            }
+        },
+
+        animateDuration: function(el, value) {
+            var vendors = ['webkit-', 'moz-', 'ms-', 'o-', ''];
+            for (var i = 0; i < vendors.length; i++) {
+                mUtil.css(el, vendors[i] + 'animation-duration', value);
+            }
+        },
+
+        scrollTo: function(el, offset, speed) {   
+            if (!speed) speed = 600;
+            zenscroll.toY(el, speed);
+        },
+
+        scrollToViewport: function(el, speed) {
+            if (!speed) speed = 1200;
+            zenscroll.intoView(el, speed);
+        },
+
+        scrollToCenter: function(el, speed) {
+            if (!speed) speed = 1200;
+            zenscroll.center(el, speed);
+        },
+
+        scrollTop: function(speed) {
+            if (!speed) speed = 600;
+            zenscroll.toY(0, speed);
+        },
+
+        isArray: function(obj){
+            return obj && Array.isArray(obj);
+        },
+
+        ready: function(callback) {
+            if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+                callback();
+            } else {
+                document.addEventListener('DOMContentLoaded', callback);
+            }
+        }
+    }
+}();
+
+//== Initialize mUtil class on document ready
+mUtil.ready(function() {
+    mUtil.init();
+});
+var mDropdown = function(elementId, options) {
+    //== Main object
+    var the = this;
+    var init = false;
+
+    //== Get element object
+    var element = mUtil.get(elementId);
+    var body = mUtil.get('body');
+
+    if (!element) {
+        return;
+    }
+
+    //== Default options
+    var defaultOptions = {
+        toggle: 'click',
+        hoverTimeout: 300,
+        skin: 'light',
+        height: 'auto',
+        maxHeight: false,
+        minHeight: false,
+        persistent: false,
+        mobileOverlay: true
+    };
+
+    ////////////////////////////
+    // ** Private Methods  ** //
+    ////////////////////////////
+
+    var Plugin = {
+        /**
+         * Run plugin
+         * @returns {mdropdown}
+         */
+        construct: function(options) {
+            if (mUtil.data(element).has('dropdown')) {
+                the = mUtil.data(element).get('dropdown');
+            } else {
+                // reset dropdown
+                Plugin.init(options);
+
+                Plugin.setup();
+
+                mUtil.data(element).set('dropdown', the);
+            }
+
+            return the;
+        },
+
+        /**
+         * Handles subdropdown click toggle
+         * @returns {mdropdown}
+         */
+        init: function(options) {
+            // merge default and user defined options
+            the.options = mUtil.deepExtend({}, defaultOptions, options);
+            the.events = [];
+            the.eventHandlers = {};
+            the.open = false;
+            
+            the.layout = {};
+            the.layout.close = mUtil.find(element, '.m-dropdown__close');
+            the.layout.toggle = mUtil.find(element, '.m-dropdown__toggle');
+            the.layout.arrow = mUtil.find(element, '.m-dropdown__arrow');
+            the.layout.wrapper = mUtil.find(element, '.m-dropdown__wrapper');
+            the.layout.defaultDropPos = mUtil.hasClass(element, 'm-dropdown--up') ? 'up' : 'down';
+            the.layout.currentDropPos = the.layout.defaultDropPos;
+
+            if (mUtil.attr(element, 'm-dropdown-toggle') == "hover") {
+                the.options.toggle = 'hover';
+            }
+        },
+
+        /**
+         * Setup dropdown
+         */
+        setup: function() {
+            if (the.options.placement) {
+                mUtil.addClass(element, 'm-dropdown--' + the.options.placement);
+            }
+
+            if (the.options.align) {
+                mUtil.addClass(element, 'm-dropdown--align-' + the.options.align);
+            }
+
+            if (the.options.width) {
+                mUtil.css(the.layout.wrapper, 'width', the.options.width + 'px');
+            }
+
+            if (mUtil.attr(element, 'm-dropdown-persistent') == '1') {
+                the.options.persistent = true;
+            }
+
+            if (the.options.toggle == 'hover') {    
+                mUtil.addEvent(element, 'mouseout', Plugin.hide);
+            } 
+
+            // set zindex
+            Plugin.setZindex();
+        },
+
+        /**
+         * Toggle dropdown
+         */
+        toggle: function() {
+            if (the.open) {
+                return Plugin.hide();
+            } else {
+                return Plugin.show();
+            }
+        },
+
+        /**
+         * Set content
+         */
+        setContent: function(content) {
+            var content = mUtil.find(element, '.m-dropdown__content').innerHTML = content;
+
+            return the;
+        },
+
+        /**
+         * Show dropdown
+         */
+        show: function() {
+            if (the.options.toggle == 'hover' && mUtil.hasAttr(element, 'hover')) {
+                Plugin.clearHovered();
+                return the;
+            }
+
+            if (the.open) {
+                return the;
+            }
+
+            if (the.layout.arrow) {
+                Plugin.adjustArrowPos();
+            }
+
+            Plugin.eventTrigger('beforeShow');
+
+            Plugin.hideOpened();
+
+            mUtil.addClass(element, 'm-dropdown--open');
+
+            if (mUtil.isMobileDevice() && the.options.mobileOverlay) {
+                var zIndex = mUtil.css(element, 'z-index') - 1;
+
+                var dropdownoff = mUtil.insertAfter(document.createElement('DIV'), element );
+
+                mUtil.addClass(dropdownoff, 'm-dropdown__dropoff');
+                mUtil.css(dropdownoff, 'z-index', zIndex);
+                mUtil.data(dropdownoff).set('dropdown', element);
+                mUtil.data(element).set('dropoff', dropdownoff);
+
+                mUtil.addEvent(dropdownoff, 'click', function(e) {
+                    Plugin.hide();
+                    mUtil.remove(this);
+                    e.preventDefault();
+                });
+            }
+
+            element.focus();
+            element.setAttribute('aria-expanded', 'true');
+            the.open = true;
+
+            Plugin.eventTrigger('afterShow');
+
+            return the;
+        },
+
+        /**
+         * Clear dropdown hover
+         */
+        clearHovered: function() {
+            var timeout = mUtil.attr(element, 'timeout');
+
+            mUtil.removeAttr(element, 'hover');            
+            mUtil.removeAttr(element, 'timeout');
+
+            clearTimeout(timeout);
+        },
+
+        /**
+         * Hide hovered dropdown
+         */
+        hideHovered: function(force) {
+            if (force === true) {
+                if (Plugin.eventTrigger('beforeHide') === false) {
+                    return;
+                }
+
+                Plugin.clearHovered();
+                mUtil.removeClass(element, 'm-dropdown--open');
+                the.open = false;
+                Plugin.eventTrigger('afterHide');
+            } else {
+                if (mUtil.hasAttr(element, 'hover') === true) {
+                    return;
+                }
+
+                if (Plugin.eventTrigger('beforeHide') === false) {
+                    return;
+                }
+
+                var timeout = setTimeout(function() {
+                    if (mUtil.attr(element, 'hover')) {
+                        Plugin.clearHovered();
+                        mUtil.removeClass(element, 'm-dropdown--open');
+                        the.open = false;
+                        Plugin.eventTrigger('afterHide');
+                    }
+                }, the.options.hoverTimeout);
+
+                mUtil.attr(element, 'hover', '1');            
+                mUtil.attr(element, 'timeout', timeout);
+            }
+        },
+
+        /**
+         * Hide clicked dropdown
+         */
+        hideClicked: function() {
+            if (Plugin.eventTrigger('beforeHide') === false) {
+                return;
+            }
+
+            mUtil.removeClass(element, 'm-dropdown--open');
+            mUtil.data(element).remove('dropoff');
+            the.open = false;
+            Plugin.eventTrigger('afterHide');
+        },
+
+        /**
+         * Hide dropdown
+         */
+        hide: function(force) {
+            if (the.open === false) {
+                return the;
+            }
+
+            if (the.options.toggle == 'hover') {
+                Plugin.hideHovered(force);
+            } else {
+                Plugin.hideClicked();
+            }
+
+            if (the.layout.defaultDropPos == 'down' && the.layout.currentDropPos == 'up') {
+                mUtil.removeClass(element, 'm-dropdown--up');
+                the.layout.arrow.prependTo(the.layout.wrapper);
+                the.layout.currentDropPos = 'down';
+            }
+
+            return the;
+        },
+
+        /**
+         * Hide opened dropdowns
+         */
+        hideOpened: function() {
+            var query = mUtil.findAll(body, '.m-dropdown.m-dropdown--open');
+            
+            for (var i = 0, j = query.length; i < j; i++) {
+                var dropdown = query[i];
+                mUtil.data(dropdown).get('dropdown').hide(true);
+            }
+        },
+
+        /**
+         * Adjust dropdown arrow positions
+         */
+        adjustArrowPos: function() {
+            var width = mUtil.outerWidth(element); // ?
+
+            var alignment = mUtil.hasClass(the.layout.arrow, 'm-dropdown__arrow--right') ? 'right' : 'left';
+            var pos = 0;
+
+            if (the.layout.arrow) {
+                if ( mUtil.isInResponsiveRange('mobile') && mUtil.hasClass(element, 'm-dropdown--mobile-full-width') ) {
+                    pos = mUtil.offset(element).left + (width / 2) - Math.abs( parseInt(mUtil.css(the.layout.arrow, 'width')) / 2) - parseInt(mUtil.css(the.layout.wrapper, 'left'));
+                    
+                    mUtil.css(the.layout.arrow, 'right', 'auto');
+                    mUtil.css(the.layout.arrow, 'left', pos + 'px');
+                    mUtil.css(the.layout.arrow, 'margin-left', 'auto');
+                    mUtil.css(the.layout.arrow, 'margin-right', 'auto');
+                } else if (mUtil.hasClass(the.layout.arrow, 'm-dropdown__arrow--adjust')) {
+                    pos = width / 2 - Math.abs( parseInt(mUtil.css(the.layout.arrow, 'width')) / 2);
+                    if (mUtil.hasClass(element, 'm-dropdown--align-push')) {
+                        pos = pos + 20;
+                    }
+
+                    if (alignment == 'right') {
+                        mUtil.css(the.layout.arrow, 'left', 'auto');
+                        mUtil.css(the.layout.arrow, 'right', pos + 'px');
+                    } else {
+                        mUtil.css(the.layout.arrow, 'right', 'auto');
+                        mUtil.css(the.layout.arrow, 'left', pos + 'px');
+                    }
+                }
+            }
+        },
+
+        /**
+         * Get zindex
+         */
+        setZindex: function() {
+            var oldZindex = mUtil.css(the.layout.wrapper, 'z-index');
+            var newZindex = mUtil.getHighestZindex(element);
+            if (newZindex > oldZindex) {
+                mUtil.css(the.layout.wrapper, 'z-index', zindex);
+            }
+        },
+
+        /**
+         * Check persistent
+         */
+        isPersistent: function() {
+            return the.options.persistent;
+        },
+
+        /**
+         * Check persistent
+         */
+        isShown: function() {
+            return the.open;
+        },
+
+        /**
+         * Trigger events
+         */
+        eventTrigger: function(name, args) {
+            for (var i = 0; i < the.events.length; i++) {
+                var event = the.events[i];
+                if (event.name == name) {
+                    if (event.one == true) {
+                        if (event.fired == false) {
+                            the.events[i].fired = true;
+                            event.handler.call(this, the, args);
+                        }
+                    } else {
+                        event.handler.call(this, the, args);
+                    }
+                }
+            }
+        },
+
+        addEvent: function(name, handler, one) {
+            the.events.push({
+                name: name,
+                handler: handler,
+                one: one,
+                fired: false
+            });
+        }
+    };
+
+    //////////////////////////
+    // ** Public Methods ** //
+    //////////////////////////
+
+    /**
+     * Set default options 
+     */
+
+    the.setDefaults = function(options) {
+        defaultOptions = options;
+    };
+
+    /**
+     * Show dropdown
+     * @returns {mDropdown}
+     */
+    the.show = function() {
+        return Plugin.show();
+    };
+
+    /**
+     * Hide dropdown
+     * @returns {mDropdown}
+     */
+    the.hide = function() {
+        return Plugin.hide();
+    };
+
+    /**
+     * Toggle dropdown
+     * @returns {mDropdown}
+     */
+    the.toggle = function() {
+        return Plugin.toggle();
+    };
+
+    /**
+     * Toggle dropdown
+     * @returns {mDropdown}
+     */
+    the.isPersistent = function() {
+        return Plugin.isPersistent();
+    };
+
+    /**
+     * Check shown state
+     * @returns {mDropdown}
+     */
+    the.isShown = function() {
+        return Plugin.isShown();
+    };
+
+    /**
+     * Set dropdown content
+     * @returns {mDropdown}
+     */
+    the.setContent = function(content) {
+        return Plugin.setContent(content);
+    };
+
+    /**
+     * Register event
+     */
+    the.on = function(name, handler) {
+        return Plugin.addEvent(name, handler);
+    };
+
+    /**
+     * Register event
+     */
+    the.one = function(name, handler) {
+        return Plugin.addEvent(name, handler, true);
+    };
+
+    ///////////////////////////////
+    // ** Plugin Construction ** //
+    ///////////////////////////////
+
+    //== Run plugin
+    Plugin.construct.apply(the, [options]);
+
+    //== Init done
+    init = true;
+
+    // Return plugin instance
+    return the;
+};
+
+//== Plugin global lazy initialization
+mUtil.on(document, '[m-dropdown-toggle="click"] .m-dropdown__toggle', 'click', function(e) {
+    var element = this.closest('.m-dropdown');  
+    var dropdown;
+
+    if (element) {
+        if (mUtil.data(element).has('dropdown')) {
+            dropdown = mUtil.data(element).get('dropdown');
+        } else {                 
+            dropdown = new mDropdown(element);
+        }             
+
+        dropdown.toggle();
+
+        e.preventDefault();
+    } 
+});
+
+mUtil.on(document, '[m-dropdown-toggle="hover"] .m-dropdown__toggle', 'click', function(e) {
+    if (mUtil.isMobileDevice()) {
+        var element = this.closest('.m-dropdown');
+        var dropdown;
+
+        if (element) {
+            if (mUtil.data(element).has('dropdown')) {
+                dropdown = mUtil.data(element).get('dropdown');
+            } else {                        
+                dropdown = new mDropdown(element);
+            }  
+
+            dropdown.toggle();
+
+            e.preventDefault();
+        }
+    }
+});
+
+mUtil.on(document, '[m-dropdown-toggle="hover"]', 'mouseover', function(e) {
+    if (mUtil.isDesktopDevice()) {
+        var element = this;
+        var dropdown;
+
+        if (element) {
+            if (mUtil.data(element).has('dropdown')) {
+                dropdown = mUtil.data(element).get('dropdown');
+            } else {                        
+                dropdown = new mDropdown(element);
+            }              
+
+            dropdown.show();
+
+            e.preventDefault();
+        }
+    }
+});
+
+document.addEventListener("click", function(e) {
+    var query;
+    var body = mUtil.get('body');
+    var target = e.target;
+
+    //== Handle dropdown close
+    if (query = body.querySelectorAll('.m-dropdown.m-dropdown--open')) {
+        for (var i = 0, len = query.length; i < len; i++) {
+            var element = query[i];
+            if (mUtil.data(element).has('dropdown') === false) {
+                return;
+            }
+
+            var the = mUtil.data(element).get('dropdown');
+            var toggle = mUtil.find(element, '.m-dropdown__toggle');
+
+            if (mUtil.hasClass(element, 'm-dropdown--disable-close')) {
+                e.preventDefault();
+                e.stopPropagation();
+                //return;
+            }
+
+            if (toggle && target !== toggle && toggle.contains(target) === false && target.contains(toggle) === false) {
+                if (the.isPersistent() === true) {
+                    if (element.contains(target) === false) {
+                        the.hide();
+                    }    
+                } else {
+                    the.hide();
+                }
+            } else if (element.contains(target) === false) {
+                the.hide();
+            } 
+        }
+    }
+});
+var mHeader = function(elementId, options) {
+    //== Main object
+    var the = this;
+    var init = false;
+
+    //== Get element object
+    var element = mUtil.get(elementId);
+    var body = mUtil.get('body');
+
+    if (element === undefined) {
+        return;
+    }
+
+    //== Default options
+    var defaultOptions = {
+        classic: false,
+        offset: {
+            mobile: 150,
+            desktop: 200
+        },
+        minimize: {
+            mobile: false,
+            desktop: false
+        }
+    };
+
+    ////////////////////////////
+    // ** Private Methods  ** //
+    ////////////////////////////
+
+    var Plugin = {
+        /**
+         * Run plugin
+         * @returns {mHeader}
+         */
+        construct: function(options) {
+            if (mUtil.data(element).has('header')) {
+                the = mUtil.data(element).get('header');
+            } else {
+                // reset header
+                Plugin.init(options);
+
+                // build header
+                Plugin.build();
+
+                mUtil.data(element).set('header', the);
+            }
+
+            return the;
+        },
+
+        /**
+         * Handles subheader click toggle
+         * @returns {mHeader}
+         */
+        init: function(options) {
+            the.events = [];
+
+            // merge default and user defined options
+            the.options = mUtil.deepExtend({}, defaultOptions, options);
+        },
+
+        /**
+         * Reset header
+         * @returns {mHeader}
+         */
+        build: function() {
+            var lastScrollTop = 0;
+
+            if (the.options.minimize.mobile === false && the.options.minimize.desktop === false) {
+                return;
+            }
+
+            window.addEventListener('scroll', function() {
+                var offset = 0, on, off, st;
+
+                if (mUtil.isInResponsiveRange('desktop')) {
+                    offset = the.options.offset.desktop;
+                    on = the.options.minimize.desktop.on;
+                    off = the.options.minimize.desktop.off;
+                } else if (mUtil.isInResponsiveRange('tablet-and-mobile')) {
+                    offset = the.options.offset.mobile;
+                    on = the.options.minimize.mobile.on;
+                    off = the.options.minimize.mobile.off;
+                }
+
+                st = window.pageYOffset;
+
+                if (
+                    (mUtil.isInResponsiveRange('tablet-and-mobile') && the.options.classic && the.options.classic.mobile) ||
+                    (mUtil.isInResponsiveRange('desktop') && the.options.classic && the.options.classic.desktop)
+
+                ) {
+                    if (st > offset) { // down scroll mode
+                        mUtil.addClass(body, on);
+                        mUtil.removeClass(body, off);
+                    } else { // back scroll mode
+                        mUtil.addClass(body, off);
+                        mUtil.removeClass(body, on);
+                    }
+                } else {
+                    if (st > offset && lastScrollTop < st) { // down scroll mode
+                        mUtil.addClass(body, on);
+                        mUtil.removeClass(body, off);
+                    } else { // back scroll mode
+                        mUtil.addClass(body, off);
+                        mUtil.removeClass(body, on);
+                    }
+
+                    lastScrollTop = st;
+                }
+            });
+        },
+
+        /**
+         * Trigger events
+         */
+        eventTrigger: function(name, args) {
+            for (var i = 0; i < the.events.length; i++) {
+                var event = the.events[i];
+                if (event.name == name) {
+                    if (event.one == true) {
+                        if (event.fired == false) {
+                            the.events[i].fired = true;
+                            event.handler.call(this, the, args);
+                        }
+                    } else {
+                        event.handler.call(this, the, args);
+                    }
+                }
+            }
+        },
+
+        addEvent: function(name, handler, one) {
+            the.events.push({
+                name: name,
+                handler: handler,
+                one: one,
+                fired: false
+            });
+        }
+    };
+
+    //////////////////////////
+    // ** Public Methods ** //
+    //////////////////////////
+
+    /**
+     * Set default options 
+     */
+
+    the.setDefaults = function(options) {
+        defaultOptions = options;
+    };
+
+    /**
+     * Register event
+     */
+    the.on = function(name, handler) {
+        return Plugin.addEvent(name, handler);
+    };
+
+    ///////////////////////////////
+    // ** Plugin Construction ** //
+    ///////////////////////////////
+
+    //== Run plugin
+    Plugin.construct.apply(the, [options]);
+
+    //== Init done
+    init = true;
+
+    // Return plugin instance
+    return the;
+};
+var mMenu = function(elementId, options) {
+    //== Main object
+    var the = this;
+    var init = false;
+
+    //== Get element object
+    var element = mUtil.get(elementId);
+    var body = mUtil.get('body');  
+
+    if (!element) {
+        return;
+    }
+
+    //== Default options
+    var defaultOptions = {        
+        // autoscroll on accordion submenu tog
+        autoscroll: {
+            speed: 1200
+        },
+
+        // accordion submenu mode
+        accordion: {
+            slideSpeed: 200, // accordion toggle slide speed in milliseconds
+            autoScroll: true, // enable auto scrolling(focus) to the clicked menu item
+            autoScrollSpeed: 1200,
+            expandAll: true // allow having multiple expanded accordions in the menu
+        },
+
+        // dropdown submenu mode
+        dropdown: {
+            timeout: 500 // timeout in milliseconds to show and hide the hoverable submenu dropdown
+        }
+    };
+
+    ////////////////////////////
+    // ** Private Methods  ** //
+    ////////////////////////////
+
+    var Plugin = {
+        /**
+         * Run plugin
+         * @returns {mMenu}
+         */
+        construct: function(options) {
+            if (mUtil.data(element).has('menu')) {
+                the = mUtil.data(element).get('menu');
+            } else {
+                // reset menu
+                Plugin.init(options);
+
+                // reset menu
+                Plugin.reset();
+
+                // build menu
+                Plugin.build();
+
+                mUtil.data(element).set('menu', the);
+            }
+
+            return the;
+        },
+
+        /**
+         * Handles submenu click toggle
+         * @returns {mMenu}
+         */
+        init: function(options) {
+            the.events = [];
+
+            the.eventHandlers = {};
+
+            // merge default and user defined options
+            the.options = mUtil.deepExtend({}, defaultOptions, options);
+
+            // pause menu
+            the.pauseDropdownHoverTime = 0;
+
+            the.uid = mUtil.getUniqueID();
+        },
+
+        reload: function() {
+             // reset menu
+            Plugin.reset();
+
+            // build menu
+            Plugin.build();
+        },
+
+        /**
+         * Reset menu
+         * @returns {mMenu}
+         */
+        build: function() {
+            the.eventHandlers['event_1'] = mUtil.on( element, '.m-menu__toggle', 'click', Plugin.handleSubmenuAccordion);
+
+            // dropdown mode(hoverable)
+            if (Plugin.getSubmenuMode() === 'dropdown' || Plugin.isConditionalSubmenuDropdown()) {
+                // dropdown submenu - hover toggle
+                the.eventHandlers['event_2'] = mUtil.on( element, '[m-menu-submenu-toggle="hover"]', 'mouseover', Plugin.handleSubmenuDrodownHoverEnter);
+                the.eventHandlers['event_3'] = mUtil.on( element, '[m-menu-submenu-toggle="hover"]', 'mouseout', Plugin.handleSubmenuDrodownHoverExit);
+
+                // dropdown submenu - click toggle
+                the.eventHandlers['event_4'] = mUtil.on( element, '[m-menu-submenu-toggle="click"] > .m-menu__toggle, [m-menu-submenu-toggle="click"] > .m-menu__link .m-menu__toggle', 'click', Plugin.handleSubmenuDropdownClick);
+                the.eventHandlers['event_5'] = mUtil.on( element, '[m-menu-submenu-toggle="tab"] > .m-menu__toggle, [m-menu-submenu-toggle="tab"] > .m-menu__link .m-menu__toggle', 'click', Plugin.handleSubmenuDropdownTabClick);
+            }
+
+            the.eventHandlers['event_6'] = mUtil.on(element, '.m-menu__item:not(.m-menu__item--submenu) > .m-menu__link:not(.m-menu__toggle):not(.m-menu__link--toggle-skip)', 'click', Plugin.handleLinkClick);
+        },
+
+        /**
+         * Reset menu
+         * @returns {mMenu}
+         */
+        reset: function() { 
+            mUtil.off( element, 'click', the.eventHandlers['event_1']);
+
+            // dropdown submenu - hover toggle
+            mUtil.off( element, 'mouseover', the.eventHandlers['event_2']);
+            mUtil.off( element, 'mouseout', the.eventHandlers['event_3']);
+
+            // dropdown submenu - click toggle
+            mUtil.off( element, 'click', the.eventHandlers['event_4']);
+            mUtil.off( element, 'click', the.eventHandlers['event_5']);
+            
+            mUtil.off(element, 'click', the.eventHandlers['event_6']);
+        },
+
+        /**
+         * Get submenu mode for current breakpoint and menu state
+         * @returns {mMenu}
+         */
+        getSubmenuMode: function() {
+            if ( mUtil.isInResponsiveRange('desktop') ) {
+                if ( mUtil.isset(the.options.submenu, 'desktop.state.body') ) {
+                    if ( mUtil.hasClass(body, the.options.submenu.desktop.state.body) ) {
+                        return the.options.submenu.desktop.state.mode;
+                    } else {
+                        return the.options.submenu.desktop.default;
+                    }
+                } else if ( mUtil.isset(the.options.submenu, 'desktop') ) {
+                    return the.options.submenu.desktop;
+                }
+            } else if ( mUtil.isInResponsiveRange('tablet') && mUtil.isset(the.options.submenu, 'tablet') ) {
+                return the.options.submenu.tablet;
+            } else if ( mUtil.isInResponsiveRange('mobile') && mUtil.isset(the.options.submenu, 'mobile') ) {
+                return the.options.submenu.mobile;
+            } else {
+                return false;
+            }
+        },
+
+        /**
+         * Get submenu mode for current breakpoint and menu state
+         * @returns {mMenu}
+         */
+        isConditionalSubmenuDropdown: function() {
+            if ( mUtil.isInResponsiveRange('desktop') && mUtil.isset(the.options.submenu, 'desktop.state.body') ) {
+                return true;
+            } else {
+                return false;
+            }
+        },
+
+        /**
+         * Handles menu link click
+         * @returns {mMenu}
+         */
+        handleLinkClick: function(e) {
+            if ( Plugin.eventTrigger('linkClick', this) === false ) {
+                e.preventDefault();
+            };
+
+            if ( Plugin.getSubmenuMode() === 'dropdown' || Plugin.isConditionalSubmenuDropdown() ) {
+                Plugin.handleSubmenuDropdownClose(e, this);
+            }
+        },
+
+        /**
+         * Handles submenu hover toggle
+         * @returns {mMenu}
+         */
+        handleSubmenuDrodownHoverEnter: function(e) {
+            if ( Plugin.getSubmenuMode() === 'accordion' ) {
+                return;
+            }
+
+            if ( the.resumeDropdownHover() === false ) {
+                return;
+            }
+
+            var item = this;
+
+            if ( item.getAttribute('data-hover') == '1' ) {
+                item.removeAttribute('data-hover');
+                clearTimeout( item.getAttribute('data-timeout') );
+                item.removeAttribute('data-timeout');
+                //Plugin.hideSubmenuDropdown(item, false);
+            }
+
+            Plugin.showSubmenuDropdown(item);
+        },
+
+        /**
+         * Handles submenu hover toggle
+         * @returns {mMenu}
+         */
+        handleSubmenuDrodownHoverExit: function(e) {
+            if ( the.resumeDropdownHover() === false ) {
+                return;
+            }
+
+            if ( Plugin.getSubmenuMode() === 'accordion' ) {
+                return;
+            }
+
+            var item = this;
+            var time = the.options.dropdown.timeout;
+
+            var timeout = setTimeout(function() {
+                if ( item.getAttribute('data-hover') == '1' ) {
+                    Plugin.hideSubmenuDropdown(item, true);
+                } 
+            }, time);
+
+            item.setAttribute('data-hover', '1');
+            item.setAttribute('data-timeout', timeout);  
+        },
+
+        /**
+         * Handles submenu click toggle
+         * @returns {mMenu}
+         */
+        handleSubmenuDropdownClick: function(e) {
+            if ( Plugin.getSubmenuMode() === 'accordion' ) {
+                return;
+            }
+ 
+            var item = this.closest('.m-menu__item'); 
+
+            if ( item.getAttribute('m-menu-submenu-mode') == 'accordion' ) {
+                return;
+            }
+
+            if ( mUtil.hasClass(item, 'm-menu__item--hover') === false ) {
+                mUtil.addClass(item, 'm-menu__item--open-dropdown');
+                Plugin.showSubmenuDropdown(item);
+            } else {
+                mUtil.removeClass(item, 'm-menu__item--open-dropdown' );
+                Plugin.hideSubmenuDropdown(item, true);
+            }
+
+            e.preventDefault();
+        },
+
+        /**
+         * Handles tab click toggle
+         * @returns {mMenu}
+         */
+        handleSubmenuDropdownTabClick: function(e) {
+            if (Plugin.getSubmenuMode() === 'accordion') {
+                return;
+            }
+
+            var item = this.closest('.m-menu__item');
+
+            if (item.getAttribute('m-menu-submenu-mode') == 'accordion') {
+                return;
+            }
+
+            if (mUtil.hasClass(item, 'm-menu__item--hover') == false) {
+                mUtil.addClass(item, 'm-menu__item--open-dropdown');
+                Plugin.showSubmenuDropdown(item);
+            }
+
+            e.preventDefault();
+        },
+
+        /**
+         * Handles submenu dropdown close on link click
+         * @returns {mMenu}
+         */
+        handleSubmenuDropdownClose: function(e, el) {
+            // exit if its not submenu dropdown mode
+            if (Plugin.getSubmenuMode() === 'accordion') {
+                return;
+            }
+
+            var shown = element.querySelectorAll('.m-menu__item.m-menu__item--submenu.m-menu__item--hover:not(.m-menu__item--tabs)');
+
+            // check if currently clicked link's parent item ha
+            if (shown.length > 0 && mUtil.hasClass(el, 'm-menu__toggle') === false && el.querySelectorAll('.m-menu__toggle').length === 0) {
+                // close opened dropdown menus
+                for (var i = 0, len = shown.length; i < len; i++) {
+                    Plugin.hideSubmenuDropdown(shown[0], true);
+                }
+            }
+        },
+
+        /**
+         * helper functions
+         * @returns {mMenu}
+         */
+        handleSubmenuAccordion: function(e, el) {
+            var query;
+            var item = el ? el : this;
+
+            if ( Plugin.getSubmenuMode() === 'dropdown' && (query = item.closest('.m-menu__item') ) ) {
+                if (query.getAttribute('m-menu-submenu-mode') != 'accordion' ) {
+                    e.preventDefault();
+                    return;
+                }
+            }
+
+            var li = item.closest('.m-menu__item');
+            var submenu = mUtil.child(li, '.m-menu__submenu, .m-menu__inner');
+
+            if (mUtil.hasClass(item.closest('.m-menu__item'), 'm-menu__item--open-always')) {
+                return;
+            }
+
+            if ( li && submenu ) {
+                e.preventDefault();
+                var speed = the.options.accordion.slideSpeed;
+                var hasClosables = false;
+
+                if ( mUtil.hasClass(li, 'm-menu__item--open') === false ) {
+                    // hide other accordions                    
+                    if ( the.options.accordion.expandAll === false ) {
+                        var subnav = item.closest('.m-menu__nav, .m-menu__subnav');
+                        var closables = mUtil.children(subnav, '.m-menu__item.m-menu__item--open.m-menu__item--submenu:not(.m-menu__item--expanded):not(.m-menu__item--open-always)');
+
+                        if ( subnav && closables ) {
+                            for (var i = 0, len = closables.length; i < len; i++) {
+                                var el_ = closables[0];
+                                var submenu_ = mUtil.child(el_, '.m-menu__submenu');
+                                if ( submenu_ ) {
+                                    mUtil.slideUp(submenu_, speed, function() {
+                                        mUtil.removeClass(el_, 'm-menu__item--open');
+                                    });                    
+                                }
+                            }
+                        }
+                    }
+
+                    mUtil.slideDown(submenu, speed, function() {
+                        Plugin.scrollToItem(item);
+                    });
+                
+                    mUtil.addClass(li, 'm-menu__item--open');
+
+                } else {
+                    mUtil.slideUp(submenu, speed, function() {
+                        Plugin.scrollToItem(item);
+                    });
+
+                    mUtil.removeClass(li, 'm-menu__item--open');       
+                }
+            }
+        },
+
+        /**
+         * scroll to item function
+         * @returns {mMenu}
+         */
+        scrollToItem: function(item) {
+            // handle auto scroll for accordion submenus
+            if ( mUtil.isInResponsiveRange('desktop') && the.options.accordion.autoScroll && element.getAttribute('m-menu-scrollable') !== '1' ) {
+                mUtil.scrollToCenter(item, the.options.accordion.autoScrollSpeed);
+            }
+        },
+
+        /**
+         * helper functions
+         * @returns {mMenu}
+         */
+        hideSubmenuDropdown: function(item, classAlso) {
+            // remove submenu activation class
+            if ( classAlso ) {
+                mUtil.removeClass(item, 'm-menu__item--hover');
+                mUtil.removeClass(item, 'm-menu__item--active-tab');
+            }
+
+            // clear timeout
+            item.removeAttribute('data-hover');
+
+            if ( item.getAttribute('m-menu-dropdown-toggle-class') ) {
+                mUtil.removeClass(body, item.getAttribute('m-menu-dropdown-toggle-class'));
+            }
+
+            var timeout = item.getAttribute('data-timeout');
+            item.removeAttribute('data-timeout');
+            clearTimeout(timeout);
+        },
+
+        /**
+         * helper functions
+         * @returns {mMenu}
+         */
+        showSubmenuDropdown: function(item) {
+            // close active submenus
+            var list = element.querySelectorAll('.m-menu__item--submenu.m-menu__item--hover, .m-menu__item--submenu.m-menu__item--active-tab');
+
+            if ( list ) {
+                for (var i = 0, len = list.length; i < len; i++) {
+                    var el = list[i];
+                    if ( item !== el && el.contains(item) === false && item.contains(el) === false ) {
+                        Plugin.hideSubmenuDropdown(el, true);
+                    }
+                }
+            } 
+
+            // adjust submenu position
+            Plugin.adjustSubmenuDropdownArrowPos(item);
+
+            // add submenu activation class
+            mUtil.addClass(item, 'm-menu__item--hover');
+            
+            if ( item.getAttribute('m-menu-dropdown-toggle-class') ) {
+                mUtil.addClass(body, item.getAttribute('m-menu-dropdown-toggle-class'));
+            }
+        },
+
+
+        /**
+         * Handles submenu slide toggle
+         * @returns {mMenu}
+         */
+        createSubmenuDropdownClickDropoff: function(el) {
+            var query;
+            var zIndex = (query = mUtil.child(el, '.m-menu__submenu') ? mUtil.css(query, 'z-index') : 0) - 1;
+
+            var dropoff = document.createElement('<div class="m-menu__dropoff" style="background: transparent; position: fixed; top: 0; bottom: 0; left: 0; right: 0; z-index: ' + zIndex + '"></div>');
+
+            body.appendChild(dropoff);
+
+            mUtil.addEvent(dropoff, 'click', function(e) {
+                e.stopPropagation();
+                e.preventDefault();
+                mUtil.remove(this);
+                Plugin.hideSubmenuDropdown(el, true);
+            });
+        },
+
+        /**
+         * Handles submenu click toggle
+         * @returns {mMenu}
+         */
+        adjustSubmenuDropdownArrowPos: function(item) {
+            var submenu = mUtil.child(item, '.m-menu__submenu');
+            var arrow = mUtil.child( submenu, '.m-menu__arrow.m-menu__arrow--adjust');
+            var subnav = mUtil.child( submenu, '.m-menu__subnav');
+
+            if ( arrow ) {
+                var pos = 0; 
+                var link = mUtil.child(item, '.m-menu__link');
+
+                if ( mUtil.hasClass(submenu, 'm-menu__submenu--classic') || mUtil.hasClass(submenu, 'm-menu__submenu--fixed') ) {
+                    if ( mUtil.hasClass(submenu, 'm-menu__submenu--right')) {
+                        pos = mUtil.outerWidth(item) / 2;
+                        if (mUtil.hasClass(submenu, 'm-menu__submenu--pull')) {
+                            pos = pos + Math.abs( parseFloat(mUtil.css(submenu, 'margin-right')) );
+                        }
+                        pos = parseInt(mUtil.css(submenu, 'width')) - pos;
+                    } else if ( mUtil.hasClass(submenu, 'm-menu__submenu--left') ) {
+                        pos = mUtil.outerWidth(item) / 2;
+                        if ( mUtil.hasClass(submenu, 'm-menu__submenu--pull')) {
+                            pos = pos + Math.abs( parseFloat(mUtil.css(submenu, 'margin-left')) );
+                        }
+                    }
+                } else {
+                    if ( mUtil.hasClass(submenu, 'm-menu__submenu--center') || mUtil.hasClass(submenu, 'm-menu__submenu--full') ) {
+                        pos = mUtil.offset(item).left - ((mUtil.getViewPort().width - parseInt(mUtil.css(submenu, 'width'))) / 2);
+                        pos = pos + (mUtil.outerWidth(item) / 2);
+                    }
+                }
+
+                mUtil.css(arrow, 'left', pos + 'px');  
+            }
+        },
+
+        /**
+         * Handles submenu hover toggle
+         * @returns {mMenu}
+         */
+        pauseDropdownHover: function(time) {
+            var date = new Date();
+
+            the.pauseDropdownHoverTime = date.getTime() + time;
+        },
+
+        /**
+         * Handles submenu hover toggle
+         * @returns {mMenu}
+         */
+        resumeDropdownHover: function() {
+            var date = new Date();
+
+            return (date.getTime() > the.pauseDropdownHoverTime ? true : false);
+        },
+
+        /**
+         * Reset menu's current active item
+         * @returns {mMenu}
+         */
+        resetActiveItem: function(item) {
+            var list;
+            var parents;
+
+            list = element.querySelectorAll('.m-menu__item--active');
+            
+            for (var i = 0, len = list.length; i < len; i++) {
+                var el = list[0];
+                mUtil.removeClass(el, 'm-menu__item--active');
+                mUtil.hide( mUtil.child(el, '.m-menu__submenu') );
+                parents = mUtil.parents(el, '.m-menu__item--submenu');
+
+                for (var i_ = 0, len_ = parents.length; i_ < len_; i_++) {
+                    var el_ = parents[i];
+                    mUtil.removeClass(el_, 'm-menu__item--open');
+                    mUtil.hide( mUtil.child(el_, '.m-menu__submenu') );
+                }
+            }
+
+            // close open submenus
+            if ( the.options.accordion.expandAll === false ) {
+                if ( list = element.querySelectorAll('.m-menu__item--open') ) {
+                    for (var i = 0, len = list.length; i < len; i++) {
+                        mUtil.removeClass(parents[0], 'm-menu__item--open');
+                    }
+                }
+            }
+        },
+
+        /**
+         * Sets menu's active item
+         * @returns {mMenu}
+         */
+        setActiveItem: function(item) {
+            // reset current active item
+            Plugin.resetActiveItem();
+
+            mUtil.addClass(item, 'm-menu__item--active');
+            
+            var parents = mUtil.parents(item, '.m-menu__item--submenu');
+            for (var i = 0, len = parents.length; i < len; i++) {
+                mUtil.addClass(parents[i], 'm-menu__item--open');
+            }
+        },
+
+        /**
+         * Returns page breadcrumbs for the menu's active item
+         * @returns {mMenu}
+         */
+        getBreadcrumbs: function(item) {
+            var query;
+            var breadcrumbs = [];
+            var link = mUtil.child(item, '.m-menu__link');
+
+            breadcrumbs.push({
+                text: (query = mUtil.child(link, '.m-menu__link-text') ? query.innerHTML : ''),
+                title: link.getAttribute('title'),
+                href: link.getAttribute('href')
+            });
+
+            var parents = mUtil.parents(item, '.m-menu__item--submenu');
+            for (var i = 0, len = parents.length; i < len; i++) {
+                var submenuLink = mUtil.child(parents[i], '.m-menu__link');
+
+                breadcrumbs.push({
+                    text: (query = mUtil.child(submenuLink, '.m-menu__link-text') ? query.innerHTML : ''),
+                    title: submenuLink.getAttribute('title'),
+                    href: submenuLink.getAttribute('href')
+                });
+            }
+
+            return  breadcrumbs.reverse();
+        },
+
+        /**
+         * Returns page title for the menu's active item
+         * @returns {mMenu}
+         */
+        getPageTitle: function(item) {
+            var query;
+
+            return (query = mUtil.child(item, '.m-menu__link-text') ? query.innerHTML : '');
+        },
+
+        /**
+         * Trigger events
+         */
+        eventTrigger: function(name, args) {
+            for (var i = 0; i < the.events.length; i++ ) {
+                var event = the.events[i];
+                if ( event.name == name ) {
+                    if ( event.one == true ) {
+                        if ( event.fired == false ) {
+                            the.events[i].fired = true;
+                            event.handler.call(this, the, args);
+                        }
+                    } else {
+                        event.handler.call(this, the, args);
+                    }
+                }
+            }
+        },
+
+        addEvent: function(name, handler, one) {
+            the.events.push({
+                name: name,
+                handler: handler,
+                one: one,
+                fired: false
+            });
+        }
+    };
+
+    //////////////////////////
+    // ** Public Methods ** //
+    //////////////////////////
+
+    /**
+     * Set default options 
+     */
+
+    the.setDefaults = function(options) {
+        defaultOptions = options;
+    };
+
+
+    /**
+     * Set active menu item
+     */
+    the.setActiveItem = function(item) {
+        return Plugin.setActiveItem(item);
+    };
+
+    the.reload = function() {
+        return Plugin.reload();
+    };
+
+    /**
+     * Set breadcrumb for menu item
+     */
+    the.getBreadcrumbs = function(item) {
+        return Plugin.getBreadcrumbs(item);
+    };
+
+    /**
+     * Set page title for menu item
+     */
+    the.getPageTitle = function(item) {
+        return Plugin.getPageTitle(item);
+    };
+
+    /**
+     * Get submenu mode
+     */
+    the.getSubmenuMode = function() {
+        return Plugin.getSubmenuMode();
+    };
+
+    /**
+     * Hide dropdown submenu
+     * @returns {jQuery}
+     */
+    the.hideDropdown = function(item) {
+        Plugin.hideSubmenuDropdown(item, true);
+    };
+
+    /**
+     * Disable menu for given time
+     * @returns {jQuery}
+     */
+    the.pauseDropdownHover = function(time) {
+        Plugin.pauseDropdownHover(time);
+    };
+
+    /**
+     * Disable menu for given time
+     * @returns {jQuery}
+     */
+    the.resumeDropdownHover = function() {
+        return Plugin.resumeDropdownHover();
+    };
+
+    /**
+     * Register event
+     */
+    the.on = function(name, handler) {
+        return Plugin.addEvent(name, handler);
+    };
+
+    the.one = function(name, handler) {
+        return Plugin.addEvent(name, handler, true);
+    };
+
+    ///////////////////////////////
+    // ** Plugin Construction ** //
+    ///////////////////////////////
+
+    //== Run plugin
+    Plugin.construct.apply(the, [options]);
+
+    //== Handle plugin on window resize
+    mUtil.addResizeHandler(function() {
+        if (init) {
+            the.reload();
+        }  
+    });
+
+    //== Init done
+    init = true;
+
+    // Return plugin instance
+    return the;
+};
+
+// Plugin global lazy initialization
+document.addEventListener("click", function (e) {
+    var body = mUtil.get('body');
+    var query;
+    if ( query = body.querySelectorAll('.m-menu__nav .m-menu__item.m-menu__item--submenu.m-menu__item--hover:not(.m-menu__item--tabs)[m-menu-submenu-toggle="click"]') ) {
+        for (var i = 0, len = query.length; i < len; i++) {
+            var element = query[i].closest('.m-menu__nav').parentNode;
+
+            if ( element ) {
+                var the = mUtil.data(element).get('menu');
+
+                if ( !the ) {
+                    break;
+                }
+
+                if ( !the || the.getSubmenuMode() !== 'dropdown' ) {
+                    break;
+                }
+
+                if ( e.target !== element && element.contains(e.target) === false ) {
+                    var items;
+                    if ( items = element.querySelectorAll('.m-menu__item--submenu.m-menu__item--hover:not(.m-menu__item--tabs)[m-menu-submenu-toggle="click"]') ) {
+                        for (var j = 0, cnt = items.length; j < cnt; j++) {
+                            the.hideDropdown(items[j]);
+                        }
+                    }
+                }
+            }            
+        }
+    } 
+});
+var mOffcanvas = function(elementId, options) {
+    //== Main object
+    var the = this;
+    var init = false;
+
+    //== Get element object
+    var element = mUtil.get(elementId);
+    var body = mUtil.get('body');
+
+    if (!element) {
+        return;
+    }
+
+    //== Default options
+    var defaultOptions = {};
+
+    ////////////////////////////
+    // ** Private Methods  ** //
+    ////////////////////////////
+
+    var Plugin = {
+        /**
+         * Run plugin
+         * @returns {moffcanvas}
+         */
+        construct: function(options) {
+            if (mUtil.data(element).has('offcanvas')) {
+                the = mUtil.data(element).get('offcanvas');
+            } else {
+                // reset offcanvas
+                Plugin.init(options);
+                
+                // build offcanvas
+                Plugin.build();
+
+                mUtil.data(element).set('offcanvas', the);
+            }
+
+            return the;
+        },
+
+        /**
+         * Handles suboffcanvas click toggle
+         * @returns {moffcanvas}
+         */
+        init: function(options) {
+            the.events = [];
+
+            // merge default and user defined options
+            the.options = mUtil.deepExtend({}, defaultOptions, options);
+            the.overlay;
+
+            the.classBase = the.options.baseClass;
+            the.classShown = the.classBase + '--on';
+            the.classOverlay = the.classBase + '-overlay';
+
+            the.state = mUtil.hasClass(element, the.classShown) ? 'shown' : 'hidden';
+        },
+
+        build: function() {
+            //== offcanvas toggle
+            if (the.options.toggleBy) {
+                if (typeof the.options.toggleBy === 'string') { 
+                    mUtil.addEvent( the.options.toggleBy, 'click', Plugin.toggle); 
+                } else if (the.options.toggleBy && the.options.toggleBy[0] && the.options.toggleBy[0].target) {
+                    for (var i in the.options.toggleBy) { 
+                        mUtil.addEvent( the.options.toggleBy[i].target, 'click', Plugin.toggle); 
+                    }
+                } else if (the.options.toggleBy && the.options.toggleBy.target) {
+                    mUtil.addEvent( the.options.toggleBy.target, 'click', Plugin.toggle); 
+                } 
+            }
+
+            //== offcanvas close
+            var closeBy = mUtil.get(the.options.closeBy);
+            if (closeBy) {
+                mUtil.addEvent(closeBy, 'click', Plugin.hide);
+            }
+        },
+
+
+        /**
+         * Handles offcanvas toggle
+         */
+        toggle: function() {;
+            Plugin.eventTrigger('toggle'); 
+
+            if (the.state == 'shown') {
+                Plugin.hide(this);
+            } else {
+                Plugin.show(this);
+            }
+        },
+
+        /**
+         * Handles offcanvas show
+         */
+        show: function(target) {
+            if (the.state == 'shown') {
+                return;
+            }
+
+            Plugin.eventTrigger('beforeShow');
+
+            Plugin.togglerClass(target, 'show');
+
+            //== Offcanvas panel
+            mUtil.addClass(body, the.classShown);
+            mUtil.addClass(element, the.classShown);
+
+            the.state = 'shown';
+
+            if (the.options.overlay) {
+                the.overlay = mUtil.insertAfter(document.createElement('DIV') , element );
+                mUtil.addClass(the.overlay, the.classOverlay);
+                mUtil.addEvent(the.overlay, 'click', function(e) {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    Plugin.hide(target);       
+                });
+            }
+
+            Plugin.eventTrigger('afterShow');
+        },
+
+        /**
+         * Handles offcanvas hide
+         */
+        hide: function(target) {
+            if (the.state == 'hidden') {
+                return;
+            }
+
+            Plugin.eventTrigger('beforeHide');
+
+            Plugin.togglerClass(target, 'hide');
+
+            mUtil.removeClass(body, the.classShown);
+            mUtil.removeClass(element, the.classShown);
+
+            the.state = 'hidden';
+
+            if (the.options.overlay && the.overlay) {
+                mUtil.remove(the.overlay);
+            }
+
+            Plugin.eventTrigger('afterHide');
+        },
+
+        /**
+         * Handles toggler class
+         */
+        togglerClass: function(target, mode) {
+            //== Toggler
+            var id = mUtil.attr(target, 'id');
+            var toggleBy;
+
+            if (the.options.toggleBy && the.options.toggleBy[0] && the.options.toggleBy[0].target) {
+                for (var i in the.options.toggleBy) {
+                    if (the.options.toggleBy[i].target === id) {
+                        toggleBy = the.options.toggleBy[i];
+                    }        
+                }
+            } else if (the.options.toggleBy && the.options.toggleBy.target) {
+                toggleBy = the.options.toggleBy;
+            }
+
+            if (toggleBy) {                
+                var el = mUtil.get(toggleBy.target);
+                
+                if (mode === 'show') {
+                    mUtil.addClass(el, toggleBy.state);
+                }
+
+                if (mode === 'hide') {
+                    mUtil.removeClass(el, toggleBy.state);
+                }
+            }
+        },
+
+        /**
+         * Trigger events
+         */
+        eventTrigger: function(name, args) {
+            for (var i = 0; i < the.events.length; i++) {
+                var event = the.events[i];
+                if (event.name == name) {
+                    if (event.one == true) {
+                        if (event.fired == false) {
+                            the.events[i].fired = true;
+                            event.handler.call(this, the, args);
+                        }
+                    } else {
+                        event.handler.call(this, the, args);
+                    }
+                }
+            }
+        },
+
+        addEvent: function(name, handler, one) {
+            the.events.push({
+                name: name,
+                handler: handler,
+                one: one,
+                fired: false
+            });
+        }
+    };
+
+    //////////////////////////
+    // ** Public Methods ** //
+    //////////////////////////
+
+    /**
+     * Set default options 
+     */
+
+    the.setDefaults = function(options) {
+        defaultOptions = options;
+    };
+
+    /**
+     * Hide 
+     */
+    the.hide = function() {
+        return Plugin.hide();
+    };
+
+    /**
+     * Show 
+     */
+    the.show = function() {
+        return Plugin.show();
+    };
+
+    /**
+     * Get suboffcanvas mode
+     */
+    the.on = function(name, handler) {
+        return Plugin.addEvent(name, handler);
+    };
+
+    /**
+     * Set offcanvas content
+     * @returns {mOffcanvas}
+     */
+    the.one = function(name, handler) {
+        return Plugin.addEvent(name, handler, true);
+    };
+
+    ///////////////////////////////
+    // ** Plugin Construction ** //
+    ///////////////////////////////
+
+    //== Run plugin
+    Plugin.construct.apply(the, [options]);
+
+    //== Init done
+    init = true;
+
+    // Return plugin instance
+    return the;
+};
+// plugin setup
+var mPortlet = function(elementId, options) {
+    //== Main object
+    var the = this;
+    var init = false;
+
+    //== Get element object
+    var element = mUtil.get(elementId);
+    var body = mUtil.get('body');
+
+    if (!element) {
+        return;
+    }
+
+    //== Default options
+    var defaultOptions = {
+        bodyToggleSpeed: 400,
+        tooltips: true,
+        tools: {
+            toggle: {
+                collapse: 'Collapse',
+                expand: 'Expand'
+            },
+            reload: 'Reload',
+            remove: 'Remove',
+            fullscreen: {
+                on: 'Fullscreen',
+                off: 'Exit Fullscreen'
+            }
+        }
+    };
+
+    ////////////////////////////
+    // ** Private Methods  ** //
+    ////////////////////////////
+
+    var Plugin = {
+        /**
+         * Construct
+         */
+
+        construct: function(options) {
+            if (mUtil.data(element).has('portlet')) {
+                the = mUtil.data(element).get('portlet');
+            } else {
+                // reset menu
+                Plugin.init(options);
+
+                // build menu
+                Plugin.build();
+
+                mUtil.data(element).set('portlet', the);
+            }
+
+            return the;
+        },
+
+        /**
+         * Init portlet
+         */
+        init: function(options) {
+            the.element = element;
+            the.events = [];
+
+            // merge default and user defined options
+            the.options = mUtil.deepExtend({}, defaultOptions, options);
+            the.head = mUtil.child(element, '.m-portlet__head');
+
+            if (mUtil.child(element, '.m-portlet__body')) {
+                the.body = mUtil.child(element, '.m-portlet__body');
+            } else if (mUtil.child(element, '.m-form').length !== 0) {
+                the.body = mUtil.child(element, '.m-form');
+            }
+        },
+
+        /**
+         * Build Form Wizard
+         */
+        build: function() {
+            //== Remove
+            var remove = mUtil.find(the.head, '[m-portlet-tool=remove]');
+            if (remove) {
+                mUtil.addEvent(remove, 'click', function(e) {
+                    e.preventDefault();
+                    Plugin.remove();
+                });
+            }
+
+            //== Reload
+            var reload = mUtil.find(the.head, '[m-portlet-tool=reload]');
+            if (reload) {
+                mUtil.addEvent(reload, 'click', function(e) {
+                    e.preventDefault();
+                    Plugin.reload();
+                });
+            }
+
+            //== Toggle
+            var toggle = mUtil.find(the.head, '[m-portlet-tool=toggle]');
+            if (toggle) {
+                mUtil.addEvent(toggle, 'click', function(e) {
+                    e.preventDefault();
+                    Plugin.toggle();
+                });
+            }
+
+            //== Fullscreen
+            var fullscreen = mUtil.find(the.head, '[m-portlet-tool=fullscreen]');
+            if (fullscreen) {
+                mUtil.addEvent(fullscreen, 'click', function(e) {
+                    e.preventDefault();
+                    Plugin.fullscreen();
+                });
+            }
+
+            Plugin.setupTooltips();
+        },
+
+        /**
+         * Remove portlet
+         */
+        remove: function() {
+            if (Plugin.eventTrigger('beforeRemove') === false) {
+                return;
+            }
+
+            if (mUtil.hasClass(body, 'm-portlet--fullscreen') && mUtil.hasClass(element, 'm-portlet--fullscreen')) {
+                Plugin.fullscreen('off');
+            }
+
+            Plugin.removeTooltips();
+
+            mUtil.remove(element);
+
+            Plugin.eventTrigger('afterRemove');
+        },
+
+        /**
+         * Set content
+         */
+        setContent: function(html) {
+            if (html) {
+                the.body.innerHTML = html;
+            }
+        },
+
+        /**
+         * Get body
+         */
+        getBody: function() {
+            return the.body;
+        },
+
+        /**
+         * Get self
+         */
+        getSelf: function() {
+            return element;
+        },
+
+        /**
+         * Setup tooltips
+         */
+        setupTooltips: function() {
+            if (the.options.tooltips) {
+                var collapsed = mUtil.hasClass(element, 'm-portlet--collapse') || mUtil.hasClass(element, 'm-portlet--collapsed');
+                var fullscreenOn = mUtil.hasClass(body, 'm-portlet--fullscreen') && mUtil.hasClass(element, 'm-portlet--fullscreen');
+
+                //== Remove
+                var remove = mUtil.find(the.head, '[m-portlet-tool=remove]');
+                if (remove) {
+                    var placement = (fullscreenOn ? 'bottom' : 'top');
+                    var tip = new Tooltip(remove, {
+                        title: the.options.tools.remove,
+                        placement: placement,
+                        offset: (fullscreenOn ? '0,10px,0,0' : '0,5px'),
+                        trigger: 'hover',
+                        template: '<div class="m-tooltip m-tooltip--portlet tooltip bs-tooltip-' + placement + '" role="tooltip">\
+                            <div class="tooltip-arrow arrow"></div>\
+                            <div class="tooltip-inner"></div>\
+                        </div>'
+                    });
+
+                    mUtil.data(remove).set('tooltip', tip);                   
+                }
+
+                //== Reload
+                var reload = mUtil.find(the.head, '[m-portlet-tool=reload]');
+                if (reload) {
+                    var placement = (fullscreenOn ? 'bottom' : 'top');
+                    var tip = new Tooltip(reload, {
+                        title: the.options.tools.reload,
+                        placement: placement,
+                        offset: (fullscreenOn ? '0,10px,0,0' : '0,5px'),
+                        trigger: 'hover',
+                        template: '<div class="m-tooltip m-tooltip--portlet tooltip bs-tooltip-' + placement + '" role="tooltip">\
+                            <div class="tooltip-arrow arrow"></div>\
+                            <div class="tooltip-inner"></div>\
+                        </div>'
+                    });
+
+                    mUtil.data(reload).set('tooltip', tip);                   
+                }
+
+                //== Toggle
+                var toggle = mUtil.find(the.head, '[m-portlet-tool=toggle]');
+                if (toggle) {
+                    var placement = (fullscreenOn ? 'bottom' : 'top');
+                    var tip = new Tooltip(toggle, {
+                        title: (collapsed ? the.options.tools.toggle.expand : the.options.tools.toggle.collapse),
+                        placement: placement,
+                        offset: (fullscreenOn ? '0,10px,0,0' : '0,5px'),
+                        trigger: 'hover',
+                        template: '<div class="m-tooltip m-tooltip--portlet tooltip bs-tooltip-' + placement + '" role="tooltip">\
+                            <div class="tooltip-arrow arrow"></div>\
+                            <div class="tooltip-inner"></div>\
+                        </div>'
+                    });
+
+                    mUtil.data(toggle).set('tooltip', tip);                   
+                }
+
+                //== Fullscreen
+                var fullscreen = mUtil.find(the.head, '[m-portlet-tool=fullscreen]');
+                if (fullscreen) {
+                    var placement = (fullscreenOn ? 'bottom' : 'top');
+                    var tip = new Tooltip(fullscreen, {
+                        title: (fullscreenOn ? the.options.tools.fullscreen.off : the.options.tools.fullscreen.on),
+                        placement: placement,
+                        offset: (fullscreenOn ? '0,10px,0,0' : '0,5px'),
+                        trigger: 'hover',
+                        template: '<div class="m-tooltip m-tooltip--portlet tooltip bs-tooltip-' + placement + '" role="tooltip">\
+                            <div class="tooltip-arrow arrow"></div>\
+                            <div class="tooltip-inner"></div>\
+                        </div>'
+                    });
+
+                    mUtil.data(fullscreen).set('tooltip', tip);                   
+                }
+            }
+        },
+
+        /**
+         * Setup tooltips
+         */
+        removeTooltips: function() {
+            if (the.options.tooltips) {
+                //== Remove
+                var remove = mUtil.find(the.head, '[m-portlet-tool=remove]');
+                if (remove && mUtil.data(remove).has('tooltip')) {
+                    mUtil.data(remove).get('tooltip').dispose();
+                }
+
+                //== Reload
+                var reload = mUtil.find(the.head, '[m-portlet-tool=reload]');
+                if (reload && mUtil.data(reload).has('tooltip')) {
+                    mUtil.data(reload).get('tooltip').dispose();
+                }
+
+                //== Toggle
+                var toggle = mUtil.find(the.head, '[m-portlet-tool=toggle]');
+                if (toggle && mUtil.data(toggle).has('tooltip')) {
+                    mUtil.data(toggle).get('tooltip').dispose();
+                }
+
+                //== Fullscreen
+                var fullscreen = mUtil.find(the.head, '[m-portlet-tool=fullscreen]');
+                if (fullscreen && mUtil.data(fullscreen).has('tooltip')) {
+                    mUtil.data(fullscreen).get('tooltip').dispose();
+                }
+            }
+        },
+
+        /**
+         * Reload
+         */
+        reload: function() {
+            Plugin.eventTrigger('reload');
+        },
+
+        /**
+         * Toggle
+         */
+        toggle: function() {
+            if (mUtil.hasClass(element, 'm-portlet--collapse') || mUtil.hasClass(element, 'm-portlet--collapsed')) {
+                Plugin.expand();
+            } else {
+                Plugin.collapse();
+            }
+        },
+
+        /**
+         * Collapse
+         */
+        collapse: function() {
+            if (Plugin.eventTrigger('beforeCollapse') === false) {
+                return;
+            }
+
+            mUtil.slideUp(the.body, the.options.bodyToggleSpeed, function() {
+                Plugin.eventTrigger('afterCollapse');
+            });
+
+            mUtil.addClass(element, 'm-portlet--collapse');
+
+            var toggle = mUtil.find(the.head, '[m-portlet-tool=toggle]');
+            if (toggle && mUtil.data(toggle).has('tooltip')) {
+                mUtil.data(toggle).get('tooltip').updateTitleContent(the.options.tools.toggle.expand);
+            }
+        },
+
+        /**
+         * Expand
+         */
+        expand: function() {
+            if (Plugin.eventTrigger('beforeExpand') === false) {
+                return;
+            }
+
+            mUtil.slideDown(the.body, the.options.bodyToggleSpeed, function() {
+                Plugin.eventTrigger('afterExpand');
+            });
+
+            mUtil.removeClass(element, 'm-portlet--collapse');
+            mUtil.removeClass(element, 'm-portlet--collapsed');
+
+            var toggle = mUtil.find(the.head, '[m-portlet-tool=toggle]');
+            if (toggle && mUtil.data(toggle).has('tooltip')) {
+                mUtil.data(toggle).get('tooltip').updateTitleContent(the.options.tools.toggle.collapse);
+            }
+        },
+
+        /**
+         * Toggle
+         */
+        fullscreen: function(mode) {
+            var d = {};
+            var speed = 300;
+
+            if (mode === 'off' || (mUtil.hasClass(body, 'm-portlet--fullscreen') && mUtil.hasClass(element, 'm-portlet--fullscreen'))) {
+                Plugin.eventTrigger('beforeFullscreenOff');
+
+                mUtil.removeClass(body, 'm-portlet--fullscreen');
+                mUtil.removeClass(element, 'm-portlet--fullscreen');
+
+                Plugin.removeTooltips();
+                Plugin.setupTooltips();
+
+                Plugin.eventTrigger('afterFullscreenOff');
+            } else {
+                Plugin.eventTrigger('beforeFullscreenOn');
+
+                mUtil.addClass(element, 'm-portlet--fullscreen');
+                mUtil.addClass(body, 'm-portlet--fullscreen');
+
+                Plugin.removeTooltips();
+                Plugin.setupTooltips();
+
+                Plugin.eventTrigger('afterFullscreenOn');
+            }
+        },
+
+        /**
+         * Trigger events
+         */
+        eventTrigger: function(name) {
+            //mUtil.triggerCustomEvent(name);
+            for (i = 0; i < the.events.length; i++) {
+                var event = the.events[i];
+                if (event.name == name) {
+                    if (event.one == true) {
+                        if (event.fired == false) {
+                            the.events[i].fired = true;
+                            event.handler.call(this, the);
+                        }
+                    } else {
+                        event.handler.call(this, the);
+                    }
+                }
+            }
+        },
+
+        addEvent: function(name, handler, one) {
+            the.events.push({
+                name: name,
+                handler: handler,
+                one: one,
+                fired: false
+            });
+
+            return the;
+        }
+    };
+
+    //////////////////////////
+    // ** Public Methods ** //
+    //////////////////////////
+
+    /**
+     * Set default options 
+     */
+
+    the.setDefaults = function(options) {
+        defaultOptions = options;
+    };
+
+    /**
+     * Remove portlet
+     * @returns {mPortlet}
+     */
+    the.remove = function() {
+        return Plugin.remove(html);
+    };
+
+    /**
+     * Reload portlet
+     * @returns {mPortlet}
+     */
+    the.reload = function() {
+        return Plugin.reload();
+    };
+
+    /**
+     * Set portlet content
+     * @returns {mPortlet}
+     */
+    the.setContent = function(html) {
+        return Plugin.setContent(html);
+    };
+
+    /**
+     * Toggle portlet
+     * @returns {mPortlet}
+     */
+    the.toggle = function() {
+        return Plugin.toggle();
+    };
+
+    /**
+     * Collapse portlet
+     * @returns {mPortlet}
+     */
+    the.collapse = function() {
+        return Plugin.collapse();
+    };
+
+    /**
+     * Expand portlet
+     * @returns {mPortlet}
+     */
+    the.expand = function() {
+        return Plugin.expand();
+    };
+
+    /**
+     * Fullscreen portlet
+     * @returns {mPortlet}
+     */
+    the.fullscreen = function() {
+        return Plugin.fullscreen('on');
+    };
+
+    /**
+     * Fullscreen portlet
+     * @returns {mPortlet}
+     */
+    the.unFullscreen = function() {
+        return Plugin.fullscreen('off');
+    };
+
+    /**
+     * Get portletbody 
+     * @returns {jQuery}
+     */
+    the.getBody = function() {
+        return Plugin.getBody();
+    };
+
+    /**
+     * Get portletbody 
+     * @returns {jQuery}
+     */
+    the.getSelf = function() {
+        return Plugin.getSelf();
+    };
+
+    /**
+     * Attach event
+     */
+    the.on = function(name, handler) {
+        return Plugin.addEvent(name, handler);
+    };
+
+    /**
+     * Attach event that will be fired once
+     */
+    the.one = function(name, handler) {
+        return Plugin.addEvent(name, handler, true);
+    };
+
+    //== Construct plugin
+    Plugin.construct.apply(the, [options]);
+
+    return the;
+};
+// plugin setup
+var mQuicksearch = function(elementId, options) {
+    //== Main object
+    var the = this;
+    var init = false;
+
+    //== Get element object
+    var element = mUtil.get(elementId);
+    var body = mUtil.get('body');  
+
+    if (!element) {
+        return;
+    }
+
+    //== Default options
+    var defaultOptions = {
+        mode: 'default', //'default/dropdown'
+        minLength: 1,
+        maxHeight: 300,
+        requestTimeout: 200, // ajax request fire timeout in milliseconds 
+        inputTarget: 'm_quicksearch_input',
+        iconCloseTarget: 'm_quicksearch_close',
+        iconCancelTarget: 'm_quicksearch_cancel',
+        iconSearchTarget: 'm_quicksearch_search',
+        
+        spinnerClass: 'm-loader m-loader--skin-light m-loader--right',
+        hasResultClass: 'm-list-search--has-result',
+        
+        templates: {
+            error: '<div class="m-search-results m-search-results--skin-light"><span class="m-search-result__message">{{message}}</div></div>'
+        }
+    };
+
+    ////////////////////////////
+    // ** Private Methods  ** //
+    ////////////////////////////
+
+    var Plugin = {
+        /**
+         * Construct
+         */
+
+        construct: function(options) {
+            if (mUtil.data(element).has('quicksearch')) {
+                the = mUtil.data(element).get('quicksearch');
+            } else {
+                // reset menu
+                Plugin.init(options);
+
+                // build menu
+                Plugin.build();
+
+                mUtil.data(element).set('quicksearch', the);
+            }
+
+            return the;
+        },
+
+        init: function(options) {
+            the.element = element;
+            the.events = [];
+
+            // merge default and user defined options
+            the.options = mUtil.deepExtend({}, defaultOptions, options);
+
+            // search query
+            the.query = '';
+
+            // form
+            the.form = mUtil.find(element, 'form');
+
+            // input element
+            the.input = mUtil.get(the.options.inputTarget);
+
+            // close icon
+            the.iconClose = mUtil.get(the.options.iconCloseTarget);
+
+            if (the.options.mode == 'default') {
+                // search icon
+                the.iconSearch = mUtil.get(the.options.iconSearchTarget);
+
+                // cancel icon
+                the.iconCancel = mUtil.get(the.options.iconCancelTarget);
+            }
+
+            // dropdown
+            the.dropdown = new mDropdown(element, {
+                mobileOverlay: false
+            });
+
+            // cancel search timeout
+            the.cancelTimeout;
+
+            // ajax processing state
+            the.processing = false;
+
+            // ajax request fire timeout
+            the.requestTimeout = false;
+        },
+
+        /**
+         * Build plugin
+         */
+        build: function() {
+            // attach input keyup handler
+            mUtil.addEvent(the.input, 'keyup', Plugin.search);
+
+            if (the.options.mode == 'default') {
+                mUtil.addEvent(the.input, 'focus', Plugin.showDropdown);
+                mUtil.addEvent(the.iconCancel, 'click', Plugin.handleCancel);
+
+                mUtil.addEvent(the.iconSearch, 'click', function() {
+                    if (mUtil.isInResponsiveRange('tablet-and-mobile')) {
+                        mUtil.addClass(body, 'm-header-search--mobile-expanded');
+                        the.input.focus();
+                    }
+                });
+
+                mUtil.addEvent(the.iconClose, 'click', function() {
+                    if (mUtil.isInResponsiveRange('tablet-and-mobile')) {
+                        mUtil.removeClass(body, 'm-header-search--mobile-expanded');
+                        Plugin.closeDropdown();
+                    }
+                });
+            } else if (the.options.mode == 'dropdown') {
+                the.dropdown.on('afterShow', function() {
+                    the.input.focus();
+                });
+
+                mUtil.addEvent(the.iconClose, 'click', Plugin.closeDropdown);
+            }
+        },
+
+        showProgress: function() {
+            the.processing = true;
+            mUtil.addClass(the.form, the.options.spinnerClass);
+            Plugin.handleCancelIconVisibility('off');
+
+            return the;
+        },
+
+        hideProgress: function() {
+            the.processing = false;
+            mUtil.removeClass(the.form, the.options.spinnerClass);
+            Plugin.handleCancelIconVisibility('on');
+            mUtil.addClass(element, the.options.hasResultClass);
+
+            return the;
+        },
+
+        /**
+         * Search handler
+         */
+        search: function(e) {
+            the.query = the.input.value;
+
+            if (the.query.length === 0) {
+                Plugin.handleCancelIconVisibility('on');
+                mUtil.removeClass(element, the.options.hasResultClass);
+                mUtil.removeClass(the.form, the.options.spinnerClass);
+            }
+
+            if (the.query.length < the.options.minLength || the.processing == true) {
+                return;
+            }
+
+            if (the.requestTimeout) {
+                clearTimeout(the.requestTimeout);
+            }
+
+            the.requestTimeout = false;
+
+            the.requestTimeout = setTimeout(function() {
+                Plugin.eventTrigger('search');
+            }, the.options.requestTimeout);            
+
+            return the;
+        },
+
+        /**
+         * Handle cancel icon visibility
+         */
+        handleCancelIconVisibility: function(status) {
+            if (status == 'on') {
+                if (the.input.value.length === 0) {
+                    if (the.iconCancel) mUtil.css(the.iconCancel, 'visibility', 'hidden');
+                    if (the.iconClose) mUtil.css(the.iconClose, 'visibility', 'visible');
+                } else {
+                    clearTimeout(the.cancelTimeout);
+                    the.cancelTimeout = setTimeout(function() {
+                        if (the.iconCancel) mUtil.css(the.iconCancel, 'visibility', 'visible');
+                        if (the.iconClose) mUtil.css(the.iconClose, 'visibility', 'visible');
+                    }, 500);
+                }
+            } else {
+                if (the.iconCancel) mUtil.css(the.iconCancel, 'visibility', 'hidden');
+                if (the.iconClose) mUtil.css(the.iconClose, 'visibility', 'hidden');
+            }
+        },
+
+        /**
+         * Cancel handler
+         */
+        handleCancel: function(e) {
+            the.input.value = '';
+            mUtil.css(the.iconCancel, 'visibility', 'hidden');
+            mUtil.removeClass(element, the.options.hasResultClass);
+
+            Plugin.closeDropdown();
+        },
+
+        /**
+         * Cancel handler
+         */
+        closeDropdown: function() {
+            the.dropdown.hide();
+        },
+
+        /**
+         * Show dropdown
+         */
+        showDropdown: function(e) {
+            if (the.dropdown.isShown() == false && the.input.value.length > the.options.minLength && the.processing == false) {
+                console.log('show!!!');
+                the.dropdown.show();
+                if (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }                
+            }
+        },
+
+        /**
+         * Trigger events
+         */
+        eventTrigger: function(name) {
+            //mUtil.triggerCustomEvent(name);
+            for (i = 0; i < the.events.length; i++) {
+                var event = the.events[i];
+                if (event.name == name) {
+                    if (event.one == true) {
+                        if (event.fired == false) {
+                            the.events[i].fired = true;
+                            event.handler.call(this, the);
+                        }
+                    } else {
+                        event.handler.call(this, the);
+                    }
+                }
+            }
+        },
+
+        addEvent: function(name, handler, one) {
+            the.events.push({
+                name: name,
+                handler: handler,
+                one: one,
+                fired: false
+            });
+
+            return the;
+        }
+    };
+
+    //////////////////////////
+    // ** Public Methods ** //
+    //////////////////////////
+
+    /**
+     * Set default options 
+     */
+
+    the.setDefaults = function(options) {
+        defaultOptions = options;
+    };
+
+    /**
+     * quicksearch off 
+     */
+    the.search = function() {
+        return Plugin.handleSearch();
+    };
+
+    the.showResult = function(res) {
+        the.dropdown.setContent(res);
+        Plugin.showDropdown();
+
+        return the;
+    };
+
+    the.showError = function(text) {
+        var msg = the.options.templates.error.replace('{{message}}', text);
+        the.dropdown.setContent(msg);
+        Plugin.showDropdown();
+
+        return the;
+    };
+
+    /**
+     *  
+     */
+    the.showProgress = function() {
+        return Plugin.showProgress();
+    };
+
+    the.hideProgress = function() {
+        return Plugin.hideProgress();
+    };
+
+    /**
+     * quicksearch off 
+     */
+    the.search = function() {
+        return Plugin.search();
+    };
+
+    /**
+     * Attach event
+     * @returns {mQuicksearch}
+     */
+    the.on = function(name, handler) {
+        return Plugin.addEvent(name, handler);
+    };
+
+    /**
+     * Attach event that will be fired once
+     * @returns {mQuicksearch}
+     */
+    the.one = function(name, handler) {
+        return Plugin.addEvent(name, handler, true);
+    };
+
+    //== Construct plugin
+    Plugin.construct.apply(the, [options]);
+
+    return the;
+};
+var mScrollTop = function(elementId, options) {
+    //== Main object
+    var the = this;
+    var init = false;
+
+    //== Get element object
+    var element = mUtil.get(elementId);
+    var body = mUtil.get('body');
+
+    if (!element) {
+        return;
+    }
+
+    //== Default options
+    var defaultOptions = {
+        offset: 300,
+        speed: 600
+    };
+
+    ////////////////////////////
+    // ** Private Methods  ** //
+    ////////////////////////////
+
+    var Plugin = {
+        /**
+         * Run plugin
+         * @returns {mscrolltop}
+         */
+        construct: function(options) {
+            if (mUtil.data(element).has('scrolltop')) {
+                the = mUtil.data(element).get('scrolltop');
+            } else {
+                // reset scrolltop
+                Plugin.init(options);
+
+                // build scrolltop
+                Plugin.build();
+
+                mUtil.data(element).set('scrolltop', the);
+            }
+
+            return the;
+        },
+
+        /**
+         * Handles subscrolltop click toggle
+         * @returns {mscrolltop}
+         */
+        init: function(options) {
+            the.events = [];
+
+            // merge default and user defined options
+            the.options = mUtil.deepExtend({}, defaultOptions, options);
+        },
+
+        build: function() {
+            // handle window scroll
+            if (navigator.userAgent.match(/iPhone|iPad|iPod/i)) {
+                window.addEventListener('touchend', function() {
+                    Plugin.handle();
+                });
+
+                window.addEventListener('touchcancel', function() {
+                    Plugin.handle();
+                });
+
+                window.addEventListener('touchleave', function() {
+                    Plugin.handle();
+                });
+            } else {
+                window.addEventListener('scroll', function() { 
+                    Plugin.handle();
+                });
+            }
+
+            // handle button click 
+            mUtil.addEvent(element, 'click', Plugin.scroll);
+        },
+
+        /**
+         * Handles scrolltop click scrollTop
+         */
+        handle: function() {
+            var pos = window.pageYOffset; // current vertical position
+            if (pos > the.options.offset) {
+                mUtil.addClass(body, 'm-scroll-top--shown');
+            } else {
+                mUtil.removeClass(body, 'm-scroll-top--shown');
+            }
+        },
+
+        /**
+         * Handles scrolltop click scrollTop
+         */
+        scroll: function(e) {
+            e.preventDefault();
+
+            mUtil.scrollTop(the.options.speed);
+        },
+
+
+        /**
+         * Trigger events
+         */
+        eventTrigger: function(name, args) {
+            for (var i = 0; i < the.events.length; i++) {
+                var event = the.events[i];
+                if (event.name == name) {
+                    if (event.one == true) {
+                        if (event.fired == false) {
+                            the.events[i].fired = true;
+                            event.handler.call(this, the, args);
+                        }
+                    } else {
+                        event.handler.call(this, the, args);
+                    }
+                }
+            }
+        },
+
+        addEvent: function(name, handler, one) {
+            the.events.push({
+                name: name,
+                handler: handler,
+                one: one,
+                fired: false
+            });
+        }
+    };
+
+    //////////////////////////
+    // ** Public Methods ** //
+    //////////////////////////
+
+    /**
+     * Set default options 
+     */
+
+    the.setDefaults = function(options) {
+        defaultOptions = options;
+    };
+
+    /**
+     * Get subscrolltop mode
+     */
+    the.on = function(name, handler) {
+        return Plugin.addEvent(name, handler);
+    };
+
+    /**
+     * Set scrolltop content
+     * @returns {mscrolltop}
+     */
+    the.one = function(name, handler) {
+        return Plugin.addEvent(name, handler, true);
+    };
+
+    ///////////////////////////////
+    // ** Plugin Construction ** //
+    ///////////////////////////////
+
+    //== Run plugin
+    Plugin.construct.apply(the, [options]);
+
+    //== Init done
+    init = true;
+
+    // Return plugin instance
+    return the;
+};
+// plugin setup
+var mToggle = function(elementId, options) {
+    //== Main object
+    var the = this;
+    var init = false;
+
+    //== Get element object
+    var element = mUtil.get(elementId);
+    var body = mUtil.get('body');  
+
+    if (!element) {
+        return;
+    }
+
+    //== Default options
+    var defaultOptions = {
+        togglerState: '',
+        targetState: ''
+    };    
+
+    ////////////////////////////
+    // ** Private Methods  ** //
+    ////////////////////////////
+
+    var Plugin = {
+        /**
+         * Construct
+         */
+
+        construct: function(options) {
+            if (mUtil.data(element).has('toggle')) {
+                the = mUtil.data(element).get('toggle');
+            } else {
+                // reset menu
+                Plugin.init(options);
+
+                // build menu
+                Plugin.build();
+
+                mUtil.data(element).set('toggle', the);
+            }
+
+            return the;
+        },
+
+        /**
+         * Handles subtoggle click toggle
+         */
+        init: function(options) {
+            the.element = element;
+            the.events = [];
+
+            // merge default and user defined options
+            the.options = mUtil.deepExtend({}, defaultOptions, options);
+
+            the.target = mUtil.get(the.options.target);
+            the.targetState = the.options.targetState;
+            the.togglerState = the.options.togglerState;
+
+            the.state = mUtil.hasClasses(the.target, the.targetState) ? 'on' : 'off';
+        },
+
+        /**
+         * Setup toggle
+         */
+        build: function() {
+            mUtil.addEvent(element, 'mouseup', Plugin.toggle);
+        },
+        
+        /**
+         * Handles offcanvas click toggle
+         */
+        toggle: function() {
+            if (the.state == 'off') {
+                Plugin.toggleOn();
+            } else {
+                Plugin.toggleOff();
+            }
+
+            return the;
+        },
+
+        /**
+         * Handles toggle click toggle
+         */
+        toggleOn: function() {
+            Plugin.eventTrigger('beforeOn');
+
+            mUtil.addClass(the.target, the.targetState);
+
+            if (the.togglerState) {
+                mUtil.addClass(element, the.togglerState);
+            }
+
+            the.state = 'on';
+
+            Plugin.eventTrigger('afterOn');
+
+            Plugin.eventTrigger('toggle');
+
+            return the;
+        },
+
+        /**
+         * Handles toggle click toggle
+         */
+        toggleOff: function() {
+            Plugin.eventTrigger('beforeOff');
+
+            mUtil.removeClass(the.target, the.targetState);
+
+            if (the.togglerState) {
+                mUtil.removeClass(element, the.togglerState);
+            }
+
+            the.state = 'off';
+
+            Plugin.eventTrigger('afterOff');
+
+            Plugin.eventTrigger('toggle');
+
+            return the;
+        },
+
+        /**
+         * Trigger events
+         */
+        eventTrigger: function(name) {
+            for (i = 0; i < the.events.length; i++) {
+                var event = the.events[i];
+
+                if (event.name == name) {
+                    if (event.one == true) {
+                        if (event.fired == false) {
+                            the.events[i].fired = true;                            
+                            event.handler.call(this, the);
+                        }
+                    } else {
+                        event.handler.call(this, the);
+                    }
+                }
+            }
+        },
+
+        addEvent: function(name, handler, one) {
+            the.events.push({
+                name: name,
+                handler: handler,
+                one: one,
+                fired: false
+            });
+
+            return the;
+        }
+    };
+
+    //////////////////////////
+    // ** Public Methods ** //
+    //////////////////////////
+
+    /**
+     * Set default options 
+     */
+
+    the.setDefaults = function(options) {
+        defaultOptions = options;
+    };
+
+    /**
+     * Get toggle state 
+     */
+    the.getState = function() {
+        return the.state;
+    };
+
+    /**
+     * Toggle 
+     */
+    the.toggle = function() {
+        return Plugin.toggle();
+    };
+
+    /**
+     * Toggle on 
+     */
+    the.toggleOn = function() {
+        return Plugin.toggleOn();
+    };
+
+    /**
+     * Toggle off 
+     */
+    the.toggle = function() {
+        return Plugin.toggleOff();
+    };
+
+    /**
+     * Attach event
+     * @returns {mToggle}
+     */
+    the.on = function(name, handler) {
+        return Plugin.addEvent(name, handler);
+    };
+
+    /**
+     * Attach event that will be fired once
+     * @returns {mToggle}
+     */
+    the.one = function(name, handler) {
+        return Plugin.addEvent(name, handler, true);
+    };
+
+    //== Construct plugin
+    Plugin.construct.apply(the, [options]);
+
+    return the;
+};
+// plugin setup
+var mWizard = function(elementId, options) {
+    //== Main object
+    var the = this;
+    var init = false;
+
+    //== Get element object
+    var element = mUtil.get(elementId);
+    var body = mUtil.get('body');
+
+    if (!element) {
+        return; 
+    }
+
+    //== Default options
+    var defaultOptions = {
+        startStep: 1,
+        manualStepForward: false
+    };
+
+    ////////////////////////////
+    // ** Private Methods  ** //
+    ////////////////////////////
+
+    var Plugin = {
+        /**
+         * Construct
+         */
+
+        construct: function(options) {
+            if (mUtil.data(element).has('wizard')) {
+                the = mUtil.data(element).get('wizard');
+            } else {
+                // reset menu
+                Plugin.init(options);
+
+                // build menu
+                Plugin.build();
+
+                mUtil.data(element).set('wizard', the);
+            }
+
+            return the;
+        },
+
+        /**
+         * Init wizard
+         */
+        init: function(options) {
+            the.element = element;
+            the.events = [];
+
+            // merge default and user defined options
+            the.options = mUtil.deepExtend({}, defaultOptions, options);
+
+            //== Elements
+            the.steps = mUtil.findAll(element, '.m-wizard__step');
+
+            the.progress = mUtil.find(element, '.m-wizard__progress .progress-bar');
+            the.btnSubmit = mUtil.find(element, '[data-wizard-action="submit"]');
+            the.btnNext = mUtil.find(element, '[data-wizard-action="next"]');
+            the.btnPrev = mUtil.find(element, '[data-wizard-action="prev"]');
+            the.btnLast = mUtil.find(element, '[data-wizard-action="last"]');
+            the.btnFirst = mUtil.find(element, '[data-wizard-action="first"]');
+
+            //== Variables
+            the.events = [];
+            the.currentStep = 1;
+            the.totalSteps = the.steps.length;
+
+            //== Init current step
+            if (the.options.startStep > 1) {
+                Plugin.goTo(the.options.startStep);
+            }
+
+            //== Init UI
+            Plugin.updateUI();
+        },
+
+        /**
+         * Build Form Wizard
+         */
+        build: function() {
+            //== Next button event handler
+            mUtil.addEvent(the.btnNext, 'click', function(e) {
+                e.preventDefault();
+                Plugin.goNext();
+            });
+
+            //== Prev button event handler
+            mUtil.addEvent(the.btnPrev, 'click', function(e) {
+                e.preventDefault();
+                Plugin.goPrev();
+            });
+
+            //== First button event handler
+            mUtil.addEvent(the.btnFirst, 'click', function(e) {
+                e.preventDefault();
+                Plugin.goFirst();
+            });
+
+            //== Last button event handler
+            mUtil.addEvent(the.btnLast, 'click', function(e) {
+                e.preventDefault();
+                Plugin.goLast();
+            });
+
+            mUtil.on(element, '.m-wizard__step a.m-wizard__step-number', 'click', function() {
+                var step = this.closest('.m-wizard__step');
+                var steps = mUtil.parents(this, '.m-wizard__steps')
+                var find = mUtil.findAll(steps, '.m-wizard__step');
+                var num;
+
+                for (var i = 0, j = find.length; i < j; i++) {
+                    if (step === find[i]) {
+                        num = (i + 1);
+                        break;
+                    }
+                }
+
+                if (num) {
+                    if (the.options.manualStepForward === false) {
+                        if (num < the.currentStep) {
+                            Plugin.goTo(num);
+                        }
+                    } else {
+                        Plugin.goTo(num);
+                    }                    
+                }
+            });
+        },
+
+        /**
+         * Handles wizard click wizard
+         */
+        goTo: function(number) {
+            //== Skip if this step is already shown
+            if (number === the.currentStep) {
+                return;
+            }
+
+            //== Validate step number
+            if (number) {
+                number = parseInt(number);
+            } else {
+                number = Plugin.getNextStep();
+            }
+
+            //== Before next and prev events
+            var callback;
+
+            if (number > the.currentStep) {
+                callback = Plugin.eventTrigger('beforeNext');
+            } else {
+                callback = Plugin.eventTrigger('beforePrev');
+            }
+
+            //== Continue if no exit
+            if (callback !== false) {
+                //== Set current step
+                the.currentStep = number;
+
+                //== Update UI
+                Plugin.updateUI();
+
+                //== Trigger change event
+                Plugin.eventTrigger('change')
+            }
+
+            //== After next and prev events
+            if (number > the.startStep) {
+                Plugin.eventTrigger('afterNext');
+            } else {
+                Plugin.eventTrigger('afterPrev');
+            }
+
+            return the;
+        },
+
+        updateUI: function(argument) {
+            //== Update progress bar
+            Plugin.updateProgress();
+
+            //== Show current target content
+            Plugin.handleTarget();
+
+            //== Set classes
+            Plugin.setStepClass();
+
+            //== Apply nav step classes
+            for (var i = 0, j = the.steps.length; i < j; i++) {
+                mUtil.removeClass(the.steps[i], 'm-wizard__step--current m-wizard__step--done');
+            }
+
+            for (var i = 1; i < the.currentStep; i++) {
+                mUtil.addClass(the.steps[i - 1], 'm-wizard__step--done');
+            }
+            
+            mUtil.addClass(the.steps[the.currentStep - 1], 'm-wizard__step--current');
+        },
+
+        /**
+         * Check last step
+         */
+        isLastStep: function() {
+            return the.currentStep === the.totalSteps;
+        },
+
+        /**
+         * Check first step
+         */
+        isFirstStep: function() {
+            return the.currentStep === 1;
+        },
+
+        /**
+         * Check between step
+         */
+        isBetweenStep: function() {
+            return Plugin.isLastStep() === false && Plugin.isFirstStep() === false;
+        },
+
+        /**
+         * Set step class
+         */
+        setStepClass: function() {
+            if (Plugin.isLastStep()) {
+                mUtil.addClass(element, 'm-wizard--step-last');
+            } else {
+                mUtil.removeClass(element, 'm-wizard--step-last');
+            }
+
+            if (Plugin.isFirstStep()) {
+                mUtil.addClass(element, 'm-wizard--step-first');
+            } else {
+                mUtil.removeClass(element, 'm-wizard--step-first');
+            }
+
+            if (Plugin.isBetweenStep()) {
+                mUtil.addClass(element, 'm-wizard--step-between');
+            } else {
+                mUtil.removeClass(element, 'm-wizard--step-between');
+            }
+        },
+
+        /**
+         * Go to the next step
+         */
+        goNext: function() {
+            return Plugin.goTo(Plugin.getNextStep());
+        },
+
+        /**
+         * Go to the prev step
+         */
+        goPrev: function() {
+            return Plugin.goTo(Plugin.getPrevStep());
+        },
+
+        /**
+         * Go to the last step
+         */
+        goLast: function() {
+            return Plugin.goTo(the.totalSteps);
+        },
+
+        /**
+         * Go to the first step
+         */
+        goFirst: function() {
+            return Plugin.goTo(1);
+        },
+
+        /**
+         * Set progress
+         */
+        updateProgress: function() {
+            //== Calculate progress position
+            if (!the.progress) {
+                return;
+            }
+
+            //== Update progress
+            if (mUtil.hasClass(element, 'm-wizard--1')) {
+                var width = 100 * ((the.currentStep) / (the.totalSteps));
+                var number = mUtil.find(element, '.m-wizard__step-number');
+                var offset = parseInt(mUtil.css(number, 'width'));
+                mUtil.css(the.progress, 'width', 'calc(' + width + '% + ' + (offset / 2) + 'px)');
+            } else if (mUtil.hasClass(element, 'm-wizard--2')) {
+                if (the.currentStep === 1) {
+                    //return;
+                }
+
+                var progress = (the.currentStep - 1) * (100 * (1 / (the.totalSteps - 1)));
+
+                if (mUtil.isInResponsiveRange('minimal-desktop-and-below')) {
+                    mUtil.css(the.progress, 'height', progress + '%');
+                } else {
+                    mUtil.css(the.progress, 'width', progress + '%');
+                }
+            } else {
+                var width = 100 * ((the.currentStep) / (the.totalSteps));
+                mUtil.css(the.progress, 'width', width + '%');
+            }
+        },
+
+        /**
+         * Show/hide target content
+         */
+        handleTarget: function() {
+            var step = the.steps[the.currentStep - 1];
+            var target = mUtil.get(mUtil.attr(step, 'm-wizard-target'));
+            var current = mUtil.find(element, '.m-wizard__form-step--current');
+            
+            mUtil.removeClass(current, 'm-wizard__form-step--current');
+            mUtil.addClass(target, 'm-wizard__form-step--current');
+        },
+
+        /**
+         * Get next step
+         */
+        getNextStep: function() {
+            if (the.totalSteps >= (the.currentStep + 1)) {
+                return the.currentStep + 1;
+            } else {
+                return the.totalSteps;
+            }
+        },
+
+        /**
+         * Get prev step
+         */
+        getPrevStep: function() {
+            if ((the.currentStep - 1) >= 1) {
+                return the.currentStep - 1;
+            } else {
+                return 1;
+            }
+        },
+
+        /**
+         * Trigger events
+         */
+        eventTrigger: function(name) {
+            //mUtil.triggerCustomEvent(name);
+            for (i = 0; i < the.events.length; i++) {
+                var event = the.events[i];
+                if (event.name == name) {
+                    if (event.one == true) {
+                        if (event.fired == false) {
+                            the.events[i].fired = true;
+                            event.handler.call(this, the);
+                        }
+                    } else {
+                        event.handler.call(this, the);
+                    }
+                }
+            }
+        },
+
+        addEvent: function(name, handler, one) {
+            the.events.push({
+                name: name,
+                handler: handler,
+                one: one,
+                fired: false
+            });
+
+            return the;
+        }
+    };
+
+    //////////////////////////
+    // ** Public Methods ** //
+    //////////////////////////
+
+    /**
+     * Set default options 
+     */
+
+    the.setDefaults = function(options) {
+        defaultOptions = options;
+    };
+
+    /**
+     * Go to the next step 
+     */
+    the.goNext = function() {
+        return Plugin.goNext();
+    };
+
+    /**
+     * Go to the prev step 
+     */
+    the.goPrev = function() {
+        return Plugin.goPrev();
+    };
+
+    /**
+     * Go to the last step 
+     */
+    the.goLast = function() {
+        return Plugin.goLast();
+    };
+
+    /**
+     * Go to the first step 
+     */
+    the.goFirst = function() {
+        return Plugin.goFirst();
+    };
+
+    /**
+     * Go to a step
+     */
+    the.goTo = function(number) {
+        return Plugin.goTo(number);
+    };
+
+    /**
+     * Get current step number 
+     */
+    the.getStep = function() {
+        return the.currentStep;
+    };
+
+    /**
+     * Check last step 
+     */
+    the.isLastStep = function() {
+        return Plugin.isLastStep();
+    };
+
+    /**
+     * Check first step 
+     */
+    the.isFirstStep = function() {
+        return Plugin.isFirstStep();
+    };
+    
+    /**
+     * Attach event
+     */
+    the.on = function(name, handler) {
+        return Plugin.addEvent(name, handler);
+    };
+
+    /**
+     * Attach event that will be fired once
+     */
+    the.one = function(name, handler) {
+        return Plugin.addEvent(name, handler, true);
+    };
+
+    //== Construct plugin
+    Plugin.construct.apply(the, [options]);
+
+    return the;
+};
+var mLayout = function() {
+    var header;
+    var horMenu;
+    var asideMenu;
+    var asideMenuOffcanvas;
+    var horMenuOffcanvas;
+    var asideLeftToggle;
+    var scrollTop;
+    var quicksearch;
+
+    //== Header
+    var initStickyHeader = function() {
+        var tmp;
+        var headerEl = mUtil.get('m_header');
+        var options = {
+            offset: {},
+            minimize:{}       
+        };
+
+        if (mUtil.attr(headerEl, 'm-minimize-mobile') == 'minimize') {
+            options.minimize.mobile = {};
+            options.minimize.mobile.on = 'm-header--minimize-on';
+            options.minimize.mobile.off = 'm-header--minimize-off';
+        } else {
+            options.minimize.mobile = false;
+        }
+
+        if (mUtil.attr(headerEl, 'm-minimize') == 'minimize') {
+            options.minimize.desktop = {};
+            options.minimize.desktop.on = 'm-header--minimize-on';
+            options.minimize.desktop.off = 'm-header--minimize-off';
+        } else {
+            options.minimize.desktop = false;
+        }
+
+        if (tmp = mUtil.attr(headerEl, 'm-minimize-offset')) {
+            options.offset.desktop = tmp;
+        }
+
+        if (tmp = mUtil.attr(headerEl, 'm-minimize-mobile-offset')) {
+            options.offset.mobile = tmp;
+        }        
+
+        header = new mHeader('m_header', options);
+    };
+
+    //== Hor menu
+    var initHorMenu = function() { 
+        // init aside left offcanvas
+        horMenuOffcanvas = new mOffcanvas('m_header_menu', {
+            overlay: true,
+            baseClass: 'm-aside-header-menu-mobile',
+            closeBy: 'm_aside_header_menu_mobile_close_btn',
+            toggleBy: {
+                target: 'm_aside_header_menu_mobile_toggle',
+                state: 'm-brand__toggler--active'
+            }            
+        });
+        
+        horMenu = new mMenu('m_header_menu', {
+            submenu: {
+                desktop: 'dropdown',
+                tablet: 'accordion',
+                mobile: 'accordion'
+            },
+            accordion: {   
+                slideSpeed: 200,  // accordion toggle slide speed in milliseconds
+                autoScroll: true, // enable auto scrolling(focus) to the clicked menu item
+                expandAll: false   // allow having multiple expanded accordions in the menu
+            }
+        });
+    }
+
+    //== Aside menu
+    var initLeftAsideMenu = function() {
+        // init aside menu
+        var menu = $('#m_ver_menu');
+        var menuDesktopMode = (menu.data('m-menu-dropdown') === '1' ? 'dropdown' : 'accordion');
+
+        asideMenu = new mMenu('m_ver_menu', {
+            // submenu setup
+            submenu: {
+                desktop: {
+                    // by default the menu mode set to accordion in desktop mode
+                    default: menuDesktopMode,
+                    // whenever body has this class switch the menu mode to dropdown
+                    state: {
+                        body: 'm-aside-left--minimize',  
+                        mode: 'dropdown'
+                    }
+                },
+                tablet: 'accordion', // menu set to accordion in tablet mode
+                mobile: 'accordion'  // menu set to accordion in mobile mode
+            },
+
+            //accordion setup
+            accordion: {
+                autoScroll: true,
+                expandAll: false
+            }            
+        });
+
+        // handle fixed aside menu
+        if (menu.data('m-menu-scrollable') === '1') {
+            function initScrollableMenu(obj) {    
+                if (mUtil.isInResponsiveRange('tablet-and-mobile')) {
+                    // destroy if the instance was previously created
+                    mApp.destroyScroller(obj);
+                    return;
+                }
+
+                var height = mUtil.getViewPort().height - mUtil.css('m_header', 'height');
+
+                // create/re-create a new instance
+                mApp.initScroller(obj, {height: height});
+            }
+
+            initScrollableMenu(menu);
+            
+            mUtil.addResizeHandler(function() {            
+                initScrollableMenu(asideMenu);
+            });   
+        }      
+    }
+
+    //== Aside
+    var initLeftAside = function() {
+        // init aside left offcanvas
+        var asideLeft = mUtil.get('m_aside_left');
+        var asideOffcanvasClass = mUtil.hasClass(asideLeft, 'm-aside-left--offcanvas-default') ? 'm-aside-left--offcanvas-default' : 'm-aside-left';
+
+        asideMenuOffcanvas = new mOffcanvas('m_aside_left', {
+            baseClass: asideOffcanvasClass,
+            overlay: true,
+            closeBy: 'm_aside_left_close_btn',
+            toggleBy: {
+                target: 'm_aside_left_offcanvas_toggle',
+                state: 'm-brand__toggler--active'                
+            }            
+        });        
+    }
+
+    //== Sidebar toggle
+    var initLeftAsideToggle = function() {
+        if ($('#m_aside_left_minimize_toggle').length === 0 ) {
+            return;
+        }
+
+        asideLeftToggle = new mToggle('m_aside_left_minimize_toggle', {
+            target: 'body',
+            targetState: 'm-brand--minimize m-aside-left--minimize',
+            togglerState: 'm-brand__toggler--active'
+        });
+
+        asideLeftToggle.on('toggle', function(toggle) {
+            horMenu.pauseDropdownHover(800);
+            asideMenu.pauseDropdownHover(800);
+
+            //== Remember state in cookie
+            Cookies.set('sidebar_toggle_state', toggle.getState());
+            // to set default minimized left aside use this cookie value in your 
+            // server side code and add "m-brand--minimize m-aside-left--minimize" classes to 
+            // the body tag in order to initialize the minimized left aside mode during page loading.
+        });
+    }
+
+    //== Topbar
+    var initTopbar = function() {
+        $('#m_aside_header_topbar_mobile_toggle').click(function() {
+            $('body').toggleClass('m-topbar--on');
+        });                                  
+
+        // Animated Notification Icon 
+        setInterval(function() {
+            $('#m_topbar_notification_icon .m-nav__link-icon').addClass('m-animate-shake');
+            $('#m_topbar_notification_icon .m-nav__link-badge').addClass('m-animate-blink');
+        }, 3000);
+
+        setInterval(function() {
+            $('#m_topbar_notification_icon .m-nav__link-icon').removeClass('m-animate-shake');
+            $('#m_topbar_notification_icon .m-nav__link-badge').removeClass('m-animate-blink');
+        }, 6000);
+    }
+
+    //== Quicksearch
+    var initQuicksearch = function() {
+        if ($('#m_quicksearch').length === 0 ) {
+            return;
+        }
+
+        quicksearch = new mQuicksearch('m_quicksearch', {
+            mode: mUtil.attr( 'm_quicksearch', 'm-quicksearch-mode' ), // quick search type
+            minLength: 1
+        });    
+
+        //<div class="m-search-results m-search-results--skin-light"><span class="m-search-result__message">Something went wrong</div></div>
+
+        quicksearch.on('search', function(the) {
+            the.showProgress();  
+                      
+            $.ajax({
+                url: 'inc/api/quick_search.php',
+                data: {query: the.query},
+                dataType: 'html',
+                success: function(res) {
+                    the.hideProgress();
+                    the.showResult(res);                     
+                },
+                error: function(res) {
+                    alert(22);
+                    the.hideProgress();
+                    the.showError('Connection error. Pleae try again later.');      
+                }
+            });
+        });  
+    }
+
+    //== Scrolltop
+    var initScrollTop = function() {
+        var scrollTop = new mScrollTop('m_scroll_top', {
+            offset: 300,
+            speed: 600
+        });
+    }
+
+    return {
+        init: function() {  
+            this.initHeader();
+            this.initAside();
+        },
+
+        initHeader: function() {
+            initStickyHeader();
+            initHorMenu();
+            initTopbar();
+            initQuicksearch();
+            initScrollTop();
+        },
+
+        initAside: function() {
+            initLeftAside();
+            initLeftAsideMenu();            
+            initLeftAsideToggle();
+
+            this.onLeftSidebarToggle(function(e) {
+              var datatables = $('.m-datatable');
+
+                $(datatables).each(function() {
+                    $(this).mDatatable('redraw');
+                });
+            });
+        },
+
+        getAsideMenu: function() {
+            return asideMenu;
+        },
+
+        onLeftSidebarToggle: function(func) {
+            if (asideLeftToggle) {
+                asideLeftToggle.on('toggle', func);
+            }            
+        },
+
+        closeMobileAsideMenuOffcanvas: function() {
+            if (mUtil.isMobileDevice()) {
+                asideMenuOffcanvas.hide();
+            }
+        },
+
+        closeMobileHorMenuOffcanvas: function() {
+            if (mUtil.isMobileDevice()) {
+                horMenuOffcanvas.hide();
+            }
+        }
+    };
+}();
+
+$(document).ready(function() {
+    if (mUtil.isAngularVersion() === false) {
+        mLayout.init();
+    }
+});
+
+
+var mQuickSidebar = function() {
+    var topbarAside = $('#m_quick_sidebar');
+    var topbarAsideTabs = $('#m_quick_sidebar_tabs');    
+    var topbarAsideContent = topbarAside.find('.m-quick-sidebar__content');
+
+    var initMessages = function() {
+        var messenger = $('#m_quick_sidebar_tabs_messenger');  
+
+        if (messenger.length === 0) {
+            return;
+        }
+
+        var messengerMessages = messenger.find('.m-messenger__messages');
+
+        var init = function() {
+            var height = topbarAside.outerHeight(true) - 
+                topbarAsideTabs.outerHeight(true) - 
+                messenger.find('.m-messenger__form').outerHeight(true) - 120;
+            
+            // init messages scrollable content
+            messengerMessages.css('height', height);
+            mApp.initScroller(messengerMessages, {});
+        }
+
+        init();        
+        
+        // reinit on window resize
+        mUtil.addResizeHandler(init);
+    }
+
+    var initSettings = function() { 
+        var settings = $('#m_quick_sidebar_tabs_settings');
+
+        if (settings.length === 0) {
+            return;
+        }
+
+        // init dropdown tabbable content
+        var init = function() {
+            var height = mUtil.getViewPort().height - topbarAsideTabs.outerHeight(true) - 60;
+
+            // init settings scrollable content
+            settings.css('height', height);
+            mApp.initScroller(settings, {});
+        }
+
+        init();
+
+        // reinit on window resize
+        mUtil.addResizeHandler(init);
+    }
+
+    var initLogs = function() {
+        // init dropdown tabbable content
+        var logs = $('#m_quick_sidebar_tabs_logs');
+
+        if (logs.length === 0) {
+            return;
+        }
+
+        var init = function() {
+            var height = mUtil.getViewPort().height - topbarAsideTabs.outerHeight(true) - 60;
+
+            // init settings scrollable content
+            logs.css('height', height);
+            mApp.initScroller(logs, {});
+        }
+
+        init();
+
+        // reinit on window resize
+        mUtil.addResizeHandler(init);
+    }
+
+    var initOffcanvasTabs = function() {
+        initMessages();
+        initSettings();
+        initLogs();
+    }
+
+    var initOffcanvas = function() {
+        var topbarAsideObj = new mOffcanvas('m_quick_sidebar', {
+            overlay: true,  
+            baseClass: 'm-quick-sidebar',
+            closeBy: 'm_quick_sidebar_close',
+            toggleBy: 'm_quick_sidebar_toggle'
+        });   
+
+        // run once on first time dropdown shown
+        topbarAsideObj.one('afterShow', function() {
+            mApp.block(topbarAside);
+
+            setTimeout(function() {
+                mApp.unblock(topbarAside);
+                
+                topbarAsideContent.removeClass('m--hide');
+
+                initOffcanvasTabs();
+            }, 1000);                         
+        });
+    }
+
+    return {     
+        init: function() {  
+            if (topbarAside.length === 0) {
+                return;
+            }
+
+            initOffcanvas(); 
+        }
+    };
+}();
+
+$(document).ready(function() {
+    mQuickSidebar.init();
+});

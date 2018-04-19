@@ -33,14 +33,37 @@ return [
      * DataTables internal index id response column name.
      */
     'index_column' => 'DT_Row_Index',
+    'namespace' => [
+        /**
+         * Base namespace/directory to create the new file.
+         * This is appended on default Laravel namespace.
+         *
+         * Usage: php artisan datatables:make User
+         * Output: App\DataTables\UserDataTable
+         * With Model: App\User (default model)
+         * Export filename: users_timestamp
+         */
+        'base' => 'DataTables',
+        /**
+         * Base namespace/directory where your model's are located.
+         * This is appended on default Laravel namespace.
+         *
+         * Usage: php artisan datatables:make Post --model
+         * Output: App\DataTables\PostDataTable
+         * With Model: App\Post
+         * Export filename: posts_timestamp
+         */
+        'model' => '',
+    ],
+
 
     /*
      * List of available builders for DataTables.
      * This is where you can register your custom dataTables builder.
      */
     'engines' => [
-        'eloquent'   => \Yajra\DataTables\EloquentDataTable::class,
-        'query'      => \Yajra\DataTables\QueryDataTable::class,
+        'eloquent' => \Yajra\DataTables\EloquentDataTable::class,
+        'query' => \Yajra\DataTables\QueryDataTable::class,
         'collection' => \Yajra\DataTables\CollectionDataTable::class,
     ],
 
@@ -108,7 +131,7 @@ return [
      * JsonResponse header and options config.
      */
     'json' => [
-        'header'  => [],
+        'header' => [],
         'options' => 0,
     ],
 
