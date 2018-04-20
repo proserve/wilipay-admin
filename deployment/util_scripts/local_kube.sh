@@ -9,7 +9,7 @@ minikube start --insecure-registry=localhost:5000
 # how to run minikube localy without
 # https://stackoverflow.com/questions/42564058/how-to-use-local-docker-images-in-kubernetes/42564211
 eval $(minikube docker-env)
-# for kubernetes yaml file imagePullPolicy: IfNotPresent
+# for deployment yaml file imagePullPolicy: IfNotPresent
 
 kubectl  create secret docker-registry gcr-json-key \
           --docker-server=https://gcr.io \

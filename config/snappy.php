@@ -4,14 +4,14 @@ return [
 
     'pdf' => [
         'enabled' => true,
-        'binary' => '/usr/bin/wkhtmltopdf',
+        'binary' => 'xvfb-run /usr/bin/wkhtmltopdf',
         'timeout' => false,
         'options' => [],
         'env'     => [],
     ],
     'image' => [
         'enabled' => true,
-        'binary' =>'/usr/bin/wkhtmltoimage',
+        'binary' =>'xvfb-run /usr/bin/wkhtmltoimage',
         'timeout' => false,
         'options' => [],
         'env'     => [],
