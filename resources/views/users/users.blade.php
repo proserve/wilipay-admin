@@ -5,7 +5,7 @@
     <div class="m-portlet m-portlet--bordered m-portlet--rounded  m-portlet--last">
         <div class="m-portlet__body">
             <div class="m-section__content">
-                <table class="table table-striped table-bordered table-hover" id="users-table">
+                <table class="table table-bordered table-hover" id="users-table">
                     <thead>
                     <tr>
                         <th></th>
@@ -59,11 +59,12 @@
         var template = Handlebars.compile($("#details-template").html());
         var table = $('#users-table').DataTable({
           "bSortCellsTop": true,
+          select: true,
           responsive: true,
           processing: true,
           serverSide: true,
           "dom": "Bfrtip",
-          "buttons": ["export", "print", "reset", "reload"],
+          "buttons": ["export", "print", "reset", "reload", 'pageLength', 'create', 'copy'],
           ajax: '{!! route('users') !!}',
           colReorder: true,
           columns: [

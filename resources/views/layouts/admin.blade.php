@@ -1,7 +1,8 @@
 @extends('layouts.app')
 @push('styles')
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/b-1.5.1/datatables.min.css"/>
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.datatables.net/v/bs4/dt-1.10.16/b-1.5.1/kt-2.3.2/sl-1.2.5/datatables.min.css"/>
+
 
     <style>
         td.details-control {
@@ -129,7 +130,8 @@
                                                             <li class="m-nav__item">
 
                                                                 <a href="javascript:
-                                                                        document.getElementById('logout-form').submit();" class="btn m-btn--pill
+                                                                        document.getElementById('logout-form').submit();"
+                                                                   class="btn m-btn--pill
 																	  btn-secondary m-btn m-btn--custom m-btn--label-brand m-btn--bolder"
                                                                 >
                                                                     Logout
@@ -255,9 +257,7 @@
 
 @prepend('scripts')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/b-1.5.1/datatables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.16/b-1.5.1/kt-2.3.2/sl-1.2.5/datatables.min.js"></script>
 <script src="/vendor/datatables/buttons.server-side.js"></script>
 <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
       integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">

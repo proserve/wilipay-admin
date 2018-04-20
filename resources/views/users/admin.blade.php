@@ -10,7 +10,7 @@
 @section('content')
     <div class="m-portlet m-portlet--mobile">
         <div class="m-portlet__body">
-            <table class="table table-striped table-bordered table-hover" id="dataTableBuilder">
+            <table class="table table-bordered table-hover" id="dataTableBuilder">
                 <thead>
                 <tr>
                     <th>Id</th>
@@ -38,6 +38,8 @@
         window.LaravelDataTables["dataTableBuilder"] = $("#dataTableBuilder").DataTable({
           "serverSide": true,
           "processing": true,
+          select: true,
+          keys: true,
           "ajax": "",
           "columns": [{
             "name": "id",
@@ -58,7 +60,7 @@
               "title": "Created At",
             }],
           "dom": "Bfrtip",
-          "buttons": ["export", "print", "reset", "reload"],
+          "buttons": ["export", "print", "reset", "reload", 'pageLength'],
           initComplete: function () {
             this.api().columns().every(function () {
               var column = this;
