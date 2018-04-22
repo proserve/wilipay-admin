@@ -24,8 +24,8 @@
     <!--end::Page Vendors -->
     <link href="/assets/vendors/base/vendors.bundle.css" rel="stylesheet" type="text/css"/>
     <link href="/assets/base/style.bundle.css" rel="stylesheet" type="text/css"/>
-    @stack('styles')
-    <!--end::Base Styles -->
+@stack('styles')
+<!--end::Base Styles -->
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -40,9 +40,11 @@
 <script src="/assets/vendors/base/vendors.bundle.js" type="text/javascript"></script>
 <script>
   window.$ = window.jQuery;
+  window.Laravel = {!! json_encode([
+            'csrfToken' => csrf_token(),
+        ]) !!};
 </script>
-<script src="/assets/base/scripts.bundle.js" type="text/javascript"></script>
-<!--end::Base Scripts -->
-<!--begin::Page Snippets -->
 @stack('scripts')
+
+<script src="/assets/base/scripts.bundle.js" type="text/javascript"></script>
 </html>

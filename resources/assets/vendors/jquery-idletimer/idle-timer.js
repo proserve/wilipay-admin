@@ -52,7 +52,7 @@
                 // store toggle state date time
                 obj.olddate = +new Date();
 
-                // create a custom event, with state and name space
+                // create.blade.php a custom event, with state and name space
                 var event = $.Event((obj.idle ? "idle" : "active") + ".idleTimer");
 
                 // trigger event on object with elem and copy of obj

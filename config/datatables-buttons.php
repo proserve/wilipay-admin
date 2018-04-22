@@ -6,7 +6,7 @@ return [
      */
     'namespace' => [
         /*
-         * Base namespace/directory to create the new file.
+         * Base namespace/directory to create.blade.php the new file.
          * This is appended on default Laravel namespace.
          * Usage: php artisan datatables:make User
          * Output: App\DataTables\UserDataTable

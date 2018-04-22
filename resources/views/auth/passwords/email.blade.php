@@ -7,7 +7,7 @@
                 <div class="m-portlet__head-caption">
                     <div class="m-portlet__head-title">
 												<span class="m-portlet__head-icon m--hide">
-													<i class="la la-gear"></i>
+													<i class="fa fa-gear"></i>
 												</span>
                         <h3 class="m-portlet__head-text text-center">Reset Password</h3>
                     </div>

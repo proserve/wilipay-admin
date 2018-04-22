@@ -220,14 +220,14 @@ var mQuicksearch = function(elementId, options) {
          * Show dropdown
          */
         showDropdown: function(e) {
-            if (the.dropdown.isShown() == false && the.input.value.length > the.options.minLength && the.processing == false) {
+            /*if (the.dropdown.isShown() == false && the.input.value.length > the.options.minLength && the.processing == false) {
                 console.log('show!!!');
                 the.dropdown.show();
                 if (e) {
                     e.preventDefault();
                     e.stopPropagation();
                 }                
-            }
+            }*/
         },
 
         /**

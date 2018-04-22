@@ -79,6 +79,40 @@
                 "{$config.path.src}/vendors/flaticon/fonts/**"
               ]
             },
+            "bootstrap-select": {
+              "styles": [
+                "{$config.path.node_modules}/bootstrap-select/dist/css/bootstrap-select.css"
+              ],
+              "scripts": [
+                "{$config.path.node_modules}/bootstrap-select/dist/js/bootstrap-select.js"
+              ]
+            },
+            "malihu-custom-scrollbar-plugin": {
+              "styles": [
+                "{$config.path.node_modules}/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css"
+              ],
+              "scripts": [
+                "{$config.path.node_modules}/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.js"
+              ],
+              "images": [
+                "{$config.path.node_modules}/malihu-custom-scrollbar-plugin/mCSB_buttons.png"
+              ]
+            },
+            "block-ui": {
+              "scripts": [
+                "{$config.path.node_modules}/block-ui/jquery.blockUI.js"
+              ]
+            },
+            "sweetalert2": {
+              "styles": [
+                "{$config.path.node_modules}/sweetalert2/dist/sweetalert2.min.css"
+              ],
+              "scripts": [
+                "{$config.path.node_modules}/es6-promise-polyfill/promise.min.js",
+                "{$config.path.node_modules}/sweetalert2/dist/sweetalert2.min.js",
+                "{$config.path.src}/js/framework/components/plugins/base/sweetalert2.init.js"
+              ]
+            },
             "metronic": {
               "styles": [
                 "{$config.path.src}/vendors/metronic/css/styles.css"

@@ -12,7 +12,8 @@
                         <div class="m-login__content">
                             <div class="m-login__logo">
                                 <a href="#">
-                                    <img src="assets/app/media/img/logos/logo-2.png">
+                                    <img style="transform: rotate(180deg)"
+                                         src="assets/app/media/img/logos/logo-2.png">
                                 </a>
                             </div>
                             <div class="m-login__title">

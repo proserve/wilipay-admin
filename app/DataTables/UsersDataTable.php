@@ -16,6 +16,7 @@ class UsersDataTable extends DataTable
      */
     public function ajax()
     {
+
         return DataTables::of($this->query())->make(true);
     }
 
@@ -24,9 +25,10 @@ class UsersDataTable extends DataTable
      *
      * @return \Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder
      */
-    public function query()
+    public
+    function query()
     {
-        $users = User::select();
+        $users = User::with('roles')->select();
         return $this->applyScopes($users);
     }
 
@@ -35,7 +37,8 @@ class UsersDataTable extends DataTable
      *
      * @return \Yajra\Datatables\Html\Builder
      */
-    public function html()
+    public
+    function html()
     {
         return $this->builder()
             ->columns($this->getColumns())
@@ -48,7 +51,8 @@ class UsersDataTable extends DataTable
     /**
      * @return array
      */
-    protected function getColumns()
+    protected
+    function getColumns()
     {
         return [
             'id',
