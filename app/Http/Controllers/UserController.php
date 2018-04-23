@@ -12,7 +12,6 @@ use Auth;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 
-
 //Enables us to output flash messaging
 use Session;
 
@@ -63,6 +62,7 @@ class UserController extends Controller
                 }
             }
             DB::commit();
+            app()['cache']->forget('spatie.permission.cache');
             //Redirect to the users.index view and display message
             return redirect()->route('users.index')
                 ->with('flash_message',
@@ -92,7 +92,8 @@ class UserController extends Controller
         ]);
         DB::beginTransaction();
         try {
-            if ($validatedData['avatar'] != null) {
+
+            if (array_key_exists('avatar', $validatedData) && $validatedData['avatar'] != null) {
                 $imageName = time() . '.' . request()->avatar->getClientOriginalExtension();
                 request()->avatar->move(public_path('images'), $imageName);
                 $validatedData['avatar_url'] = '/images/' . $imageName;
@@ -107,10 +108,10 @@ class UserController extends Controller
                 $user->roles()->detach(); //If no role is selected remove existing role associated to a user
             }
             DB::commit();
+            app()['cache']->forget('spatie.permission.cache');
             return redirect()->route('users.index')
                 ->with('flash_message',
                     'User successfully edited.');
-
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->route('users.index')->withErrors('Error occurs While editing this user, please contact developers');
@@ -128,7 +129,7 @@ class UserController extends Controller
         //Find a user with a given id and delete
         $user = User::findOrFail($id);
         $user->delete();
-
+        app()['cache']->forget('spatie.permission.cache');
         return redirect()->route('users.index')
             ->with('flash_message',
                 'User successfully deleted.');

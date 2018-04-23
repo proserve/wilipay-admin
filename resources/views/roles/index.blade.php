@@ -1,14 +1,5 @@
 @extends('layouts.dashboard')
 @section('content')
-    <div class="m-alert m-alert--icon m-alert--air m-alert--square alert alert-dismissible m--margin-bottom-30"
-         role="alert">
-        <div class="m-alert__icon">
-            <i class="flaticon-warning-2 m--font-warning"></i>
-        </div>
-        <div class="m-alert__text">
-            Please be aware that after each Roles or Permissions modifications, code source changes should be applied.
-        </div>
-    </div>
     <div class="m-portlet m-portlet--mobile">
         <div class="m-portlet__head">
             <div class="m-portlet__head-caption">
@@ -17,7 +8,6 @@
                         Roles details
                     </h3>
                 </div>
-
             </div>
             <div class="m-portlet__head-tools">
                 <ul class="m-portlet__nav">
@@ -61,7 +51,7 @@
                         </td>
                         <td>
                             <form method="POST" action="{{route('roles.destroy', ['id' => $role->id])}}"
-                                 accept-charset="UTF-8" style="display: flex;justify-content: center">
+                                  accept-charset="UTF-8" style="display: flex;justify-content: center">
 
                                 <a href="javascript:;" data-toggle="modal" data-target="#role_modal_{{$role->id}}"
                                    style="margin-right: 20px"
@@ -135,10 +125,12 @@
                                 <div class="row">
                                     <div class="col-lg-3"></div>
                                     <div class="col-lg-9">
-                                        <button type="submit" class="btn btn-success">
+                                        <button type="submit"
+                                                class="btn m-btn--pill m-btn--air m-btn m-btn--gradient-from-success m-btn--gradient-to-accent">
                                             Submit
                                         </button>
-                                        <button type="reset" class="btn btn-secondary">
+                                        <button type="reset"
+                                                class="btn m-btn m-btn--pill m-btn--air m-btn--gradient-from-metal m-btn--gradient-to-metal">
                                             Cancel
                                         </button>
                                     </div>
@@ -202,10 +194,12 @@
                                     <div class="row">
                                         <div class="col-lg-3"></div>
                                         <div class="col-lg-9">
-                                            <button type="submit" class="btn btn-success">
+                                            <button type="submit"
+                                                    class="btn m-btn--pill m-btn--air m-btn m-btn--gradient-from-success m-btn--gradient-to-accent">
                                                 Submit
                                             </button>
-                                            <button type="reset" class="btn btn-secondary">
+                                            <button type="reset"
+                                                    class="btn m-btn m-btn--pill m-btn--air m-btn--gradient-from-metal m-btn--gradient-to-metal">
                                                 Cancel
                                             </button>
                                         </div>

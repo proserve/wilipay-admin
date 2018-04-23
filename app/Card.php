@@ -18,7 +18,7 @@ class Card extends Model
 
     protected $connection = 'wilipay';
 
-    public function customers()
+    public function customer()
     {
         return $this->belongsTo('App\Customer');
     }

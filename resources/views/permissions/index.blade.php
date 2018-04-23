@@ -6,7 +6,7 @@
             <i class="flaticon-warning-2 m--font-warning"></i>
         </div>
         <div class="m-alert__text">
-            Please be aware that after each Roles or Permissions modifications, code source changes should be applied.
+            Please be aware that after each Permissions modifications, code source changes should be applied.
         </div>
     </div>
     <div class="m-portlet m-portlet--mobile">
@@ -60,7 +60,8 @@
                             <form method="POST" action="{{route('permissions.destroy', ['id' => $permission->id])}}"
                                   accept-charset="UTF-8" style="display: flex;justify-content: center">
 
-                                <a href="javascript:;" data-toggle="modal" data-target="#role_modal_{{$permission->id}}"
+                                <a href="javascript:;" data-toggle="modal"
+                                   data-target="#permission_modal_{{$permission->id}}"
                                    style="margin-right: 20px"
                                    class="btn btn-sm m-btn--icon m-btn--pill m-btn--air m-btn m-btn--gradient-from-info m-btn--gradient-to-accent">
                                     <span>
@@ -70,9 +71,9 @@
                                 {{csrf_field()}}
                                 <a href="javascript:;"
                                    class="delete_btn btn btn-sm m-btn--icon m-btn--pill m-btn--air m-btn m-btn--gradient-from-danger m-btn--gradient-to-warning">
-                                    <span><i class="fa fa-trash">
-
-                                        </i>Delete</span>
+                                    <span>
+                                        <i class="fa fa-trash"></i>Delete
+                                    </span>
                                 </a>
                             </form>
 
@@ -112,20 +113,6 @@
                                                placeholder="Permission Name">
                                     </div>
                                 </div>
-                                <div class="form-group m-form__group row">
-                                    <label class="col-lg-3 col-form-label">
-                                        Roles:
-                                    </label>
-                                    <div class="col-lg-9">
-                                        <select name="roles[]"
-                                                class="form-control m-bootstrap-select m-bootstrap-select--air m_selectpicker"
-                                                multiple>
-                                            @foreach($roles as $role)
-                                                <option value="{{$role->id}}">{{$role->name}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                         <div class="m-portlet__foot m-portlet__foot--fit">
@@ -133,10 +120,12 @@
                                 <div class="row">
                                     <div class="col-lg-3"></div>
                                     <div class="col-lg-9">
-                                        <button type="submit" class="btn btn-success">
+                                        <button type="submit"
+                                                class="btn m-btn--pill m-btn--air m-btn m-btn--gradient-from-success m-btn--gradient-to-accent">
                                             Submit
                                         </button>
-                                        <button type="reset" class="btn btn-secondary">
+                                        <button type="reset"
+                                                class="btn m-btn m-btn--pill m-btn--air m-btn--gradient-from-metal m-btn--gradient-to-metal">
                                             Cancel
                                         </button>
                                     </div>
@@ -150,7 +139,7 @@
     </div>
 
     @foreach ($permissions as $permission)
-        <div class="modal fade" id="role_modal_{{$permission->id}}" tabindex="-1" role="dialog" aria-labelledby=""
+        <div class="modal fade" id="permission_modal_{{$permission->id}}" tabindex="-1" role="dialog" aria-labelledby=""
              aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
@@ -178,21 +167,6 @@
                                                    placeholder="Permission Name" value="{{$permission->name}}">
                                         </div>
                                     </div>
-                                    <div class="form-group m-form__group row">
-                                        <label class="col-lg-3 col-form-label">
-                                            Roles:
-                                        </label>
-                                        <div class="col-lg-9">
-                                            <select name="permissions[]"
-                                                    class="form-control m-bootstrap-select m-bootstrap-select--air m_selectpicker"
-                                                    multiple>
-                                                @foreach($roles as $role)
-                                                    <option {{in_array($role->id, $permission->roles->pluck('id')->toArray()) ? 'selected' : ''}}
-                                                            value="{{$role->id}}">{{$role->name}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                             <div class="m-portlet__foot m-portlet__foot--fit">
@@ -200,10 +174,12 @@
                                     <div class="row">
                                         <div class="col-lg-3"></div>
                                         <div class="col-lg-9">
-                                            <button type="submit" class="btn btn-success">
+                                            <button type="submit"
+                                                    class="btn m-btn--pill m-btn--air m-btn m-btn--gradient-from-success m-btn--gradient-to-accent">
                                                 Submit
                                             </button>
-                                            <button type="reset" class="btn btn-secondary">
+                                            <button type="reset"
+                                                    class="btn m-btn m-btn--pill m-btn--air m-btn--gradient-from-metal m-btn--gradient-to-metal">
                                                 Cancel
                                             </button>
                                         </div>

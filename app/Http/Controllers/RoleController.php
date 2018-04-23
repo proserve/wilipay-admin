@@ -62,7 +62,7 @@ class RoleController extends Controller {
             $role = Role::where('name', '=', $name)->first();
             $role->givePermissionTo($p);
         }
-
+        app()['cache']->forget('spatie.permission.cache');
         return redirect()->route('roles.index')
             ->with('flash_message',
              'Role '. $role->name.' was successfully added!');
@@ -111,7 +111,7 @@ class RoleController extends Controller {
             $p = Permission::where('id', '=', $permission)->firstOrFail(); //Get corresponding form //permission in db
             $role->givePermissionTo($p);  //Assign permission to role
         }
-
+        app()['cache']->forget('spatie.permission.cache');
         return redirect()->route('roles.index')
             ->with('flash_message',
              'Role'. $role->name.' updated!');
@@ -127,7 +127,7 @@ class RoleController extends Controller {
     {
         $role = Role::findOrFail($id);
         $role->delete();
-
+        app()['cache']->forget('spatie.permission.cache');
         return redirect()->route('roles.index')
             ->with('flash_message',
              'Role deleted!');

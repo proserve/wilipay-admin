@@ -4,11 +4,12 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use Notifiable, HasRoles;
+    use Notifiable, HasRoles, LogsActivity;
 
     /**
      * The attributes that are mass assignable.
@@ -18,6 +19,15 @@ class User extends Authenticatable
     protected $fillable = [
         'name', 'email', 'password', 'avatar_url'
     ];
+
+    protected static $logAttributes = ['name', 'email', 'password', 'avatar_url'];
+
+    protected static $logOnlyDirty = true;
+
+    public function getDescriptionForEvent(string $eventName): string
+    {
+        return "User has been {$eventName}";
+    }
 
     /**
      * The attributes that should be hidden for arrays.

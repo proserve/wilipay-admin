@@ -85,4 +85,11 @@ return [
      */
 
     'display_permission_in_exception' => false,
+
+    'defaults' => [
+        'manage_users' => 'manage users',
+        'view_data' => 'view data',
+        'edit_data' => 'edit data',
+        'view_dashboard' => 'view dashboard'
+    ]
 ];

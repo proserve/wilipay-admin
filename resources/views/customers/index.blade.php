@@ -68,7 +68,7 @@
           serverSide: true,
           "dom": "Bfrtip",
           "buttons": ["export", "print", "reset", "reload", 'pageLength', 'create'],
-          ajax: '{!! route('customers') !!}',
+          ajax: '{!! route('customers.index') !!}',
           colReorder: true,
           columns: [
             {

@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     'name' => env('APP_NAME', 'Wilipay Admin Space'),
 
     'env' => env('APP_ENV', 'production'),

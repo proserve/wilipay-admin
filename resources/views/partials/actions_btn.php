@@ -3,7 +3,7 @@
           style="display: flex;justify-content: space-around;">
         <input name="_method" type="hidden" value="DELETE">
         <input name="_token" type="hidden" value="{{csrfToken}}">
-        <a onclick='openEditModal({{json row}})' href="javascript:;"
+        <a onclick='openEditModal({{json row}})' style="margin-right: 5px" href="javascript:;"
            class="btn m-btn--pill m-btn m-btn--gradient-from-info m-btn--gradient-to-accent m-btn--icon m-btn--icon-only m-btn--air">
             <i class="fa flaticon-edit" style="font-size: 14px"></i>
         </a>

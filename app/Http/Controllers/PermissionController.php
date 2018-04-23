@@ -23,8 +23,11 @@ class PermissionController extends Controller
     public function index()
     {
 
-        return view('permissions.index', ['title' => 'Edit Permission',
-            'permissions' => Permission::all(), 'roles' => Role::all()]);
+        return view('permissions.index', [
+            'title' => 'Edit Permission',
+            'permissions' => Permission::all(),
+            'roles' => Role::all()
+        ]);
     }
 
     /**
@@ -67,35 +70,11 @@ class PermissionController extends Controller
                 $r->givePermissionTo($permission);
             }
         }
-
+        app()['cache']->forget('spatie.permission.cache');
         return redirect()->route('permissions.index')
             ->with('flash_message',
                 'Permission ' . $permission->name . ' added!');
 
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        return redirect('permissions');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        $permission = Permission::findOrFail($id);
-
-        return view('permissions.edit', ['title' => 'Edit Permission', 'permission' => $permission]);
     }
 
     /**
@@ -108,12 +87,12 @@ class PermissionController extends Controller
     public function update(Request $request, $id)
     {
         $permission = Permission::findOrFail($id);
-        $this->validate($request, [
+        $validatedData = $this->validate($request, [
             'name' => 'required|max:40',
         ]);
-        $input = $request->all();
-        $permission->fill($input)->save();
-
+        $permission->name = $validatedData['name'];
+        $permission->save();
+        app()['cache']->forget('spatie.permission.cache');
         return redirect()->route('permissions.index')
             ->with('flash_message',
                 'Permission ' . $permission->name . ' updated!');
@@ -138,7 +117,7 @@ class PermissionController extends Controller
         }
 
         $permission->delete();
-
+        app()['cache']->forget('spatie.permission.cache');
         return redirect()->route('permissions.index')
             ->with('flash_message',
                 'Permission deleted!');

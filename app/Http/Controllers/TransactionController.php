@@ -8,7 +8,7 @@ use App\Transaction;
 use App\User;
 use Yajra\DataTables\DataTables;
 
-class TransactionsController extends Controller
+class TransactionController extends Controller
 {
     public function getByUser($user_id, DataTables $datatables)
     {
