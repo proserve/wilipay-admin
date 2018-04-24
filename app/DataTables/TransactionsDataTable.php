@@ -57,8 +57,9 @@ class TransactionsDataTable extends DataTable
     {
         return [
             'id',
-            'name',
-            'email',
+            'purpose',
+            'type',
+            'amount',
             'created_at',
         ];
     }

@@ -58,9 +58,9 @@ class LogsDataTable extends DataTable
     function getColumns()
     {
         return [
-            'id',
-            'name',
+            'description',
             'email',
+            'properties',
             'created_at',
         ];
     }

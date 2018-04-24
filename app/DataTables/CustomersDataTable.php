@@ -16,14 +16,7 @@ class CustomersDataTable extends DataTable
      */
     public function ajax()
     {
-        return DataTables::of($this->query())->addColumn('details_url', function ($user) {
-            return url('transactions/' . $user->id);
-        })->addColumn('cards', function ($user) {
-            return $user->cards->map(function ($card) {
-                $value = $card->brand . ' | ' . $card->last4 . ' | ' . $card->exp_year . '/' . $card->exp_month;
-                return str_limit($value, 30, '...');
-            })->implode('<br>');
-        })->make(true);
+        return DataTables::of($this->query())->make(true);
     }
 
     /**
@@ -33,7 +26,7 @@ class CustomersDataTable extends DataTable
      */
     public function query()
     {
-        $customers = Customer::with(['profile', 'cards'])->select('users.*');
+        $customers = Customer::with(['profile'])->select('users.*');
         return $this->applyScopes($customers);
     }
 
@@ -60,11 +53,17 @@ class CustomersDataTable extends DataTable
     {
         return [
             'profile.first_name',
+            'profile.last_name',
             'phone',
             'email',
             'verified',
             'blocked',
-            'cards',
+            'profile.birthday',
+            'profile.gender',
+            'profile.language',
+            'profile.country',
+            'profile.city',
+            'profile.postal_code',
             'created_at',
         ];
     }

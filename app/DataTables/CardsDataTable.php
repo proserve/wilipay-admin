@@ -56,10 +56,13 @@ class CardsDataTable extends DataTable
     function getColumns()
     {
         return [
-            'id',
-            'name',
-            'email',
-            'created_at',
+            "customer.email",
+            "brand",
+            "last4",
+            "exp_year",
+            "exp_month",
+            "country",
+            "created_at",
         ];
     }
 }
