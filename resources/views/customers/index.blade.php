@@ -159,7 +159,6 @@
       });
 
       function handleChange(ele) {
-        debugger;
         var $ele = $(ele);
         $.post('/users/blocked', {blocked: $ele.val() == 'on' ? true : false})
             .done(function (resp) {

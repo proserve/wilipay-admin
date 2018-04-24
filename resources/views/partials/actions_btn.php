@@ -72,7 +72,6 @@
   }
 
   function showAlert(that) {
-    debugger;
     swal({
       title: "This user will be deleted permanently",
       text: "",

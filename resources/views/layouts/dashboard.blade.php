@@ -103,12 +103,13 @@
             margin-right: 10px;
         }
 
-        .menu-icon-svg{
+        .menu-icon-svg {
             fill: #b0aecc;
-            width: 30px;
-            height: 30px;
+            width: 27px;
+            height: 27px;
         }
-        .m-menu__item:hover .menu-icon-svg{
+
+        .m-menu__item:hover .menu-icon-svg {
             fill: #22b9ff;
         }
     </style>
@@ -130,7 +131,7 @@
                                     <img alt="" src="/assets/media/logo.png"/>
                                 </a>
                                 <h3 class="m-header__title">
-                                    WiliPay Admin
+                                    WiliPay
                                 </h3>
                             </div>
                             <div class="m-stack__item m-stack__item--middle m-brand__tools">
@@ -415,18 +416,18 @@
                             <li class="m-menu__item{{Route::currentRouteName() == 'logs' ? ' m-menu__item--active ' : '' }}"
                                 aria-haspopup="true" m-menu-submenu-toggle="hover" m-menu-link-redirect="1">
                                 <a href="{{ route('logs') }}" class="m-menu__link">
-                                    @include('svg.list')
+                                    <span class="m-menu__link-icon"> @include('svg.list')</span>
                                     <span class="m-menu__link-text">Activity Logs</span>
                                 </a>
                             </li>
                         @endcan
                         @if(auth()->user()->can('manage users') || auth()->user()->can('view dashboard'))
-                           <li class="m-menu__section">
-								<h4 class="m-menu__section-text">
-									Customer Management
-								</h4>
-								<i class="m-menu__section-icon flaticon-more-v3"></i>
-							</li>
+                            <li class="m-menu__section">
+                                <h4 class="m-menu__section-text">
+                                    Customer Management
+                                </h4>
+                                <i class="m-menu__section-icon flaticon-more-v3"></i>
+                            </li>
                         @endif
                         @can('view data')
                             <li class="m-menu__item{{Route::currentRouteName() == 'customers.index' ? ' m-menu__item--active ' : '' }}"
@@ -439,7 +440,7 @@
                             <li class="m-menu__item{{Route::currentRouteName() == 'customers.index' ? ' m-menu__item--active ' : '' }}"
                                 aria-haspopup="true" m-menu-submenu-toggle="hover" m-menu-link-redirect="1">
                                 <a href="{{ route('customers.index') }}" class="m-menu__link">
-                                    @include('svg.credit-card')
+                                    <span class="m-menu__link-icon">@include('svg.credit-card')</span>
                                     <span class="m-menu__link-text">Cards</span>
                                 </a>
                             </li>

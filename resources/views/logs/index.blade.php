@@ -1,5 +1,12 @@
 @extends('layouts.dashboard')
 @section('content')
+    <style>
+         @media only screen and (max-width: 400px) {
+            .buttons-page-length {
+                display: block;
+            }
+        }
+    </style>
     <div class="m-portlet">
         <div class="m-portlet__head">
             <div class="m-portlet__head-caption" id="portlet-header">
@@ -55,11 +62,11 @@
               "name": "email",
               data: function (row, type, set) {
                 return '<div class="m-card-user__pic" ' +
-                  'style="display: flex;justify-content: center;flex-direction: column;align-items: center;">' +
-                  '<img width="64px" height="64px" src="' + (row.avatar_url || '/assets/app/media/img/users/default_avatar.png') + '" class="m--img-rounded m--marginless" alt="">' +
-                  '<span>' + row.name + '</span>' +
-                  '<span>' + row.email + '</span>' +
-                  '</div>';
+                    'style="display: flex;justify-content: center;flex-direction: column;align-items: center;">' +
+                    '<img width="64px" height="64px" src="' + (row.avatar_url || '/assets/app/media/img/users/default_avatar.png') + '" class="m--img-rounded m--marginless" alt="">' +
+                    '<span>' + row.name + '</span>' +
+                    '<span>' + row.email + '</span>' +
+                    '</div>';
               },
               "title": "User",
               responsivePriority: 0,
@@ -108,6 +115,5 @@
       $(window.LaravelDataTables["dataTableBuilder"].buttons().container()).prependTo("#portlet-header");
       $('#dataTableBuilder_filter').prependTo("#portlet-header");
       $('#dataTableBuilder_filter input').addClass("m-input m-input--air");
-
     </script>
 @endpush

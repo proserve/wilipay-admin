@@ -28,7 +28,7 @@
                 <thead>
                 <tr>
                     <th>Role</th>
-                    <th>Permissions</th>
+                    <th class="d-none d-sm-block">Permissions</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -41,7 +41,7 @@
                             <span><span class="m-badge  m-badge--info m-badge--wide">{{ $role->name }}</span></span>
                         </td>
 
-                        <td>
+                        <td class="d-none d-sm-block">
                             @foreach($role->permissions as $permission)
                                 <div>
                                     <span class="m-badge m-badge--primary m-badge--dot"></span>
@@ -54,10 +54,9 @@
                                   accept-charset="UTF-8" style="display: flex;justify-content: center">
 
                                 <a href="javascript:;" data-toggle="modal" data-target="#role_modal_{{$role->id}}"
-                                   style="margin-right: 20px"
+                                   style="margin-right: 10px"
                                    class="btn btn-sm m-btn--icon m-btn--pill m-btn--air m-btn m-btn--gradient-from-info m-btn--gradient-to-accent">
-                                    <span>
-                                        <i class="fa fa-edit"></i>Edit</span>
+                                    <span><i class="fa fa-edit"></i><span class="hidden-xs-down">Edit</span></span>
                                 </a>
                                 <input name="_method" type="hidden" value="DELETE">
                                 {{csrf_field()}}

@@ -28,9 +28,9 @@
                 </thead>
                 <tfoot>
                 <tr>
-                    <th title="Roles"></th>
                     <th title="Name"></th>
                     <th title="Email"></th>
+                    <th title="Roles"></th>
                     <th title="Created At"></th>
                     <th title="Actions"></th>
                 </tr>

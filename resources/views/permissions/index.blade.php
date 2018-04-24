@@ -35,7 +35,7 @@
                 <thead>
                 <tr>
                     <th>Permission</th>
-                    <th>Roles</th>
+                    <th class="d-none d-sm-block">Roles</th>
                     <th style="text-align: center">Actions</th>
                 </tr>
                 </thead>
@@ -48,7 +48,7 @@
                             <span><span class="m-badge  m-badge--info m-badge--wide">{{ $permission->name }}</span></span>
                         </td>
 
-                        <td>
+                        <td class="d-none d-sm-block">
                             @foreach($permission->roles as $role)
                                 <div>
                                     <span class="m-badge m-badge--primary m-badge--dot"></span>
@@ -62,7 +62,7 @@
 
                                 <a href="javascript:;" data-toggle="modal"
                                    data-target="#permission_modal_{{$permission->id}}"
-                                   style="margin-right: 20px"
+                                   style="margin-right: 10px"
                                    class="btn btn-sm m-btn--icon m-btn--pill m-btn--air m-btn m-btn--gradient-from-info m-btn--gradient-to-accent">
                                     <span>
                                         <i class="fa fa-edit"></i>Edit</span>
