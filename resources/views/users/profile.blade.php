@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 @section('content')
     <div class="row justify-content-center">
-        <div class="m-portlet col-md-8 col-sm-10">
+        <div class="m-portlet col-md-8 col-xs-10">
             <div class="m-portlet__body" style="padding: 0px">
                 <form class="m-form" id="user_form" method="post" action="{{route('profile.update')}}"
                       enctype="multipart/form-data">

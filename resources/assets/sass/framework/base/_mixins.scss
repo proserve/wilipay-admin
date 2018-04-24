@@ -574,7 +574,7 @@ xl: 1200px
 
 //== Lineawesome icon
 @mixin la-icon($icon) {
-    font-family: "LineAwesome";
+    font-family: "FontAwesome";
     text-decoration: inherit;
     text-rendering: optimizeLegibility;
     text-transform: none;
@@ -589,7 +589,7 @@ xl: 1200px
 
 //== Lineawesome icon
 @mixin la-icon-self($icon) {
-    font-family: "LineAwesome";
+    font-family: "FontAwesome";
     text-decoration: inherit;
     text-rendering: optimizeLegibility;
     text-transform: none;
