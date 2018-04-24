@@ -564,5 +564,10 @@
     });
     $('.m_selectpicker').selectpicker();
   });
+  $.ajaxSetup({
+    headers: {
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+  });
 </script>
 @endprepend

@@ -17,6 +17,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['middleware' => 'permission:' . config('permission.defaults.view_data')], function () {
         Route::get('/transactions/{user_id}', 'TransactionController@getByUser')->name('transactionsByUser');
         Route::get('/customers', 'CustomerController@index')->name('customers.index');
+        Route::get('/customers/{id}', 'CustomerController@show')->name('customers.show');
+
+    });
+
+    Route::group(['middleware' => 'permission:' . config('permission.defaults.edit_data')], function () {
+        Route::post('/customers/{id}/blocked', 'CustomerController@updateBlocked')->name('updateBlocked');
+        Route::post('/customers/{id}/verified', 'CustomerController@updateVerified')->name('updateVerified');
     });
 
     Route::group(['middleware' => 'permission:' . config('permission.defaults.view_dashboard')], function () {

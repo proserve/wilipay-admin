@@ -31,12 +31,12 @@ class Customer extends Authenticatable
 
     public function accounts()
     {
-        return $this->hasMany('App\Account');
+        return $this->hasMany('App\Account', 'user_id');
     }
 
     public function transactions()
     {
-        return $this->hasMany('App\Transaction', 'beneficiary_id');
+        return $this->hasManyThrough('App\Transaction', 'App\Account', 'user_id', 'account_id');
     }
 
     public function AauthAcessToken()
@@ -55,6 +55,7 @@ class Customer extends Authenticatable
     ];
 
     protected $hidden = ['password', 'remember_token'];
+
 //    protected $visible = ['email', 'phone', 'national_phone', 'profile', 'accounts', 'cards'];
 
     public function setEmailAttribute($value)
