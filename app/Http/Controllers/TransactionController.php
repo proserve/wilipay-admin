@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Customer;
+use App\DataTables\TransactionsDataTable;
 use App\Transaction;
 use App\User;
 use Yajra\DataTables\DataTables;
@@ -20,5 +21,10 @@ class TransactionController extends Controller
         } catch (\Exception $e) {
             return $e;
         }
+    }
+
+    public function index(TransactionsDataTable $dataTable)
+    {
+        return $dataTable->render('transactions.index', ['title' => 'Transactions List']);
     }
 }

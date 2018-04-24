@@ -282,7 +282,7 @@
                                                                 </a>
                                                             </li>
                                                             <li class="m-nav__item">
-                                                                <a href="{{route('profile.edit')}}" class="m-nav__link">
+                                                                <a href="{{route('logs.me')}}" class="m-nav__link">
                                                                     <i class="m-nav__link-icon flaticon-share"></i>
                                                                     <span class="m-nav__link-title">
 																			<span class="m-nav__link-wrap">
@@ -290,7 +290,7 @@
 																					Activity Log
 																				</span>
 																					<span class="m-badge m-badge--success">
-																						2
+																						{{ $logsCount  }}
 																					</span>
 																			</span>
 																		</span>
@@ -349,7 +349,7 @@
                             </li>
                         @endcan
                         @can('manage users')
-                            <li class="m-menu__item{{in_array(Route::currentRouteName(), ['users.index', 'roles.index', 'permissions.index']) ? ' m-menu__item--active ' : '' }} m-menu__item--submenu"
+                            <li class="m-menu__item{{in_array(Route::currentRouteName(), ['users.index', 'roles.index', 'permissions.index', 'profile.edit']) ? ' m-menu__item--active ' : '' }} m-menu__item--submenu"
                                 aria-haspopup="true" data-menu-submenu-toggle="hover" data-redirect="true">
                                 <a class="m-menu__link m-menu__toggle">
                                     <i class="m-menu__link-icon flaticon-user-settings"></i>
@@ -437,16 +437,16 @@
                                     <span class="m-menu__link-text">Customers</span>
                                 </a>
                             </li>
-                            <li class="m-menu__item{{Route::currentRouteName() == 'customers.index' ? ' m-menu__item--active ' : '' }}"
+                            <li class="m-menu__item{{Route::currentRouteName() == 'cards.index' ? ' m-menu__item--active ' : '' }}"
                                 aria-haspopup="true" m-menu-submenu-toggle="hover" m-menu-link-redirect="1">
-                                <a href="{{ route('customers.index') }}" class="m-menu__link">
+                                <a href="{{ route('cards.index') }}" class="m-menu__link">
                                     <span class="m-menu__link-icon">@include('svg.credit-card')</span>
                                     <span class="m-menu__link-text">Cards</span>
                                 </a>
                             </li>
-                            <li class="m-menu__item{{Route::currentRouteName() == 'customers.index' ? ' m-menu__item--active ' : '' }}"
+                            <li class="m-menu__item{{Route::currentRouteName() == 'transactions.index' ? ' m-menu__item--active ' : '' }}"
                                 aria-haspopup="true" m-menu-submenu-toggle="hover" m-menu-link-redirect="1">
-                                <a href="{{ route('customers.index') }}" class="m-menu__link">
+                                <a href="{{ route('transactions.index') }}" class="m-menu__link">
                                     {{--<img src="/assets/media/transaction.svg" alt="">--}}
                                     <i class="m-menu__link-icon m-menu__link-icon flaticon-notes"></i>
                                     <span class="m-menu__link-text">Transactions</span>

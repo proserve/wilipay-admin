@@ -20,14 +20,14 @@ class Card extends Model
 
     public function customer()
     {
-        return $this->belongsTo('App\Customer');
+        return $this->belongsTo('App\Customer', 'user_id');
     }
 
     protected $fillable = [
         'user_id', 'brand', 'last4', 'exp_year', 'exp_month', 'country', 'source_id'
     ];
 
-    protected $visible = ['brand', 'exp_year', 'exp_month', 'country', 'last4', 'id'];
+    protected $visible = ['brand', 'exp_year', 'exp_month', 'country', 'last4', 'id', 'customer', 'created_at'];
 
     protected $dates = ['deleted_at'];
 }

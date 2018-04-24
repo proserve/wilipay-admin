@@ -1,10 +1,12 @@
 <?php
 
+
 Auth::routes();
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('profile', 'ProfileController@edit')->name('profile.edit');
     Route::put('profile', 'ProfileController@update')->name('profile.update');
+    Route::get('logs/me', 'LogController@me')->name('logs.me');
     Route::get('/', 'HomeController@index')->name('home');
 
     Route::group(['middleware' => 'permission:' . config('permission.defaults.manage_users')], function () {
@@ -18,6 +20,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/transactions/{user_id}', 'TransactionController@getByUser')->name('transactionsByUser');
         Route::get('/customers', 'CustomerController@index')->name('customers.index');
         Route::get('/customers/{id}', 'CustomerController@show')->name('customers.show');
+        Route::get('/cards', 'CardController@index')->name('cards.index');
+        Route::get('/transactions', 'TransactionController@index')->name('transactions.index');
 
     });
 

@@ -70,6 +70,7 @@
                                     Roles:
                                 </label>
                                 <div class="col-lg-9">
+                                    {{--{{json_encode($roles)}}--}}
                                     <select name="roles[]"
                                             class="form-control m-bootstrap-select m-bootstrap-select--air m_selectpicker"
                                             multiple>
