@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Customer;
 use App\DataTables\CustomersDataTable;
+use App\Transaction;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CustomerController extends Controller
 {
@@ -41,8 +44,11 @@ class CustomerController extends Controller
 
     public function show($id)
     {
-        $customer = Customer::withCount('transactions')->find($id);
-        if(!$customer) abort(404);
+        // TODO: Queries return false values
+        $customer = Customer::withCount('transactions')->with(['accounts', 'transactions' => function($query){
+            $query->whereDate('transactions.created_at', '>', Carbon::now()->subweek());
+        }])->find($id);
+        if (!$customer) abort(404);
         return view('customers.show', [
             'title' => 'Customer <' . $customer->email . '> details',
             'customer' => $customer

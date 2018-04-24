@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * @property \Carbon\Carbon $deleted_at
@@ -16,7 +17,16 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  */
 class Customer extends Authenticatable
 {
-    use SoftDeletes, Notifiable, Uuids;
+    use SoftDeletes, Notifiable, Uuids, LogsActivity;
+
+    protected static $logAttributes = ['name', 'email', 'phone', 'country_prefix', 'national_number', 'password', 'verified', 'blocked'];
+
+    protected static $logOnlyDirty = true;
+
+    public function getDescriptionForEvent(string $eventName): string
+    {
+        return "Customer has been {$eventName}";
+    }
 
     public $incrementing = false;
 

@@ -65,17 +65,17 @@
                             <div class="m-widget1__item">
                                 <div class="row m-row--no-padding align-items-center">
                                     <div class="col">
-                                        <h3 class="m-widget1__title">
-                                            transactions volume
-                                        </h3>
-                                        <span class="m-widget1__desc">
-															System bugs and issues
-														</span>
+                                        <h3 class="m-widget1__title">transactions volume</h3>
+                                        <span class="m-widget1__desc">Last week transactions volume</span>
                                     </div>
                                     <div class="col m--align-right">
-														<span class="m-widget1__number m--font-success">
-															-27,49%
-														</span>
+                                        @foreach($customer->accounts as $account)
+                                            <div class="m-widget1__number m--font-success">
+                                                {{config('currencies')[$account->currency_code]['symbol']}}
+                                                {{$account->transactions->sum('amount')}}
+                                            </div>
+                                        @endforeach
+
                                     </div>
                                 </div>
                             </div>
@@ -99,13 +99,13 @@
                                 <li class="nav-item m-tabs__item">
                                     <a class="nav-link m-tabs__link" data-toggle="tab" href="#m_user_profile_tab_2"
                                        role="tab">
-                                        Messages
+                                        Cards
                                     </a>
                                 </li>
                                 <li class="nav-item m-tabs__item">
                                     <a class="nav-link m-tabs__link" data-toggle="tab" href="#m_user_profile_tab_3"
                                        role="tab">
-                                        Settings
+                                        Transactions
                                     </a>
                                 </li>
                             </ul>
@@ -130,37 +130,41 @@
                                     </div>
                                     <div class="form-group m-form__group row">
                                         <label for="example-text-input" class="col-2 col-form-label">
-                                            Full Name
+                                            First Name
                                         </label>
                                         <div class="col-7">
-                                            <input class="form-control m-input" type="text" value="Mark Andre">
+                                            <input name="first_name" class="form-control m-input" type="text"
+                                                   value="{{$customer->profile ? $customer->profile->first_name : ''}}">
                                         </div>
                                     </div>
                                     <div class="form-group m-form__group row">
                                         <label for="example-text-input" class="col-2 col-form-label">
-                                            Occupation
+                                            Last Name
                                         </label>
                                         <div class="col-7">
-                                            <input class="form-control m-input" type="text" value="CTO">
+                                            <input name="last_name" class="form-control m-input" type="text"
+                                                   value="{{$customer->profile ? $customer->profile->last_name : ''}}">
                                         </div>
                                     </div>
                                     <div class="form-group m-form__group row">
                                         <label for="example-text-input" class="col-2 col-form-label">
-                                            Company Name
+                                            Birthday
                                         </label>
                                         <div class="col-7">
-                                            <input class="form-control m-input" type="text" value="Keenthemes">
-                                            <span class="m-form__help">
-																If you want your invoices addressed to a company. Leave blank to use your full name.
-															</span>
+                                            <input class="form-control m-input" type="date"
+                                                   value="{{$customer->profile ? $customer->profile->birthday : ''}}">
                                         </div>
                                     </div>
                                     <div class="form-group m-form__group row">
                                         <label for="example-text-input" class="col-2 col-form-label">
-                                            Phone No.
+                                            Gender
                                         </label>
                                         <div class="col-7">
-                                            <input class="form-control m-input" type="text" value="+456669067890">
+                                            <select name="gender"
+                                                    class="form-control m-bootstrap-select m-bootstrap-select--air m_selectpicker">
+                                                <option value="male">Male</option>
+                                                <option value="female">Female</option>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="m-form__seperator m-form__seperator--dashed m-form__seperator--space-2x"></div>
@@ -173,11 +177,11 @@
                                     </div>
                                     <div class="form-group m-form__group row">
                                         <label for="example-text-input" class="col-2 col-form-label">
-                                            Address
+                                            Street
                                         </label>
                                         <div class="col-7">
-                                            <input class="form-control m-input" type="text"
-                                                   value="L-12-20 Vertex, Cybersquare">
+                                            <input class="form-control m-input" type="text" name="street"
+                                                   value="{{$customer->profile ? $customer->profile->street : ''}}">
                                         </div>
                                     </div>
                                     <div class="form-group m-form__group row">
@@ -185,7 +189,8 @@
                                             City
                                         </label>
                                         <div class="col-7">
-                                            <input class="form-control m-input" type="text" value="San Francisco">
+                                            <input class="form-control m-input" type="text" name="city"
+                                            value="{{$customer->profile ? $customer->profile->city : ''}}">
                                         </div>
                                     </div>
                                     <div class="form-group m-form__group row">
@@ -193,7 +198,8 @@
                                             State
                                         </label>
                                         <div class="col-7">
-                                            <input class="form-control m-input" type="text" value="California">
+                                            <input class="form-control m-input" type="text" name="region"
+                                            value="{{$customer->profile ? $customer->profile->region : ''}}">
                                         </div>
                                     </div>
                                     <div class="form-group m-form__group row">
@@ -201,53 +207,11 @@
                                             Postcode
                                         </label>
                                         <div class="col-7">
-                                            <input class="form-control m-input" type="text" value="45000">
+                                            <input class="form-control m-input" type="text" name="postal_code"
+                                            value="{{$customer->profile ? $customer->profile->postal_code : ''}}">
                                         </div>
                                     </div>
-                                    <div class="m-form__seperator m-form__seperator--dashed m-form__seperator--space-2x"></div>
-                                    <div class="form-group m-form__group row">
-                                        <div class="col-10 ml-auto">
-                                            <h3 class="m-form__section">
-                                                3. Social Links
-                                            </h3>
-                                        </div>
-                                    </div>
-                                    <div class="form-group m-form__group row">
-                                        <label for="example-text-input" class="col-2 col-form-label">
-                                            Linkedin
-                                        </label>
-                                        <div class="col-7">
-                                            <input class="form-control m-input" type="text"
-                                                   value="www.linkedin.com/Mark.Andre">
-                                        </div>
-                                    </div>
-                                    <div class="form-group m-form__group row">
-                                        <label for="example-text-input" class="col-2 col-form-label">
-                                            Facebook
-                                        </label>
-                                        <div class="col-7">
-                                            <input class="form-control m-input" type="text"
-                                                   value="www.facebook.com/Mark.Andre">
-                                        </div>
-                                    </div>
-                                    <div class="form-group m-form__group row">
-                                        <label for="example-text-input" class="col-2 col-form-label">
-                                            Twitter
-                                        </label>
-                                        <div class="col-7">
-                                            <input class="form-control m-input" type="text"
-                                                   value="www.twitter.com/Mark.Andre">
-                                        </div>
-                                    </div>
-                                    <div class="form-group m-form__group row">
-                                        <label for="example-text-input" class="col-2 col-form-label">
-                                            Instagram
-                                        </label>
-                                        <div class="col-7">
-                                            <input class="form-control m-input" type="text"
-                                                   value="www.instagram.com/Mark.Andre">
-                                        </div>
-                                    </div>
+
                                 </div>
                                 <div class="m-portlet__foot m-portlet__foot--fit">
                                     <div class="m-form__actions">
