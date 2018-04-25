@@ -25,7 +25,6 @@ RUN chmod -R 777 /var/www/html/storage \
     && chmod -R 777 /var/www/html/bootstrap/cache
 
 
-
 RUN php artisan view:clear
 RUN php artisan route:clear
 RUN php artisan config:clear

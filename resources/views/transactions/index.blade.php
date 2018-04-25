@@ -4,7 +4,15 @@
         <div class="m-portlet__head">
             <div class="m-portlet__head-caption" id="portlet-header">
             </div>
+            <div class="m-portlet__head-tools">
+                <ul class="m-portlet__nav">
+                    <li class="m-portlet__nav-item">
+                        @include('partials.date_range_filter')
+                    </li>
+                </ul>
+            </div>
         </div>
+
         <div class="m-portlet__body">
             <table class="table" id="dataTableBuilder">
                 <thead>
@@ -31,11 +39,8 @@
 @endsection
 
 @push('scripts')
-
-    <script type="text/javascript">(function (window, $) {
-        const monthNames = ["January", "February", "March", "April", "May", "June",
-          "July", "August", "September", "October", "November", "December"
-        ];
+    <script type="text/javascript">
+      (function (window, $) {
         window.LaravelDataTables = window.LaravelDataTables || {};
         window.LaravelDataTables["dataTableBuilder"] = $("#dataTableBuilder").DataTable({
           "serverSide": true,
@@ -47,7 +52,19 @@
             '<span><div class="m-loader  m-loader--primary m-loader--lg"></div></span>' +
             '</div>'
           },
-          "ajax": "",
+          "ajax": {
+            data: function (d) {
+              let datePicker = $('#w_daterange_filter').data('daterangepicker');
+              if (datePicker) {
+                debugger;
+                return $.extend({}, d, {
+                  startDate: datePicker.startDate.toISOString(),
+                  endDate: datePicker.endDate.toISOString(),
+                });
+              }
+              return d;
+            }
+          },
           "columns": [
             {
               "name": "id",
@@ -57,7 +74,7 @@
               "name": "type",
               "data": "type",
               responsivePriority: 0,
-            },{
+            }, {
               "name": "purpose",
               "data": "purpose",
               responsivePriority: 0,

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Customer;
+use App\DataTables\Scopes\CustomerIdDataTableScope;
 use App\DataTables\Scopes\DateRangeFilterDataTableScope;
 use App\DataTables\TransactionsDataTable;
 use App\Transaction;
@@ -29,5 +30,15 @@ class TransactionController extends Controller
         return $dataTable
             ->addScope(new DateRangeFilterDataTableScope)
             ->render('transactions.index', ['title' => 'Transactions List']);
+    }
+
+    public function byCustomerId($customerId)
+    {
+        $query = Customer::find($customerId)->transactions()
+            ->select('transactions.id', 'type', 'purpose', 'transactions.amount', 'transactions.created_at',
+                'accounts.currency_code');
+        $filterDataTableScope = new DateRangeFilterDataTableScope('transactions.created_at');
+        $query = $filterDataTableScope->apply($query);
+        return DataTables::of($query)->make(true);
     }
 }

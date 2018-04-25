@@ -19,7 +19,7 @@ class TransactionsDataTable extends DataTable
     public function ajax()
     {
 
-        return DataTables::of($this->query()->with('account'))->make(true);
+        return DataTables::of($this->query())->make(true);
     }
 
     /**

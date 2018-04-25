@@ -47,21 +47,21 @@
             color: #ffffff;
         }
 
-        @media only screen and (max-width: 700px) {
+        @media only screen and (max-width: 400px) {
             /* For mobile phones: */
             .buttons-print {
                 display: none;
             }
         }
 
-        @media only screen and (max-width: 600px) {
+        @media only screen and (max-width: 700px) {
             /* For mobile phones: */
             .buttons-reload {
                 display: none;
             }
         }
 
-        @media only screen and (max-width: 500px) {
+        @media only screen and (max-width: 600px) {
             /* For mobile phones: */
             .buttons-reset {
                 display: none;
@@ -72,7 +72,7 @@
             }
         }
 
-        @media only screen and (max-width: 400px) {
+        @media only screen and (max-width: 500px) {
             .buttons-page-length {
                 display: none;
             }
@@ -501,7 +501,7 @@
             <div class="m-container m-container--fluid m-container--full-height m-page__container">
                 <div class="m-stack m-stack--flex-tablet-and-mobile m-stack--ver m-stack--desktop">
                     <div class="m-stack__item m-stack__item--right m-stack__item--middle m-stack__item--first">
-                        <ul class="m-footer__nav m-nav m-nav--inline m--pull-right">
+                        {{--<ul class="m-footer__nav m-nav m-nav--inline m--pull-right">
                             <li class="m-nav__item">
                                 <a href="#" class="m-nav__link">
 										<span class="m-nav__link-text">
@@ -529,7 +529,7 @@
                                     <i class="m-nav__link-icon flaticon-info m--icon-font-size-lg3"></i>
                                 </a>
                             </li>
-                        </ul>
+                        </ul>--}}
                     </div>
                 </div>
             </div>
@@ -563,64 +563,62 @@
       $(this).addClass('m-menu__item--hover');
     });
     $('.m_selectpicker').selectpicker();
-  });
-  $.ajaxSetup({
-    headers: {
-      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    }
-  });
-  if ($('#w_daterange_filter').length !== 0) {
+    if ($('#w_daterange_filter').length !== 0) {
+      var picker = $('#w_daterange_filter');
+      var start = moment().subtract('days', 6);
+      var end = moment();
 
-    var picker = $('#w_daterange_filter');
-    var start = moment().subtract('days', 7);
-    var end = moment();
+      function cb(start, end, label) {
+        var title = '';
+        var range = '';
 
-    function cb(start, end, label) {
-      var title = '';
-      var range = '';
+        if ((end - start) < 100) {
+          title = 'Today:';
+          range = start.format('MMM D');
+        } else if (label == 'Yesterday') {
+          title = 'Yesterday:';
+          range = start.format('MMM D');
+        } else {
+          range = start.format('MMM D') + ' - ' + end.format('MMM D');
+        }
 
-      if ((end - start) < 100) {
-        title = 'Today:';
-        range = start.format('MMM D');
-      } else if (label == 'Yesterday') {
-        title = 'Yesterday:';
-        range = start.format('MMM D');
-      } else {
-        range = start.format('MMM D') + ' - ' + end.format('MMM D');
+        picker.find('.m-subheader__daterange-date').html(range);
+        picker.find('.m-subheader__daterange-title').html(title);
+        if (window.LaravelDataTables && window.LaravelDataTables["dataTableBuilder"])
+          window.LaravelDataTables["dataTableBuilder"].draw();
       }
 
-      picker.find('.m-subheader__daterange-date').html(range);
-      picker.find('.m-subheader__daterange-title').html(title);
-      if (window.LaravelDataTables && window.LaravelDataTables["dataTableBuilder"])
-        window.LaravelDataTables["dataTableBuilder"].draw();
+      picker.daterangepicker({
+        timePicker: true,
+        timePickerIncrement: 30,
+        timePicker24Hour: true,
+        timePickerSeconds: true,
+        buttonClasses: 'btn m-btn--pill m-btn--air active',
+        applyClass: 'btn-outline-info',
+        cancelClass: 'btn-outline-secondary',
+        startDate: start,
+        endDate: end,
+        locale: {format: 'MM/DD/YYYY h:mm A'},
+        opens: 'left',
+        ranges: {
+          'Today': [moment(), moment()],
+          'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+          'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+          'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+          'This Month': [moment().startOf('month'), moment().endOf('month')],
+          'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        }
+      }, cb);
+
+      cb(start, end, '');
     }
-
-    picker.daterangepicker({
-      timePicker: true,
-      timePickerIncrement: 30,
-      timePicker24Hour: true,
-      timePickerSeconds: true,
-      buttonClasses: 'btn m-btn--pill m-btn--air active',
-      applyClass: 'btn-outline-info',
-      cancelClass: 'btn-outline-secondary',
-      startDate: start,
-      endDate: end,
-      locale: {
-        format: 'MM/DD/YYYY h:mm A'
-      },
-      opens: 'left',
-      ranges: {
-        'Today': [moment(), moment()],
-        'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-        'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-        'This Month': [moment().startOf('month'), moment().endOf('month')],
-        'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
       }
-    }, cb);
+    });
+  });
 
-    cb(start, end, '');
-  }
 
 </script>
 @endprepend

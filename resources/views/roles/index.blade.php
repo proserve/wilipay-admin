@@ -36,7 +36,6 @@
                 <tbody>
                 @foreach ($roles as $role)
                     <tr>
-
                         <td>
                             <span><span class="m-badge  m-badge--info m-badge--wide">{{ $role->name }}</span></span>
                         </td>

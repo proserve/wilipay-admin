@@ -17,12 +17,12 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     Route::group(['middleware' => 'permission:' . config('permission.defaults.view_data')], function () {
-        Route::get('/transactions/{user_id}', 'TransactionController@getByUser')->name('transactionsByUser');
         Route::get('/customers', 'CustomerController@index')->name('customers.index');
         Route::get('/customers/{id}', 'CustomerController@show')->name('customers.show');
         Route::get('/cards', 'CardController@index')->name('cards.index');
+        Route::get('/cards/{customerId}', 'CardController@byCustomerId')->name('cards.byCustomerId');
         Route::get('/transactions', 'TransactionController@index')->name('transactions.index');
-
+        Route::get('/transactions/{customerId}', 'TransactionController@byCustomerId')->name('transactions.byCustomerId');
     });
 
     Route::group(['middleware' => 'permission:' . config('permission.defaults.edit_data')], function () {

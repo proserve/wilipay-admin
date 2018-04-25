@@ -46,7 +46,13 @@ class Customer extends Authenticatable
 
     public function transactions()
     {
-        return $this->hasManyThrough('App\Transaction', 'App\Account', 'user_id', 'account_id');
+        return $this->hasManyThrough(
+            'App\Transaction',
+            'App\Account',
+            'user_id',
+            'account_id',
+            'id',
+            'id');
     }
 
     public function AauthAcessToken()

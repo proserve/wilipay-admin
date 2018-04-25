@@ -4,6 +4,13 @@
         <div class="m-portlet__head">
             <div class="m-portlet__head-caption" id="portlet-header">
             </div>
+            <div class="m-portlet__head-tools">
+                <ul class="m-portlet__nav">
+                    <li class="m-portlet__nav-item">
+                        @include('partials.date_range_filter')
+                    </li>
+                </ul>
+            </div>
         </div>
         <div class="m-portlet__body">
             <table class="table" id="dataTableBuilder">
@@ -51,7 +58,18 @@
             '<span><div class="m-loader  m-loader--primary m-loader--lg"></div></span>' +
             '</div>'
           },
-          "ajax": "",
+          "ajax": {
+            data: function (d) {
+              let datePicker = $('#w_daterange_filter').data('daterangepicker');
+              if (datePicker) {
+                return $.extend({}, d, {
+                  startDate: datePicker.startDate.toISOString(),
+                  endDate: datePicker.endDate.toISOString(),
+                });
+              }
+              return d;
+            }
+          },
           "columns": [
             {
               data: function (card, type, set) {
@@ -104,23 +122,20 @@
               responsivePriority: 0,
             }
           ],
-          "dom":
-              "Brtip",
-          "buttons":
-              ["export", "print", "reset", "reload", 'pageLength'],
-          initComplete:
-              function () {
-                this.api().columns().every(function () {
-                  var column = this;
-                  var input = document.createElement("input");
-                  $(input).attr("placeholder", "Filter " + $(column.footer()).attr('title'));
-                  $(input).addClass("form-control m-input m-input--air");
-                  $(input).appendTo($(column.footer()).empty())
-                      .on('change', function () {
-                        column.search($(this).val(), false, false, true).draw();
-                      });
-                });
-              },
+          "dom": "Brtip",
+          "buttons": ["export", "print", "reset", "reload", 'pageLength'],
+          initComplete: function () {
+            this.api().columns().every(function () {
+              var column = this;
+              var input = document.createElement("input");
+              $(input).attr("placeholder", "Filter " + $(column.footer()).attr('title'));
+              $(input).addClass("form-control m-input m-input--air");
+              $(input).appendTo($(column.footer()).empty())
+                  .on('change', function () {
+                    column.search($(this).val(), false, false, true).draw();
+                  });
+            });
+          },
         });
       })(window, jQuery);
       $(window.LaravelDataTables["dataTableBuilder"].buttons().container())

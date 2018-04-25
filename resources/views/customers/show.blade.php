@@ -90,23 +90,28 @@
                             <ul class="nav nav-tabs m-tabs m-tabs-line   m-tabs-line--left m-tabs-line--primary"
                                 role="tablist">
                                 <li class="nav-item m-tabs__item">
-                                    <a class="nav-link m-tabs__link active" data-toggle="tab"
-                                       href="#m_user_profile_tab_1" role="tab">
+                                    <a class="nav-link m-tabs__link active" data-toggle="tab" role="tab"
+                                       href="#m_user_profile_tab_1" onclick="$('#date_filter').hide();">
                                         <i class="flaticon-share m--hide"></i>
                                         Update Profile
                                     </a>
                                 </li>
                                 <li class="nav-item m-tabs__item">
                                     <a class="nav-link m-tabs__link" data-toggle="tab" href="#m_user_profile_tab_2"
-                                       role="tab">
+                                       role="tab" onclick="initCardsTable(window, $)">
                                         Cards
                                     </a>
                                 </li>
                                 <li class="nav-item m-tabs__item">
                                     <a class="nav-link m-tabs__link" data-toggle="tab" href="#m_user_profile_tab_3"
-                                       role="tab">
+                                       role="tab" onclick="initTransactionsTable(window, $)">
                                         Transactions
                                     </a>
+                                </li>
+                            </ul>
+                            <ul class="m-portlet__nav">
+                                <li class="m-portlet__nav-item" id="date_filter" style="display: none">
+                                    @include('partials.date_range_filter')
                                 </li>
                             </ul>
                         </div>
@@ -190,7 +195,7 @@
                                         </label>
                                         <div class="col-7">
                                             <input class="form-control m-input" type="text" name="city"
-                                            value="{{$customer->profile ? $customer->profile->city : ''}}">
+                                                   value="{{$customer->profile ? $customer->profile->city : ''}}">
                                         </div>
                                     </div>
                                     <div class="form-group m-form__group row">
@@ -199,7 +204,7 @@
                                         </label>
                                         <div class="col-7">
                                             <input class="form-control m-input" type="text" name="region"
-                                            value="{{$customer->profile ? $customer->profile->region : ''}}">
+                                                   value="{{$customer->profile ? $customer->profile->region : ''}}">
                                         </div>
                                     </div>
                                     <div class="form-group m-form__group row">
@@ -208,7 +213,7 @@
                                         </label>
                                         <div class="col-7">
                                             <input class="form-control m-input" type="text" name="postal_code"
-                                            value="{{$customer->profile ? $customer->profile->postal_code : ''}}">
+                                                   value="{{$customer->profile ? $customer->profile->postal_code : ''}}">
                                         </div>
                                     </div>
 
@@ -233,11 +238,178 @@
                                 </div>
                             </form>
                         </div>
-                        <div class="tab-pane " id="m_user_profile_tab_2"></div>
-                        <div class="tab-pane " id="m_user_profile_tab_3"></div>
+                        <div class="tab-pane " id="m_user_profile_tab_2">
+                            <div class="m-tooltip--portlet">
+                                <table class="table" id="cardsDataTable" style="width: 100% !important;">
+                                    <thead>
+                                    <tr>
+                                        <th>Brand</th>
+                                        <th>Last 4</th>
+                                        <th>Exp Year</th>
+                                        <th>Exp Month</th>
+                                        <th>Country</th>
+                                        <th>Created</th>
+                                    </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="tab-pane " id="m_user_profile_tab_3">
+                            <div class="m-tooltip--portlet">
+                                <table class="table" id="transactionsDataTable" style="width: 100% !important;">
+                                    <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Type</th>
+                                        <th>Purpose</th>
+                                        <th>Amount</th>
+                                        <th>Created</th>
+                                    </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script type="text/javascript">
+      function initCardsTable(window, $) {
+        $('#date_filter').show();
+        const monthNames = ["January", "February", "March", "April", "May", "June",
+          "July", "August", "September", "October", "November", "December"
+        ];
+        window.LaravelDataTables = window.LaravelDataTables || {};
+        window.LaravelDataTables["dataTableBuilder"] = $("#cardsDataTable").DataTable({
+          "serverSide": true,
+          "processing": true,
+          responsive: true,
+          "destroy": true,
+          oLanguage: {
+            sProcessing: '<div class="m-blockui ">' +
+            '<span>Processing...</span>' +
+            '<span><div class="m-loader  m-loader--primary m-loader--lg"></div></span>' +
+            '</div>'
+          },
+          "ajax": {
+            url: '{!! route('cards.byCustomerId' , ['customerId' => $customer->id]) !!}',
+            data: function (d) {
+              let datePicker = $('#w_daterange_filter').data('daterangepicker');
+              if (datePicker) {
+                return $.extend({}, d, {
+                  startDate: datePicker.startDate.toISOString(),
+                  endDate: datePicker.endDate.toISOString(),
+                });
+              }
+              return d;
+            }
+          },
+          "columns": [{
+            "name": "brand",
+            data: function (card, type, set) {
+              return '<div class="m-card-user__pic" ' +
+                  'style="display: flex;justify-content: center;flex-direction: column;align-items: center;">' +
+                  '<img width="64px" height="64px" src="/assets/app/media/img/card-network/' + card.brand + '.png" ' +
+                  'class="m--img-rounded m--marginless" alt="">' +
+                  '</div>'
+            },
+            "title": "Brand",
+            responsivePriority: 0,
+          },
+            {
+              "name": "last4",
+              "data": "last4",
+              "title": "Last4",
+              responsivePriority: 0,
+            }, {
+              "name": "exp_year",
+              "data": "exp_year",
+              "title": "Exp year",
+              responsivePriority: 0,
+            }, {
+              "name": "exp_month",
+              "data": function (card) {
+                return monthNames[card.exp_month]
+              },
+              "title": "Exp Month",
+              responsivePriority: 0,
+            }, {
+              "name": "country",
+              "data": "country",
+              "title": "Country",
+              responsivePriority: 0,
+            }, {
+              "name": "created_at",
+              "data": "created_at",
+              "title": "Created",
+              responsivePriority: 0,
+            }
+          ],
+          "dom": "rtip",
+        });
+      }
+
+      function initTransactionsTable(window, $) {
+        $('#date_filter').show();
+        window.LaravelDataTables = window.LaravelDataTables || {};
+        window.LaravelDataTables["dataTableBuilder"] = $("#transactionsDataTable").DataTable({
+          "serverSide": true,
+          "processing": true,
+          responsive: true,
+          "destroy": true,
+          oLanguage: {
+            sProcessing: '<div class="m-blockui ">' +
+            '<span>Processing...</span>' +
+            '<span><div class="m-loader  m-loader--primary m-loader--lg"></div></span>' +
+            '</div>'
+          },
+          "ajax": {
+            url: '{!! route('transactions.byCustomerId' , ['customerId' => $customer->id]) !!}',
+            data: function (d) {
+              let datePicker = $('#w_daterange_filter').data('daterangepicker');
+              if (datePicker) {
+                return $.extend({}, d, {
+                  startDate: datePicker.startDate.toISOString(),
+                  endDate: datePicker.endDate.toISOString(),
+                });
+              }
+              return d;
+            }
+          },
+          "columns": [
+            {
+              "name": "id",
+              "data": "id",
+              responsivePriority: 0,
+            }, {
+              "name": "type",
+              "data": "type",
+              responsivePriority: 0,
+            }, {
+              "name": "purpose",
+              "data": "purpose",
+              responsivePriority: 0,
+            }, {
+              "name": "amount",
+              "data": 'amount',
+              responsivePriority: 0,
+            }, {
+              "name": "created_at",
+              "data": "created_at",
+              "title": "Created",
+              responsivePriority: 0,
+            }
+          ],
+          "dom": "rtip",
+        });
+      }
+
+
+    </script>
+
+
+@endpush

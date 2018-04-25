@@ -207,7 +207,7 @@
     };
 
     DataTable.ext.buttons.create = {
-        className: 'buttons-create.blade.php',
+        className: 'buttons-create',
 
         text: function (dt) {
             return '<i class="fa fa-plus"></i> ' + dt.i18n('buttons.create', 'Create');

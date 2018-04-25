@@ -7,11 +7,15 @@
             <div class="m-portlet__head-tools">
                 <ul class="m-portlet__nav">
                     <li class="m-portlet__nav-item">
+                        @include('partials.date_range_filter')
+                    </li>
+                    <li class="m-portlet__nav-item">
                         <a href="" data-toggle="modal" data-target="#m_select_modal"
                            class="btn m-btn--pill m-btn--air m-btn m-btn--gradient-from-info m-btn--gradient-to-accent">
                             <span><i class="fa fa-plus"></i><span>Create</span></span>
                         </a>
                     </li>
+
                 </ul>
             </div>
         </div>
