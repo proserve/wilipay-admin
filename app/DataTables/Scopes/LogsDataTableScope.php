@@ -5,7 +5,8 @@ namespace App\DataTables\Scopes;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Contracts\DataTableScope;
 
-class LogsDataTableScope implements DataTableScope
+class
+LogsDataTableScope implements DataTableScope
 {
     /**
      * Apply a query scope.
@@ -17,4 +18,5 @@ class LogsDataTableScope implements DataTableScope
     {
         return $query->where('causer_id', Auth::user()->id);
     }
+
 }

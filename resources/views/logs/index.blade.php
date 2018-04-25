@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 @section('content')
     <style>
-         @media only screen and (max-width: 400px) {
+        @media only screen and (max-width: 400px) {
             .buttons-page-length {
                 display: block;
             }
@@ -10,6 +10,25 @@
     <div class="m-portlet">
         <div class="m-portlet__head">
             <div class="m-portlet__head-caption" id="portlet-header">
+            </div>
+            <div class="m-portlet__head-tools">
+                <ul class="m-portlet__nav">
+                    <li class="m-portlet__nav-item">
+                        <div class="m-stack__item m-stack__item--middle"
+                             style="display: flex;justify-content: center;align-items: center">
+                                <span class="m-subheader__daterange" id="w_daterange_filter">
+                                <span class="m-subheader__daterange-label">
+                                    <span class="m-subheader__daterange-title"></span>
+                                    <span class="m-subheader__daterange-date m--font-brand"></span>
+                                </span>
+                                <a href="#"
+                                   class="btn btn-sm btn-brand m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
+                                    <i class="fa fa-angle-down"></i>
+                                </a>
+                            </span>
+                        </div>
+                    </li>
+                </ul>
             </div>
         </div>
         <div class="m-portlet__body">
@@ -51,7 +70,19 @@
             '<span><div class="m-loader  m-loader--primary m-loader--lg"></div></span>' +
             '</div>'
           },
-          "ajax": "",
+          "ajax": {
+            data: function (d) {
+              let datePicker = $('#w_daterange_filter').data('daterangepicker');
+              if (datePicker) {
+                debugger;
+                return $.extend({}, d, {
+                  startDate: datePicker.startDate.toISOString(),
+                  endDate: datePicker.endDate.toISOString(),
+                });
+              }
+              return d;
+            }
+          },
           "columns": [
             {
               "name": "description",

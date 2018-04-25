@@ -4,10 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Customer;
 use App\DataTables\CustomersDataTable;
-use App\Transaction;
+use App\DataTables\Scopes\DateRangeFilterDataTableScope;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class CustomerController extends Controller
 {
@@ -19,7 +18,9 @@ class CustomerController extends Controller
      */
     public function index(CustomersDataTable $dataTable)
     {
-        return $dataTable->render('customers.index', ['title' => 'Customers List']);
+        return $dataTable
+            ->addScope(new DateRangeFilterDataTableScope)
+            ->render('customers.index', ['title' => 'Customers List']);
     }
 
     public function updateBlocked(Request $request, $id)

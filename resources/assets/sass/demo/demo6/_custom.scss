@@ -1,0 +1,31 @@
+.m-subheader__daterange {
+			display: inline-block;
+			@include border-radius(2rem);
+			padding: 5px;
+			cursor: pointer;
+			background-color: #f2f3f8;
+
+			.m-subheader__daterange-label {
+				padding: 0.7rem 0.75rem 0.7rem 1.5rem;
+
+				.m-subheader__daterange-title {
+					display: inline-block;
+					font-weight: get-font-weight(bold);
+					color: #aaaeb8;
+				}
+
+				.m-subheader__daterange-date {
+					display: inline-block;
+					font-weight: get-font-weight(bolder);
+				}
+			}
+
+			> .btn {
+				width: 32px !important;
+    			height: 32px !important;
+
+				> i {
+					font-size: 0.8rem !important;
+				}
+			}
+		}

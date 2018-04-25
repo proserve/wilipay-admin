@@ -63,8 +63,7 @@
                     '<span>' + card.customer.email + '</span>' +
                     '</div>'
               }, name: 'customer.email', responsivePriority: 0,
-            },
-            {
+            }, {
               "name": "brand",
               data: function (card, type, set) {
                 return '<div class="m-card-user__pic" ' +
@@ -98,8 +97,7 @@
               "data": "country",
               "title": "Country",
               responsivePriority: 0,
-            }
-            , {
+            }, {
               "name": "created_at",
               "data": "created_at",
               "title": "Created",
@@ -111,7 +109,6 @@
           "buttons":
               ["export", "print", "reset", "reload", 'pageLength'],
           initComplete:
-
               function () {
                 this.api().columns().every(function () {
                   var column = this;
@@ -123,17 +120,13 @@
                         column.search($(this).val(), false, false, true).draw();
                       });
                 });
-              }
-
-          ,
-        })
-        ;
+              },
+        });
       })(window, jQuery);
       $(window.LaravelDataTables["dataTableBuilder"].buttons().container())
           .addClass('btn-group m-btn-group m-btn-group--pill m-btn-group--air');
       $(window.LaravelDataTables["dataTableBuilder"].buttons().container()).prependTo("#portlet-header");
       $('#dataTableBuilder_filter').prependTo("#portlet-header");
       $('#dataTableBuilder_filter input').addClass("m-input m-input--air");
-
     </script>
 @endpush

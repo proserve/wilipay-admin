@@ -6,6 +6,25 @@
         <div class="m-portlet__head">
             <div class="m-portlet__head-caption" id="portlet-header">
             </div>
+            <div class="m-portlet__head-tools">
+                <ul class="m-portlet__nav">
+                    <li class="m-portlet__nav-item">
+                        <div class="m-stack__item m-stack__item--middle"
+                             style="display: flex;justify-content: center;align-items: center">
+                                <span class="m-subheader__daterange" id="w_daterange_filter">
+                                <span class="m-subheader__daterange-label">
+                                    <span class="m-subheader__daterange-title"></span>
+                                    <span class="m-subheader__daterange-date m--font-brand"></span>
+                                </span>
+                                <a href="#"
+                                   class="btn btn-sm btn-brand m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
+                                    <i class="fa fa-angle-down"></i>
+                                </a>
+                            </span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
         </div>
         <div class="m-portlet__body">
             <div class="m-section__content">
@@ -88,7 +107,21 @@
           },
           "dom": "Brtip",
           "buttons": ["export", "print", "reset", "reload", 'pageLength'],
-          ajax: '{!! route('customers.index') !!}',
+          ajax: {
+            url: '{!! route('customers.index') !!}',
+            data: function (d) {
+              let datePicker = $('#w_daterange_filter').data('daterangepicker');
+              if (datePicker) {
+                debugger;
+                return $.extend({}, d, {
+                  startDate: datePicker.startDate.toISOString(),
+                  endDate: datePicker.endDate.toISOString(),
+                });
+              }
+              return d;
+            }
+          },
+
           colReorder: true,
           columns: [
             {
@@ -162,7 +195,7 @@
               title: 'Actions',
               render: function (data, type, row) {
                 return '<div style="display: flex">' +
-                    '<a style="margin-right: 5px" href="/customers/'+ row.id+ '" ' +
+                    '<a style="margin-right: 5px" href="/customers/' + row.id + '" ' +
                     'class="btn m-btn m-btn--pill m-btn--gradient-from-info m-btn--gradient-to-warning  m-btn--icon m-btn--icon-only m-btn--air">' +
                     '<i class="fa flaticon-medical" style="font-size: 14px"></i>' +
                     '</a>' +

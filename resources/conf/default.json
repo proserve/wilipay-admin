@@ -113,6 +113,15 @@
                 "{$config.path.src}/js/framework/components/plugins/base/sweetalert2.init.js"
               ]
             },
+            "bootstrap-daterangepicker": {
+              "styles": [
+                "{$config.path.node_modules}/bootstrap-daterangepicker/daterangepicker.css"
+              ],
+              "scripts": [
+                "{$config.path.node_modules}/bootstrap-daterangepicker/daterangepicker.js",
+                "{$config.path.src}/js/framework/components/plugins/forms/bootstrap-daterangepicker.init.js"
+              ]
+            },
             "metronic": {
               "styles": [
                 "{$config.path.src}/vendors/metronic/css/styles.css"

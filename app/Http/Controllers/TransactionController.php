@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Customer;
+use App\DataTables\Scopes\DateRangeFilterDataTableScope;
 use App\DataTables\TransactionsDataTable;
 use App\Transaction;
 use App\User;
@@ -25,6 +26,8 @@ class TransactionController extends Controller
 
     public function index(TransactionsDataTable $dataTable)
     {
-        return $dataTable->render('transactions.index', ['title' => 'Transactions List']);
+        return $dataTable
+            ->addScope(new DateRangeFilterDataTableScope)
+            ->render('transactions.index', ['title' => 'Transactions List']);
     }
 }
