@@ -18,6 +18,7 @@ class Transaction extends Model
 
     protected $connection = 'wilipay';
 
+
     protected $fillable = [
         'purpose', 'beneficiary_id', 'type', 'amount', 'account_id'
     ];
@@ -32,12 +33,10 @@ class Transaction extends Model
         return $this->belongsTo('App\Account');
     }
 
-
-
     protected $visible = [
-        'purpose', 'beneficiary_id', 'type', 'amount', 'account_id', 'created_at', 'id'
+        'purpose', 'beneficiary_id', 'type', 'amount', 'account_id', 'created_at', 'id', 'account'
     ];
 
-    protected $dateFormat = 'Y-m-d H:i:s';
+    protected $dateFormat = 'Y-m-d H:i:sO';
     protected $dates = ['deleted_at', 'created_at', 'updated_at'];
 }

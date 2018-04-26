@@ -100,7 +100,6 @@
             data: function (d) {
               let datePicker = $('#w_daterange_filter').data('daterangepicker');
               if (datePicker) {
-                debugger;
                 return $.extend({}, d, {
                   startDate: datePicker.startDate.toISOString(),
                   endDate: datePicker.endDate.toISOString(),

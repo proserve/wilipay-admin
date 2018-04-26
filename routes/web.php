@@ -32,6 +32,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::group(['middleware' => 'permission:' . config('permission.defaults.view_dashboard')], function () {
         Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
+        Route::get('/user/count/day', 'ChartController@usersPerDay')->name('usersPerDay');
     });
 
 });

@@ -70,8 +70,7 @@
               return d;
             }
           },
-          "columns": [
-            {
+          "columns": [{
               data: function (card, type, set) {
                 var profile = card.customer && card.customer.profile;
                 return '<div class="m-card-user__pic" ' +

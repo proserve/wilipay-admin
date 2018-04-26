@@ -137,7 +137,7 @@
                                         <label for="example-text-input" class="col-2 col-form-label">
                                             First Name
                                         </label>
-                                        <div class="col-7">
+                                        <div class=" col-10">
                                             <input name="first_name" class="form-control m-input" type="text"
                                                    value="{{$customer->profile ? $customer->profile->first_name : ''}}">
                                         </div>
@@ -263,6 +263,7 @@
                                         <th>Type</th>
                                         <th>Purpose</th>
                                         <th>Amount</th>
+                                        <th>Currency</th>
                                         <th>Created</th>
                                     </tr>
                                     </thead>
@@ -319,35 +320,34 @@
             },
             "title": "Brand",
             responsivePriority: 0,
-          },
-            {
-              "name": "last4",
-              "data": "last4",
-              "title": "Last4",
-              responsivePriority: 0,
-            }, {
-              "name": "exp_year",
-              "data": "exp_year",
-              "title": "Exp year",
-              responsivePriority: 0,
-            }, {
-              "name": "exp_month",
-              "data": function (card) {
-                return monthNames[card.exp_month]
-              },
-              "title": "Exp Month",
-              responsivePriority: 0,
-            }, {
-              "name": "country",
-              "data": "country",
-              "title": "Country",
-              responsivePriority: 0,
-            }, {
-              "name": "created_at",
-              "data": "created_at",
-              "title": "Created",
-              responsivePriority: 0,
-            }
+          }, {
+            "name": "last4",
+            "data": "last4",
+            "title": "Last4",
+            responsivePriority: 0,
+          }, {
+            "name": "exp_year",
+            "data": "exp_year",
+            "title": "Exp year",
+            responsivePriority: 0,
+          }, {
+            "name": "exp_month",
+            "data": function (card) {
+              return monthNames[card.exp_month]
+            },
+            "title": "Exp Month",
+            responsivePriority: 0,
+          }, {
+            "name": "country",
+            "data": "country",
+            "title": "Country",
+            responsivePriority: 0,
+          }, {
+            "name": "created_at",
+            "data": "created_at",
+            "title": "Created",
+            responsivePriority: 0,
+          }
           ],
           "dom": "rtip",
         });
@@ -396,6 +396,12 @@
             }, {
               "name": "amount",
               "data": 'amount',
+              responsivePriority: 0,
+            },{
+              "name": "account.currency_code",
+              "data": function (data) {
+                return (data.account && data.account.currency_code) || '';
+              },
               responsivePriority: 0,
             }, {
               "name": "created_at",

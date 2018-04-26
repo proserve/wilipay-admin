@@ -29,7 +29,7 @@ class TransactionsDataTable extends DataTable
      */
     public function query()
     {
-        $transactions = Transaction::select();
+        $transactions = Transaction::with('account.customer');
         return $this->applyScopes($transactions);
     }
 

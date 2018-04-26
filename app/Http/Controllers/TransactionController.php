@@ -32,11 +32,10 @@ class TransactionController extends Controller
             ->render('transactions.index', ['title' => 'Transactions List']);
     }
 
-    public function byCustomerId($customerId)
-    {
-        $query = Customer::find($customerId)->transactions()
-            ->select('transactions.id', 'type', 'purpose', 'transactions.amount', 'transactions.created_at',
-                'accounts.currency_code');
+    public function byCustomerId($customerId){
+        $query = Transaction::with(['account' => function($query) use ($customerId){
+            $query->where('user_id', $customerId);
+        }]);
         $filterDataTableScope = new DateRangeFilterDataTableScope('transactions.created_at');
         $query = $filterDataTableScope->apply($query);
         return DataTables::of($query)->make(true);

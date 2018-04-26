@@ -17,9 +17,9 @@ class Account extends Model
 
     public $incrementing = false;
 
-    public function user()
+    public function customer()
     {
-        return $this->belongsTo('App\Customer');
+        return $this->belongsTo('App\Customer', 'user_id');
     }
 
     public function transactions()
@@ -31,7 +31,7 @@ class Account extends Model
     ];
 
      protected $visible = [
-        'amount', 'currency_code', 'id', 'transactions'
+        'amount', 'currency_code', 'id', 'transactions', 'customer'
     ];
 
     protected $dateFormat = 'Y-m-d H:i:sO';

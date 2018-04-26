@@ -18,18 +18,22 @@
                 <thead>
                 <tr>
                     <th>Id</th>
+                    <th>Customer</th>
                     <th>Type</th>
                     <th>Purpose</th>
                     <th>Amount</th>
+                    <th>Currency</th>
                     <th>Created</th>
                 </tr>
                 </thead>
                 <tfoot>
                 <tr>
                     <th title="Id"></th>
+                    <th title="Customer"></th>
                     <th title="Type"></th>
                     <th title="Purpose"></th>
                     <th title="Amount"></th>
+                    <th title="Currency"></th>
                     <th title="Created"></th>
                 </tr>
                 </tfoot>
@@ -56,7 +60,6 @@
             data: function (d) {
               let datePicker = $('#w_daterange_filter').data('daterangepicker');
               if (datePicker) {
-                debugger;
                 return $.extend({}, d, {
                   startDate: datePicker.startDate.toISOString(),
                   endDate: datePicker.endDate.toISOString(),
@@ -71,8 +74,22 @@
               "data": "id",
               responsivePriority: 0,
             }, {
+              "name": "account.customer.email",
+              "data": function (transaction, type, set) {
+                var profile = transaction.account.customer && transaction.account.customer.profile;
+                return '<div class="m-card-user__pic" ' +
+                    'style="display: flex;justify-content: center;flex-direction: column;align-items: center;">' +
+                    '<img width="64px" height="64px" src="' + (profile && profile.avatar_url || '/assets/app/media/img/users/default_avatar.png') + '" ' +
+                    'class="m--img-rounded m--marginless" alt="">' +
+                    '<span>' + transaction.account.customer.email + '</span>' +
+                    '</div>'
+              },
+              responsivePriority: 0,
+            }, {
               "name": "type",
-              "data": "type",
+              "data": function (data) {
+                return '<span><span class="m-badge  m-badge--info m-badge--wide">' + data.type + '</span></span>'
+              }, "className": 'text-center',
               responsivePriority: 0,
             }, {
               "name": "purpose",
@@ -80,7 +97,14 @@
               responsivePriority: 0,
             }, {
               "name": "amount",
-              "data": 'amount',
+              "data": function (data) {
+                return '<span style="color: ' + (data.amount > 0 ? 'blue' : 'red') + '">' + data.amount + '</span>'
+              }, "className": 'text-center',
+              responsivePriority: 0,
+            }, {
+              "name": "account.currency_code",
+              "data": 'account.currency_code',
+              "className": 'text-center',
               responsivePriority: 0,
             }, {
               "name": "created_at",
@@ -89,24 +113,20 @@
               responsivePriority: 0,
             }
           ],
-          "dom":
-              "Brtip",
-          "buttons":
-              ["export", "print", "reset", "reload", 'pageLength'],
-          initComplete:
-
-              function () {
-                this.api().columns().every(function () {
-                  var column = this;
-                  var input = document.createElement("input");
-                  $(input).attr("placeholder", "Filter " + $(column.footer()).attr('title'));
-                  $(input).addClass("form-control m-input m-input--air");
-                  $(input).appendTo($(column.footer()).empty())
-                      .on('change', function () {
-                        column.search($(this).val(), false, false, true).draw();
-                      });
-                });
-              }
+          "dom": "Brtip",
+          "buttons": ["export", "print", "reset", "reload", 'pageLength'],
+          initComplete: function () {
+            this.api().columns().every(function () {
+              var column = this;
+              var input = document.createElement("input");
+              $(input).attr("placeholder", "Filter " + $(column.footer()).attr('title'));
+              $(input).addClass("form-control m-input m-input--air");
+              $(input).appendTo($(column.footer()).empty())
+                  .on('change', function () {
+                    column.search($(this).val(), false, false, true).draw();
+                  });
+            });
+          }
         })
         ;
       })(window, jQuery);

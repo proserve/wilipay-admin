@@ -4,9 +4,7 @@
         <div class="m-portlet__head">
             <div class="m-portlet__head-caption">
                 <div class="m-portlet__head-title">
-                    <h3 class="m-portlet__head-text">
-                        Roles details
-                    </h3>
+                    <h3 class="m-portlet__head-text">Roles details</h3>
                 </div>
             </div>
             <div class="m-portlet__head-tools">
@@ -39,7 +37,6 @@
                         <td>
                             <span><span class="m-badge  m-badge--info m-badge--wide">{{ $role->name }}</span></span>
                         </td>
-
                         <td class="d-none d-sm-block">
                             @foreach($role->permissions as $permission)
                                 <div>
@@ -61,9 +58,7 @@
                                 {{csrf_field()}}
                                 <a href="javascript:;"
                                    class="delete_btn btn btn-sm m-btn--icon m-btn--pill m-btn--air m-btn m-btn--gradient-from-danger m-btn--gradient-to-warning">
-                                    <span><i class="fa fa-trash">
-
-                                        </i>Delete</span>
+                                    <span><i class="fa fa-trash"></i>Delete</span>
                                 </a>
                             </form>
 
