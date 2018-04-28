@@ -108,6 +108,14 @@
                                         Transactions
                                     </a>
                                 </li>
+                                @can('edit data')
+                                    <li class="nav-item m-tabs__item">
+                                        <a class="nav-link m-tabs__link" data-toggle="tab" href="#m_user_profile_tab_4"
+                                           role="tab">
+                                            Password
+                                        </a>
+                                    </li>
+                                @endcan
                             </ul>
                             <ul class="m-portlet__nav">
                                 <li class="m-portlet__nav-item" id="date_filter" style="display: none">
@@ -120,12 +128,6 @@
                         <div class="tab-pane active" id="m_user_profile_tab_1">
                             <form class="m-form m-form--fit m-form--label-align-right">
                                 <div class="m-portlet__body">
-                                    <div class="form-group m-form__group m--margin-top-10 m--hide">
-                                        <div class="alert m-alert m-alert--default" role="alert">
-                                            The example form below demonstrates common HTML form elements that receive
-                                            updated styles from Bootstrap with additional classes.
-                                        </div>
-                                    </div>
                                     <div class="form-group m-form__group row">
                                         <div class="col-10 ml-auto">
                                             <h3 class="m-form__section">
@@ -156,7 +158,7 @@
                                             Birthday
                                         </label>
                                         <div class="col-7">
-                                            <input class="form-control m-input" type="date"
+                                            <input class="form-control m-input" type="text" name="birthday"
                                                    value="{{$customer->profile ? $customer->profile->birthday : ''}}">
                                         </div>
                                     </div>
@@ -270,6 +272,56 @@
                                 </table>
                             </div>
                         </div>
+                        @can('edit data')
+                            <div class="tab-pane " id="m_user_profile_tab_4">
+                                <form class="m-form m-form--fit m-form--label-align-right" method="post"
+                                      action="{{route('customers.updatePassword', ['id' => $customer->id])}}">
+                                    @method('put') @csrf
+                                    <div class="m-portlet__body">
+                                        <div class="form-group m-form__group m--margin-top-10 ">
+                                            <div class="alert m-alert m-alert--default" role="alert">
+                                                The customer should be notified after his password has been changed.
+                                            </div>
+                                        </div>
+                                        <div class="form-group m-form__group row">
+                                            <label for="example-text-input" class="col-2 col-form-label">
+                                                Password
+                                            </label>
+                                            <div class="col-7">
+                                                <input name="password" class="form-control m-input" type="password">
+                                            </div>
+                                        </div>
+                                        <div class="form-group m-form__group row">
+                                            <label for="example-text-input" class="col-2 col-form-label">
+                                                Password Confirmation
+                                            </label>
+                                            <div class="col-7">
+                                                <input name="password_confirmation" class="form-control m-input"
+                                                       type="password">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="m-portlet__foot m-portlet__foot--fit">
+                                        <div class="m-form__actions">
+                                            <div class="row">
+                                                <div class="col-2"></div>
+                                                <div class="col-7">
+                                                    <button type="submit"
+                                                            class="btn btn-accent m-btn m-btn--air m-btn--custom">
+                                                        Save changes
+                                                    </button>
+                                                    &nbsp;&nbsp;
+                                                    <button type="reset"
+                                                            class="btn btn-secondary m-btn m-btn--air m-btn--custom">
+                                                        Cancel
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        @endcan
                     </div>
                 </div>
             </div>
@@ -282,8 +334,7 @@
       function initCardsTable(window, $) {
         $('#date_filter').show();
         const monthNames = ["January", "February", "March", "April", "May", "June",
-          "July", "August", "September", "October", "November", "December"
-        ];
+          "July", "August", "September", "October", "November", "December"];
         window.LaravelDataTables = window.LaravelDataTables || {};
         window.LaravelDataTables["dataTableBuilder"] = $("#cardsDataTable").DataTable({
           "serverSide": true,
@@ -397,7 +448,7 @@
               "name": "amount",
               "data": 'amount',
               responsivePriority: 0,
-            },{
+            }, {
               "name": "account.currency_code",
               "data": function (data) {
                 return (data.account && data.account.currency_code) || '';
@@ -414,7 +465,10 @@
         });
       }
 
-
+      $('input[name="birthday"]').daterangepicker({
+            singleDatePicker: true,
+            showDropdowns: true
+          });
     </script>
 
 

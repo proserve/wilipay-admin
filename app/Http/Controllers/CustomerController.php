@@ -37,16 +37,29 @@ class CustomerController extends Controller
     {
         $data = $request->validate(['verified' => 'required|boolean']);
         $customer = Customer::find($id);
+        if (!$customer) abort(404);
         if ((bool)$data['verified'] == (bool)$customer->verified)
             abort(400, 'This customer is already ' . ($data['verified'] ? '' : 'un') . 'verified');
         $customer->verified = $data['verified'];
         $customer->save();
     }
 
+    public function updatePassword(Request $request, $id)
+    {
+
+        $data = $request->validate(['password' => 'required|min:6|confirmed']);
+        $customer = Customer::where('id', $id)->firstOrFail();
+        $customer->password = $data['password'];
+        $customer->save();
+
+        return redirect()->route('customers.show', ['id' => $id])
+            ->with('flash_message', 'Password has been changed');
+    }
+
     public function show($id)
     {
         // TODO: Queries return false values
-        $customer = Customer::withCount('transactions')->with(['accounts', 'transactions' => function($query){
+        $customer = Customer::withCount('transactions')->with(['accounts', 'transactions' => function ($query) {
             $query->whereDate('transactions.created_at', '>', Carbon::now()->subweek());
         }])->find($id);
         if (!$customer) abort(404);

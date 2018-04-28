@@ -137,7 +137,8 @@
                             <div class="m-stack__item m-stack__item--middle m-brand__tools">
                                 <!-- BEGIN: Responsive Aside Left Menu Toggler -->
                                 <a href="javascript:;" id="m_aside_left_offcanvas_toggle"
-                                   class="m-brand__icon m-brand__toggler m-brand__toggler--left m--visible-tablet-and-mobile-inline-block">
+                                   class="m-brand__icon m-brand__toggler m-brand__toggler--left
+                                   m--visible-tablet-and-mobile-inline-block">
                                     <span></span>
                                 </a>
                                 <a id="m_aside_header_topbar_mobile_toggle" href="javascript:;"
@@ -430,7 +431,7 @@
                             </li>
                         @endif
                         @can('view data')
-                            <li class="m-menu__item{{Route::currentRouteName() == 'customers.index' ? ' m-menu__item--active ' : '' }}"
+                            <li class="m-menu__item{{in_array(Route::currentRouteName(), ['customers.index', 'customers.show']) ? ' m-menu__item--active ' : '' }}"
                                 aria-haspopup="true" m-menu-submenu-toggle="hover" m-menu-link-redirect="1">
                                 <a href="{{ route('customers.index') }}" class="m-menu__link">
                                     <i class="m-menu__link-icon m-menu__link-icon flaticon-profile"></i>

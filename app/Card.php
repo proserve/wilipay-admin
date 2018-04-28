@@ -29,5 +29,6 @@ class Card extends Model
 
     protected $visible = ['brand', 'exp_year', 'exp_month', 'country', 'last4', 'id', 'customer', 'created_at'];
 
+    protected $dateFormat = 'Y-m-d H:i:sO';
     protected $dates = ['deleted_at'];
 }

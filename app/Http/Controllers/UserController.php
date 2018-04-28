@@ -40,7 +40,8 @@ class UserController extends Controller
         $validatedData = $this->validate($request, [
             'name' => 'required|max:120',
             'email' => 'required|email|unique:users',
-            'password' => 'required|min:6|confirmed',
+
+
             'avatar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 

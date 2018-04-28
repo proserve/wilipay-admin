@@ -52,7 +52,8 @@ class Customer extends Authenticatable
             'user_id',
             'account_id',
             'id',
-            'id');
+            'id'
+        );
     }
 
     public function AauthAcessToken()
@@ -71,11 +72,17 @@ class Customer extends Authenticatable
     ];
 
     protected $hidden = ['password', 'remember_token'];
+    protected $dateFormat = 'Y-m-d H:i:sO';
 
 //    protected $visible = ['email', 'phone', 'national_phone', 'profile', 'accounts', 'cards'];
 
     public function setEmailAttribute($value)
     {
         $this->attributes['email'] = strtolower($value);
+    }
+
+    public function setPasswordAttribute($password)
+    {
+        $this->attributes['password'] = bcrypt($password);
     }
 }

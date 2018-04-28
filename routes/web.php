@@ -28,6 +28,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['middleware' => 'permission:' . config('permission.defaults.edit_data')], function () {
         Route::post('/customers/{id}/blocked', 'CustomerController@updateBlocked')->name('updateBlocked');
         Route::post('/customers/{id}/verified', 'CustomerController@updateVerified')->name('updateVerified');
+        Route::put('/customers/{id}/password', 'CustomerController@updatePassword')->name('customers.updatePassword');
     });
 
     Route::group(['middleware' => 'permission:' . config('permission.defaults.view_dashboard')], function () {

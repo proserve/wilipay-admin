@@ -25,6 +25,13 @@ RUN chmod -R 777 /var/www/html/storage \
     && chmod -R 777 /var/www/html/bootstrap/cache
 
 
+
+# php artisan view:clear
+# php artisan route:clear
+# php artisan config:clear
+# php artisan config:cache
+# php artisan cache:clear
+
 RUN rm -rf /var/cache/apk/*
 
 EXPOSE 80
