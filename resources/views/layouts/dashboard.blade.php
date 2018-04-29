@@ -167,7 +167,7 @@
                             <div class="m-stack__item m-stack__item--middle m-dropdown m-dropdown--arrow m-dropdown--large m-dropdown--mobile-full-width m-dropdown--align-right m-dropdown--skin-light m-header-search m-header-search--expandable m-header-search--skin-light"
                                  id="m_quicksearch" m-quicksearch-mode="default">
                                 <!--BEGIN: Search Form -->
-                                <form class="m-header-search__form">
+                                <div class="m-header-search__form">
                                     <div class="m-header-search__wrapper">
                                     <span class="m-header-search__icon-search" id="m_quicksearch_search">
                                         <i class="flaticon-search"></i>
@@ -184,7 +184,7 @@
                                             <i class="fa fa-remove"></i>
                                         </span>
                                     </div>
-                                </form>
+                                </div>
                                 <!--END: Search Form -->
                                 <!--BEGIN: Search Results -->
                                 <div class="m-dropdown__wrapper">
