@@ -1,6 +1,7 @@
 FROM proserve/nginx-php-fpm-laravel:0.1.0
 
 ADD deployment/nginx-site.conf /etc/nginx/sites-available/default.conf
+ADD deployment/nginx-site-ssl.conf /etc/nginx/sites-available/default-ssl.conf
 RUN rm -Rf /etc/nginx/nginx.conf
 ADD deployment/nginx.conf /etc/nginx/nginx.conf
 
